@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
         loginDono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, DonoHomeActivity.class);
+                startActivity(intent);
             }
         });
 
