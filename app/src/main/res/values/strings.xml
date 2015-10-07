@@ -5,4 +5,18 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_dono_home">DonoHome</string>
+
+    <string name="aim">Leticia</string>
+    <string name="aim_description">Cuidadora de animais</string>
+
+    <string name="icon_content_description">Cuidadora de animais</string>
+
+    <string name="bebo">Ezequiel</string>
+    <string name="bebo_description">Cuidador de animais</string>
+
+    <string name="youtube">Matheus</string>
+    <string name="youtube_description">Cuidador de animais</string>
+
+    <string name="lucia">Lucia</string>
+    <string name="lucia_description">Cuidadora de animais</string>
 </resources>

@@ -205,7 +205,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
                     Log.d(TAG, e.getMessage());
                 }
                 mCurrentLocation = bestLastKnownLocation(500.0f, (60000 * 5));
-                initCamera( mCurrentLocation );
+                if (mCurrentLocation != null) initCamera( mCurrentLocation );
             }
         }
 
