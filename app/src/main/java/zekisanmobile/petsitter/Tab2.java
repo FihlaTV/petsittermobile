@@ -170,7 +170,7 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    returnedSitters.add(new Sitter(jsonObject.getString("name"), jsonObject.getString("address")));
+                    returnedSitters.add(new Sitter(jsonObject.getString("name"), jsonObject.getString("address"), 0));
                 }
 
                 return returnedSitters;

@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import zekisanmobile.petsitter.Fragments.SitterFragment;
+import zekisanmobile.petsitter.Model.Sitter;
 
 public class DonoHomeActivity extends AppCompatActivity {
 
@@ -22,10 +29,18 @@ public class DonoHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dono_home);
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        toolbar = (Toolbar) findViewById(R.id.tb_dono);
+        toolbar.setTitle("Ezequiel Guilherme");
+        toolbar.setLogo(R.drawable.me_small);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.me_small);
-        getSupportActionBar().setTitle("Ezequiel Guilherme");
+
+        /*SitterFragment frag = (SitterFragment) getSupportFragmentManager().findFragmentByTag("mainFrag");
+        if (frag == null){
+            frag = new SitterFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, frag, "mainFrag");
+            ft.commit();
+        }*/
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, numOfTabs);
@@ -70,5 +85,23 @@ public class DonoHomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public List<Sitter> getSitterList(){
+        /*mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter1), getString(R.string.aim), getString(R.string.aim_description)));
+        mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter2), getString(R.string.bebo), getString(R.string.bebo_description)));
+        mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter3), getString(R.string.youtube), getString(R.string.youtube_description)));
+        mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter4), getString(R.string.lucia), getString(R.string.lucia_description)));
+        */
+        String[] names = new String[]{getString(R.string.aim), getString(R.string.bebo), getString(R.string.youtube), getString(R.string.lucia)};
+        int[] photos = new int[]{R.drawable.sitter1, R.drawable.sitter2, R.drawable.sitter3, R.drawable.sitter4};
+        List<Sitter> listAux = new ArrayList<>();
+
+        for(int i = 0; i < 4; i++){
+            Sitter s = new Sitter(names[i % names.length], "", photos[i % photos.length]);
+            listAux.add(s);
+        }
+
+        return listAux;
     }
 }

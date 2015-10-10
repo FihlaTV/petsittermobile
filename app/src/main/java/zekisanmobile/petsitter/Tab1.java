@@ -14,6 +14,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.R;
+
 /**
  * Created by ezequiel on 28/09/15.
  */
@@ -51,4 +54,6 @@ public class Tab1 extends ListFragment {
         // do something
         Toast.makeText(getActivity(), item.title, Toast.LENGTH_SHORT).show();
     }
+
+
 }
