@@ -1,7 +1,5 @@
 package zekisanmobile.petsitter;
 
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,17 +10,15 @@ import android.support.v4.view.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-import zekisanmobile.petsitter.Fragments.SitterFragment;
+import zekisanmobile.petsitter.Adapters.TabsAdapter;
+import zekisanmobile.petsitter.Extras.SlidingTabLayout;
 import zekisanmobile.petsitter.Model.Sitter;
 
 public class DonoHomeActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private ViewPager pager;
-    private ViewPagerAdapter adapter;
-    private SlidingTabLayout tabs;
-    private CharSequence Titles[] = {"Lista", "Mapa"};
-    private int numOfTabs = 2;
+    private ViewPager mViewPager;
+    private SlidingTabLayout mSlidingTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,35 +30,30 @@ public class DonoHomeActivity extends AppCompatActivity {
         toolbar.setLogo(R.drawable.me_small);
         setSupportActionBar(toolbar);
 
-        /*SitterFragment frag = (SitterFragment) getSupportFragmentManager().findFragmentByTag("mainFrag");
-        if (frag == null){
-            frag = new SitterFragment();
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, frag, "mainFrag");
-            ft.commit();
-        }*/
-
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, numOfTabs);
-
         // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
+        mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
+        mViewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), this));
 
         // Assiging the Sliding Tab Layout View
-        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-
-        // Setting Custom Color for the Scroll bar indicator of the Tab View
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
+        mSlidingTabLayout.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
+        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.ColorAccent));
+        mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsScrollColor);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+
             }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
         });
 
         // Setting the ViewPager For the SlidingTabsLayout
-        tabs.setViewPager(pager);
+        mSlidingTabLayout.setViewPager(mViewPager);
     }
 
     @Override
@@ -88,11 +79,6 @@ public class DonoHomeActivity extends AppCompatActivity {
     }
 
     public List<Sitter> getSitterList(){
-        /*mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter1), getString(R.string.aim), getString(R.string.aim_description)));
-        mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter2), getString(R.string.bebo), getString(R.string.bebo_description)));
-        mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter3), getString(R.string.youtube), getString(R.string.youtube_description)));
-        mItems.add(new ListViewItem(resources.getDrawable(R.drawable.sitter4), getString(R.string.lucia), getString(R.string.lucia_description)));
-        */
         String[] names = new String[]{getString(R.string.aim), getString(R.string.bebo), getString(R.string.youtube), getString(R.string.lucia)};
         int[] photos = new int[]{R.drawable.sitter1, R.drawable.sitter2, R.drawable.sitter3, R.drawable.sitter4};
         List<Sitter> listAux = new ArrayList<>();

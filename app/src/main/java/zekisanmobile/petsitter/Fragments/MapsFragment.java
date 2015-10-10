@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter;
+package zekisanmobile.petsitter.Fragments;
 
 import android.content.Context;
 import android.location.Address;
@@ -21,7 +21,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -40,18 +39,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.R;
 
 /**
  * Created by ezequiel on 28/09/15.
  */
-public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallbacks,
+public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMarkerClickListener,
         LocationListener {
 
     private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
-    private static final String TAG = Tab2.class.getSimpleName();
+    private static final String TAG = MapsFragment.class.getSimpleName();
 
     private GoogleApiClient mGoogleApiClient;
     private Location mCurrentLocation;
@@ -88,8 +88,8 @@ public class Tab2 extends Fragment implements GoogleApiClient.ConnectionCallback
     }
 
     private void initListeners() {
-        mMap.setOnMarkerClickListener(Tab2.this);
-        mMap.setOnInfoWindowClickListener(Tab2.this);
+        mMap.setOnMarkerClickListener(MapsFragment.this);
+        mMap.setOnInfoWindowClickListener(MapsFragment.this);
     }
 
     @Override
