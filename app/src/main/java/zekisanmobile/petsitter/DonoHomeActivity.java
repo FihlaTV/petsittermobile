@@ -52,7 +52,7 @@ public class DonoHomeActivity extends AppCompatActivity {
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
         mSlidingTabLayout.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
         mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.ColorAccent));
+        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.ColorPrimaryLight));
         mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
