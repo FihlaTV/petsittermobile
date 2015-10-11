@@ -56,35 +56,19 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     private GoogleApiClient mGoogleApiClient;
     private Location mCurrentLocation;
 
-    protected LocationManager locationManager;
-    protected LocationListener locationListener;
-    protected Context context;
-
     // The Map object
     private GoogleMap mMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_2,container,false);
-
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
-        new JSONResponseHandler().execute(API_SEARCH_URL);
-
+        callConnection();
         return v;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        mGoogleApiClient = new GoogleApiClient.Builder( getActivity() )
-                .addConnectionCallbacks( this )
-                .addOnConnectionFailedListener( this )
-                .addApi( LocationServices.API )
-                .build();
-
     }
 
     private void initListeners() {
@@ -106,9 +90,23 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         }
     }
 
+    private synchronized void callConnection(){
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addOnConnectionFailedListener(this)
+                .addConnectionCallbacks(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
     @Override
     public void onConnected(Bundle bundle) {
-
+        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mCurrentLocation != null){
+            Log.i("LOG", "latitude: " + mCurrentLocation.getLatitude());
+            Log.i("LOG", "longitude: " + mCurrentLocation.getLongitude());
+            new JSONResponseHandler().execute(API_SEARCH_URL);
+        }
     }
 
     @Override
@@ -204,8 +202,8 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 }catch (IOException e){
                     Log.d(TAG, e.getMessage());
                 }
-                mCurrentLocation = bestLastKnownLocation(500.0f, (60000 * 5));
-                if (mCurrentLocation != null) initCamera( mCurrentLocation );
+
+                initCamera( mCurrentLocation );
             }
         }
 
@@ -224,46 +222,5 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 .newCameraPosition(position), null);
 
         mMap.getUiSettings().setZoomControlsEnabled( true );
-    }
-
-    // Get the last known location from all providers
-    // return best reading that is as accurate as minAccuracy and
-    // was taken no longer then minAge milliseconds ago. If none,
-    // return null.
-
-    private Location bestLastKnownLocation(float minAccuracy, long maxAge) {
-
-        Location bestResult = null;
-        float bestAccuracy = Float.MAX_VALUE;
-        long bestAge = Long.MIN_VALUE;
-
-        List<String> matchingProviders = locationManager.getAllProviders();
-
-        for (String provider : matchingProviders) {
-
-            Location location = locationManager.getLastKnownLocation(provider);
-
-            if (location != null) {
-
-                float accuracy = location.getAccuracy();
-                long time = location.getTime();
-
-                if (accuracy < bestAccuracy) {
-
-                    bestResult = location;
-                    bestAccuracy = accuracy;
-                    bestAge = time;
-
-                }
-            }
-        }
-
-        // Return best reading or null
-        if (bestAccuracy > minAccuracy
-                || (System.currentTimeMillis() - bestAge) > maxAge) {
-            return null;
-        } else {
-            return bestResult;
-        }
     }
 }
