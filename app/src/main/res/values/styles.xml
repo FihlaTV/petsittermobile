@@ -11,8 +11,4 @@
         <item name="material_drawer_header_selection_text">@color/ColorPrimary</item>
     </style>
 
-    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">18sp</item>
-    </style>
-
 </resources>

@@ -19,4 +19,5 @@
 
     <string name="lucia">Lucia</string>
     <string name="lucia_description">Cuidadora de animais</string>
+    <string name="title_activity_sitter_profile">SitterProfileActivity</string>
 </resources>

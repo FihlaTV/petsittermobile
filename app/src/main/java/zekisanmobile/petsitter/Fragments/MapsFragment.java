@@ -55,6 +55,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
     private GoogleApiClient mGoogleApiClient;
     private Location mCurrentLocation;
+    private LocationManager locationManager;
 
     // The Map object
     private GoogleMap mMap;
@@ -62,6 +63,8 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_2,container,false);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         callConnection();
         return v;
     }
@@ -79,7 +82,9 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onStart() {
         super.onStart();
-        mGoogleApiClient.connect();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        };
     }
 
     @Override
@@ -102,6 +107,11 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onConnected(Bundle bundle) {
         mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+        if (mCurrentLocation == null){
+            mCurrentLocation = bestLastKnownLocation(500.0f, (60000 * 5));
+        }
+
         if (mCurrentLocation != null){
             Log.i("LOG", "latitude: " + mCurrentLocation.getLatitude());
             Log.i("LOG", "longitude: " + mCurrentLocation.getLongitude());
@@ -168,7 +178,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    returnedSitters.add(new Sitter(jsonObject.getString("name"), jsonObject.getString("address"), 0));
+                    returnedSitters.add(new Sitter(jsonObject.getString("name"), jsonObject.getString("address"), 0, 0));
                 }
 
                 return returnedSitters;
@@ -222,5 +232,41 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 .newCameraPosition(position), null);
 
         mMap.getUiSettings().setZoomControlsEnabled( true );
+    }
+
+    private Location bestLastKnownLocation(float minAccuracy, long maxAge) {
+
+        Location bestResult = null;
+        float bestAccuracy = Float.MAX_VALUE;
+        long bestAge = Long.MIN_VALUE;
+
+        List<String> matchingProviders = locationManager.getAllProviders();
+
+        for (String provider : matchingProviders) {
+
+            Location location = locationManager.getLastKnownLocation(provider);
+
+            if (location != null) {
+
+                float accuracy = location.getAccuracy();
+                long time = location.getTime();
+
+                if (accuracy < bestAccuracy) {
+
+                    bestResult = location;
+                    bestAccuracy = accuracy;
+                    bestAge = time;
+
+                }
+            }
+        }
+
+        // Return best reading or null
+        if (bestAccuracy > minAccuracy
+                || (System.currentTimeMillis() - bestAge) > maxAge) {
+            return null;
+        } else {
+            return bestResult;
+        }
     }
 }

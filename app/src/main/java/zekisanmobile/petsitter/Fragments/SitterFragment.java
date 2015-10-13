@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import zekisanmobile.petsitter.DonoHomeActivity;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.SitterProfileActivity;
 
 /**
  * Created by ezequiel on 09/10/15.
@@ -67,9 +69,13 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
 
     @Override
     public void onClickListener(View view, int position) {
-        Toast.makeText(getActivity(), "Position: " + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Position: " + position, Toast.LENGTH_SHORT).show();
 
         //SitterAdapter adapter = (SitterAdapter) mRecyclerView.getAdapter();
         //adapter.removeListItem(position);
+
+        Intent intent = new Intent(getActivity(), SitterProfileActivity.class);
+        intent.putExtra("SITTER", mList.get(position));
+        startActivity(intent);
     }
 }

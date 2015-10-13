@@ -1,19 +1,23 @@
 package zekisanmobile.petsitter.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by ezequiel on 20/09/15.
  */
-public class Sitter {
+@SuppressWarnings("serial")
+public class Sitter implements Serializable{
 
     private String name, address;
-    private int photo;
+    private int photo, profile_background;
 
     public Sitter(){}
 
-    public Sitter(String name, String address, int photo){
+    public Sitter(String name, String address, int photo, int profile_background){
         this.name = name;
         this.address = address;
         this.photo = photo;
+        this.profile_background = profile_background;
     }
 
     public void setName(String name) {
@@ -38,5 +42,13 @@ public class Sitter {
 
     public void setPhoto(int photo) {
         this.photo = photo;
+    }
+
+    public int getProfile_background() {
+        return profile_background;
+    }
+
+    public void setProfile_background(int profile_background) {
+        this.profile_background = profile_background;
     }
 }

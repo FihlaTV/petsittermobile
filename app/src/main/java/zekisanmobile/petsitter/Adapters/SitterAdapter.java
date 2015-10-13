@@ -62,6 +62,10 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.MyViewHold
         notifyItemRemoved(position);
     }
 
+    public Sitter getListItem(int position){
+        return mList.get(position);
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView iv_sitter;
         public TextView tv_name;
