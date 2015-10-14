@@ -57,7 +57,6 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             SitterProfileListItem currentItem = getItem(position - 1);
             VHItem VHitem = (VHItem) holder;
             VHitem.txtName.setText(currentItem.getName());
-            VHitem.iv.setBackgroundResource(currentItem.getId());
         }
     }
 
@@ -88,11 +87,9 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class VHItem extends RecyclerView.ViewHolder{
         TextView txtName;
-        ImageView iv;
         public VHItem(View itemView) {
             super(itemView);
             this.txtName = (TextView)itemView.findViewById(R.id.txtName);
-            this.iv = (ImageView)itemView.findViewById(R.id.ivListItem);
         }
     }
 }

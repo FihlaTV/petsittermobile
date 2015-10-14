@@ -36,26 +36,20 @@ public class SitterProfileActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public Header getHeader(){
+    public Header getHeader() {
         Header header = new Header();
         header.setHeaderText(sitter.getName());
         header.setBackgroundImage(sitter.getProfile_background());
         return header;
     }
 
-    public List<SitterProfileListItem> getListItems(){
+    public List<SitterProfileListItem> getListItems() {
         List<SitterProfileListItem> listItems = new ArrayList<SitterProfileListItem>();
-        for(int i = 0; i < 10; i++){
-            SitterProfileListItem item = new SitterProfileListItem();
-            item.setName("pet");
-            if(i % 2 == 0){
-                item.setId(R.drawable.sitter2);
-            }
-            else{
-                item.setId(R.drawable.sitter4);
-            }
-            listItems.add(item);
-        }
+
+        SitterProfileListItem item = new SitterProfileListItem();
+        item.setName("Valores");
+        listItems.add(item);
+
         return listItems;
     }
 

@@ -1,28 +1,42 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.v7.widget.CardView
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
         android:layout_margin = "4dp"
         card_view:contentPadding="@dimen/activity_horizontal_margin"
         card_view:cardCornerRadius="3dp">
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+            <ImageView
+                android:layout_alignParentLeft="true"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:id="@+id/iconCoin"
+                android:src="@drawable/coin"/>
             <TextView
                 android:id="@+id/txtName"
-                android:text="abc"
+                android:layout_toRightOf="@+id/iconCoin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_marginBottom="10dp"
-                android:id="@+id/ivListItem"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Valores"
+                android:textSize="24dp"/>
+            <View
+                android:id="@+id/vw_divider"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/iconCoin"
+                android:background="@color/ColorPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_height="0.8dp" />
+        </RelativeLayout>
+
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</RelativeLayout>
