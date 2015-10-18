@@ -5,7 +5,7 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
         <item name="colorAccent">@color/ColorAccent</item>
-
+        <item name="android:fitsSystemWindows">true</item>
         <!-- MaterialDrawer specific values -->
         <item name="material_drawer_primary_text">@color/colorPrimarytext</item>
         <item name="material_drawer_header_selection_text">@color/ColorPrimary</item>

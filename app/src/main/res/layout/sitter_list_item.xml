@@ -7,32 +7,215 @@
     <android.support.v7.widget.CardView
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
-        android:layout_margin = "4dp"
+        android:layout_margin = "5dp"
         card_view:contentPadding="@dimen/activity_horizontal_margin"
-        card_view:cardCornerRadius="3dp">
+        card_view:cardCornerRadius="3dp"
+        android:id="@+id/view">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_alignParentLeft="true"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:id="@+id/iconCoin"
-                android:src="@drawable/coin"/>
+            android:layout_height="match_parent">
+
             <TextView
-                android:id="@+id/txtName"
-                android:layout_toRightOf="@+id/iconCoin"
+                android:id="@+id/txtPetSitterName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Nome do PetSitter"
+                android:textSize="15dp"/>
+            <View
+                android:id="@+id/vw_divider0"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/txtPetSitterName"
+                android:background="@color/ColorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp" />
+            <TextView
+                android:id="@+id/txtPetSitterDistrict"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_text"
+                android:text="Bairro"
+                android:textSize="15dp"
+                android:layout_below="@+id/vw_divider0"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:id="@+id/txtPetSitterDistrictValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Centro Historico"
+                android:textSize="15dp"
+                android:layout_alignTop="@+id/txtPetSitterDistrict"
+                android:layout_toRightOf="@+id/txtPetSitterDistrict"
+                android:layout_toEndOf="@+id/txtPetSitterDistrict"
+                android:layout_marginLeft="42dp"
+                android:layout_marginStart="42dp"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                 />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        card_view:contentPadding="@dimen/activity_horizontal_margin"
+        card_view:cardCornerRadius="3dp"
+        android:layout_below="@+id/view"
+        android:layout_margin="5dp"
+        android:id="@+id/values_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtTitleValues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
                 android:text="Valores"
-                android:textSize="24dp"/>
+                android:textSize="15dp"/>
             <View
-                android:id="@+id/vw_divider"
-                android:layout_marginTop="20dp"
-                android:layout_below="@+id/iconCoin"
+                android:id="@+id/vw_divider1"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/txtTitleValues"
+                android:background="@color/ColorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp" />
+            <TextView
+                android:id="@+id/txtTitleHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Hora"
+                android:textSize="15dp"
+                android:layout_below="@+id/vw_divider1"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:id="@+id/txtTitleHourValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="R$ 15,00"
+                android:textSize="15dp"
+                android:layout_alignTop="@+id/txtTitleHour"
+                android:layout_toRightOf="@+id/txtTitleHour"
+                android:layout_toEndOf="@+id/txtTitleHour"
+                android:layout_marginLeft="42dp"
+                android:layout_marginStart="42dp"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                />
+            <TextView
+                android:id="@+id/txtTitleShift"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Turno"
+                android:textSize="15dp"
+                android:layout_below="@+id/txtTitleHour"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:id="@+id/txtTitleShiftValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="R$ 40,00"
+                android:textSize="15dp"
+                android:layout_alignTop="@+id/txtTitleShift"
+                android:layout_toRightOf="@+id/txtTitleShift"
+                android:layout_toEndOf="@+id/txtTitleShift"
+                android:layout_marginLeft="42dp"
+                android:layout_marginStart="42dp"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                />
+            <TextView
+                android:id="@+id/txtTitleDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Dia/Noite"
+                android:textSize="15dp"
+                android:layout_below="@+id/txtTitleShift"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:id="@+id/txtTitleDayValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="R$ 100,00"
+                android:textSize="15dp"
+                android:layout_alignTop="@+id/txtTitleDay"
+                android:layout_toRightOf="@+id/txtTitleDay"
+                android:layout_toEndOf="@+id/txtTitleDay"
+                android:layout_marginLeft="42dp"
+                android:layout_marginStart="42dp"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:layout_margin = "5dp"
+        card_view:contentPadding="@dimen/activity_horizontal_margin"
+        card_view:cardCornerRadius="3dp"
+        android:layout_below="@+id/values_view"
+        android:id="@+id/pets_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtPetsCare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Animais Que Cuido"
+                android:textSize="15dp"/>
+            <View
+                android:id="@+id/vw_divider3"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/txtPetsCare"
+                android:background="@color/ColorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp" />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:layout_margin = "5dp"
+        card_view:contentPadding="@dimen/activity_horizontal_margin"
+        card_view:cardCornerRadius="3dp"
+        android:layout_below="@+id/pets_view"
+        android:id="@+id/cares_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/txtGeneralCare"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                android:text="Cuidados Gerais"
+                android:textSize="15dp"/>
+            <View
+                android:id="@+id/vw_divider2"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/txtGeneralCare"
                 android:background="@color/ColorPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp" />
