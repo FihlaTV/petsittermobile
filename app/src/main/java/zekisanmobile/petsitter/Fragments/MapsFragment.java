@@ -178,7 +178,12 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    returnedSitters.add(new Sitter(jsonObject.getString("name"), jsonObject.getString("address"), 0, 0));
+                    returnedSitters.add(new Sitter(jsonObject.getString("name"),
+                            jsonObject.getString("address"),
+                            0,
+                            0,
+                            Float.parseFloat(jsonObject.getString("latitude")),
+                            Float.parseFloat(jsonObject.getString("longitude"))));
                 }
 
                 return returnedSitters;
@@ -202,14 +207,13 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 Geocoder gc = new Geocoder(getActivity());
                 try{
                     for(int i = 0; i < receivedSitters.size(); i++) {
-                        List<Address> addresses = gc.getFromLocationName(receivedSitters.get(i).getAddress(), 1);
                         mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude()))
+                                .position(new LatLng(receivedSitters.get(i).getLatitude(), receivedSitters.get(i).getLongitude()))
                                 .title(receivedSitters.get(i).getName())
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pet_marker))
                                 .snippet(receivedSitters.get(i).getAddress()));
                     }
-                }catch (IOException e){
+                }catch (Exception e){
                     Log.d(TAG, e.getMessage());
                 }
 

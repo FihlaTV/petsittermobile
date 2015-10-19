@@ -161,7 +161,7 @@ public class DonoHomeActivity extends AppCompatActivity {
         List<Sitter> listAux = new ArrayList<>();
 
         for(int i = 0; i < 4; i++){
-            Sitter s = new Sitter(names[i % names.length], "", photos[i % photos.length], profileBackgroundPhotos[i % profileBackgroundPhotos.length]);
+            Sitter s = new Sitter(names[i % names.length], "", photos[i % photos.length], profileBackgroundPhotos[i % profileBackgroundPhotos.length],0,0);
             listAux.add(s);
         }
 
