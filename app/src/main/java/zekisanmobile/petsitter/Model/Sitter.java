@@ -2,9 +2,6 @@ package zekisanmobile.petsitter.Model;
 
 import java.io.Serializable;
 
-/**
- * Created by ezequiel on 20/09/15.
- */
 @SuppressWarnings("serial")
 public class Sitter implements Serializable{
 

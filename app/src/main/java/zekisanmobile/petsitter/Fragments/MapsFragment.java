@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import zekisanmobile.petsitter.DonoHomeActivity;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -162,38 +163,12 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     private class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
 
         private final String TAG = JSONResponseHandler.class.getSimpleName();
-        private ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
 
         @Override
         protected ArrayList<Sitter> doInBackground(String... url) {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url[0])
-                    .build();
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-                String jsonData = response.body().string();
-                JSONArray jsonArray = new JSONArray(jsonData);
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    returnedSitters.add(new Sitter(jsonObject.getString("name"),
-                            jsonObject.getString("address"),
-                            0,
-                            0,
-                            Float.parseFloat(jsonObject.getString("latitude")),
-                            Float.parseFloat(jsonObject.getString("longitude"))));
-                }
-
-                return returnedSitters;
-            } catch (IOException e) {
-                Log.d(TAG, e.getMessage());
-            } catch (JSONException e) {
-                Log.d(TAG, e.getMessage());
-            }
-
-            return null;
+            ArrayList<Sitter> receivedSitters = ((DonoHomeActivity) getActivity()).getSitterList2();
+            return receivedSitters;
         }
 
         @Override

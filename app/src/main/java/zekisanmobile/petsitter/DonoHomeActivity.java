@@ -1,7 +1,11 @@
 package zekisanmobile.petsitter;
 
+import android.content.Context;
+import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +15,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
@@ -19,12 +27,21 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Adapters.TabsAdapter;
 import zekisanmobile.petsitter.Extras.SlidingTabLayout;
+import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Dono;
 import zekisanmobile.petsitter.Model.Sitter;
 
@@ -36,10 +53,15 @@ public class DonoHomeActivity extends AppCompatActivity {
     private Drawer.Result navigationDrawerLeft;
     private AccountHeader.Result headerNavigationLeft;
 
+    private ArrayList<Sitter> sitters;
+    private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dono_home);
+
+        new JSONResponseHandler().execute(API_SEARCH_URL);
 
         toolbar = (Toolbar) findViewById(R.id.tb_dono);
         toolbar.setTitle("Ezequiel Guilherme");
@@ -85,7 +107,7 @@ public class DonoHomeActivity extends AppCompatActivity {
                                 .withEmail("zeki-san@hotmail.com")
                                 .withIcon(getResources().getDrawable(R.drawable.me))
                 )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener(){
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean current) {
@@ -110,7 +132,7 @@ public class DonoHomeActivity extends AppCompatActivity {
 
                     }
                 })
-                .withOnDrawerItemLongClickListener(new Drawer.OnDrawerItemLongClickListener(){
+                .withOnDrawerItemLongClickListener(new Drawer.OnDrawerItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
                         Toast.makeText(DonoHomeActivity.this, "OnItemLongClick: " + position, Toast.LENGTH_SHORT).show();
@@ -151,20 +173,73 @@ public class DonoHomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public List<Sitter> getSitterList(){
+    public List<Sitter> getSitterList() {
         String[] names = new String[]{getString(R.string.aim), getString(R.string.bebo), getString(R.string.youtube), getString(R.string.lucia)};
         int[] photos = new int[]{R.drawable.sitter1, R.drawable.sitter2, R.drawable.sitter3, R.drawable.sitter4};
-        int[] profileBackgroundPhotos = new int[] {R.drawable.header_background_1,
+        int[] profileBackgroundPhotos = new int[]{R.drawable.header_background_1,
                 R.drawable.header_background_2,
                 R.drawable.header_background_3,
                 R.drawable.header_background_4};
         List<Sitter> listAux = new ArrayList<>();
 
-        for(int i = 0; i < 4; i++){
-            Sitter s = new Sitter(names[i % names.length], "", photos[i % photos.length], profileBackgroundPhotos[i % profileBackgroundPhotos.length],0,0);
+        for (int i = 0; i < 4; i++) {
+            Sitter s = new Sitter(names[i % names.length], "", photos[i % photos.length], profileBackgroundPhotos[i % profileBackgroundPhotos.length], 0, 0);
             listAux.add(s);
         }
 
         return listAux;
+    }
+
+    public ArrayList<Sitter> getSitterList2(){
+        if (sitters != null) return sitters;
+        return null;
+    }
+
+    private class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
+
+        private final String TAG = JSONResponseHandler.class.getSimpleName();
+        private ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
+
+        @Override
+        protected ArrayList<Sitter> doInBackground(String... url) {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url[0])
+                    .build();
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+                String jsonData = response.body().string();
+                JSONArray jsonArray = new JSONArray(jsonData);
+                Context context = getApplicationContext();
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                    int idPhoto = context.getResources().getIdentifier(jsonObject.getString("photo"), "drawable", context.getPackageName());
+                    int idBg = context.getResources().getIdentifier(jsonObject.getString("header_background"), "drawable", context.getPackageName());
+                    returnedSitters.add(new Sitter(jsonObject.getString("name"),
+                            jsonObject.getString("address"),
+                            idPhoto,
+                            idBg,
+                            Float.parseFloat(jsonObject.getString("latitude")),
+                            Float.parseFloat(jsonObject.getString("longitude"))));
+                }
+
+                return returnedSitters;
+            } catch (IOException e) {
+                Log.d(TAG, e.getMessage());
+            } catch (JSONException e) {
+                Log.d(TAG, e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
+            sitters = returnedSitters;
+            mViewPager.getAdapter().notifyDataSetChanged();
+        }
     }
 }
