@@ -206,7 +206,12 @@ public class DonoHomeActivity extends AppCompatActivity {
                             idPhoto,
                             idBg,
                             Float.parseFloat(jsonObject.getString("latitude")),
-                            Float.parseFloat(jsonObject.getString("longitude"))));
+                            Float.parseFloat(jsonObject.getString("longitude")),
+                            jsonObject.getString("district"),
+                            Double.valueOf(jsonObject.getString("value_hour")),
+                            Double.valueOf(jsonObject.getString("value_shift")),
+                            Double.valueOf(jsonObject.getString("value_day")),
+                            jsonObject.getString("about_me")));
                 }
 
                 return returnedSitters;
