@@ -173,24 +173,7 @@ public class DonoHomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public List<Sitter> getSitterList() {
-        String[] names = new String[]{getString(R.string.aim), getString(R.string.bebo), getString(R.string.youtube), getString(R.string.lucia)};
-        int[] photos = new int[]{R.drawable.sitter1, R.drawable.sitter2, R.drawable.sitter3, R.drawable.sitter4};
-        int[] profileBackgroundPhotos = new int[]{R.drawable.header_background_1,
-                R.drawable.header_background_2,
-                R.drawable.header_background_3,
-                R.drawable.header_background_4};
-        List<Sitter> listAux = new ArrayList<>();
-
-        for (int i = 0; i < 4; i++) {
-            Sitter s = new Sitter(names[i % names.length], "", photos[i % photos.length], profileBackgroundPhotos[i % profileBackgroundPhotos.length], 0, 0);
-            listAux.add(s);
-        }
-
-        return listAux;
-    }
-
-    public ArrayList<Sitter> getSitterList2(){
+    public ArrayList<Sitter> getSitterList(){
         if (sitters != null) return sitters;
         return null;
     }
@@ -239,7 +222,6 @@ public class DonoHomeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
             sitters = returnedSitters;
-            mViewPager.getAdapter().notifyDataSetChanged();
         }
     }
 }

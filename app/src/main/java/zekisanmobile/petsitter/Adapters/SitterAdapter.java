@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
@@ -50,6 +51,10 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.MyViewHold
 
     public void setmRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r){
         mRecyclerViewOnClickListenerHack = r;
+    }
+
+    public void setList(ArrayList<Sitter> receivedSitters){
+        mList = receivedSitters;
     }
 
     public void addListItem(Sitter s, int position){

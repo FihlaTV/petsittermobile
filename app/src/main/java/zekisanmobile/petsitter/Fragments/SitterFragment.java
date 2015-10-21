@@ -1,6 +1,7 @@
 package zekisanmobile.petsitter.Fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
@@ -19,16 +21,13 @@ import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.SitterProfileActivity;
 
-/**
- * Created by ezequiel on 09/10/15.
- */
 public class SitterFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 
     private RecyclerView mRecyclerView;
     private List<Sitter> mList;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_sitter, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_list);
@@ -59,10 +58,17 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        mList = ((DonoHomeActivity) getActivity()).getSitterList();
+        if (mList != null) {
+            mList = ((DonoHomeActivity) getActivity()).getSitterList();
+        } else {
+            mList = new ArrayList<Sitter>();
+        }
         SitterAdapter adapter = new SitterAdapter(getActivity(), mList);
         adapter.setmRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
+
+
+        new ReloadSitterList().execute("");
 
         return view;
     }
@@ -77,5 +83,32 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         Intent intent = new Intent(getActivity(), SitterProfileActivity.class);
         intent.putExtra("SITTER", mList.get(position));
         startActivity(intent);
+    }
+
+    private class ReloadSitterList extends AsyncTask<String, Void, ArrayList<Sitter>> {
+
+        @Override
+        protected ArrayList<Sitter> doInBackground(String... url) {
+
+            ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
+
+            return returnedSitters;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
+            boolean fim = true;
+
+            while (fim) {
+                receivedSitters = ((DonoHomeActivity) getActivity()).getSitterList();
+                if (receivedSitters != null) {
+                    fim = false;
+                }
+            }
+            SitterAdapter adapter = (SitterAdapter) mRecyclerView.getAdapter();
+            mList = receivedSitters;
+            adapter.setList(receivedSitters);
+            adapter.notifyDataSetChanged();
+        }
     }
 }

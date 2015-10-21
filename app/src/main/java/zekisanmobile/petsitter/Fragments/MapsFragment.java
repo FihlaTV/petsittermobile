@@ -26,15 +26,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,9 +34,6 @@ import zekisanmobile.petsitter.DonoHomeActivity;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
-/**
- * Created by ezequiel on 28/09/15.
- */
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnInfoWindowClickListener,
@@ -167,7 +156,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         @Override
         protected ArrayList<Sitter> doInBackground(String... url) {
 
-            ArrayList<Sitter> receivedSitters = ((DonoHomeActivity) getActivity()).getSitterList2();
+            ArrayList<Sitter> receivedSitters = ((DonoHomeActivity) getActivity()).getSitterList();
             return receivedSitters;
         }
 
@@ -179,7 +168,6 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
             if (mMap != null){
                 initListeners();
-                Geocoder gc = new Geocoder(getActivity());
                 try{
                     for(int i = 0; i < receivedSitters.size(); i++) {
                         mMap.addMarker(new MarkerOptions()
