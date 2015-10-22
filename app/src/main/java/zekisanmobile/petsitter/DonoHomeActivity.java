@@ -99,7 +99,7 @@ public class DonoHomeActivity extends AppCompatActivity {
                 .withCompactStyle(false)
                 .withSavedInstance(savedInstanceState)
                 .withThreeSmallProfileImages(false)
-                .withHeaderBackground(R.color.accent_material_light)
+                .withHeaderBackground(R.color.ColorPrimary)
                 .withTextColor(R.color.primary_text)
                 .addProfiles(
                         new ProfileDrawerItem()

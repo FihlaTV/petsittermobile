@@ -57,6 +57,8 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             SitterProfileListItem currentItem = getItem(position - 1);
             VHItem VHitem = (VHItem) holder;
             VHitem.txtTitleValues.setText(currentItem.getName());
+
+            VHitem.txtAboutMeText.setText(currentItem.getSitter().getAbout_me());
         }
     }
 
@@ -87,9 +89,11 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class VHItem extends RecyclerView.ViewHolder{
         TextView txtTitleValues;
+        TextView txtAboutMeText;
         public VHItem(View itemView) {
             super(itemView);
             this.txtTitleValues = (TextView)itemView.findViewById(R.id.txtTitleValues);
+            this.txtAboutMeText = (TextView)itemView.findViewById(R.id.txtAboutMeText);
         }
     }
 }

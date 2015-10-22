@@ -56,7 +56,7 @@ public class SitterProfileActivity extends AppCompatActivity {
                 .withCompactStyle(false)
                 .withSavedInstance(savedInstanceState)
                 .withThreeSmallProfileImages(false)
-                .withHeaderBackground(R.color.accent_material_light)
+                .withHeaderBackground(R.color.ColorPrimary)
                 .withTextColor(R.color.primary_text)
                 .addProfiles(
                         new ProfileDrawerItem()
@@ -126,7 +126,7 @@ public class SitterProfileActivity extends AppCompatActivity {
     public List<SitterProfileListItem> getListItems() {
         List<SitterProfileListItem> listItems = new ArrayList<SitterProfileListItem>();
 
-        SitterProfileListItem item = new SitterProfileListItem();
+        SitterProfileListItem item = new SitterProfileListItem(sitter);
         item.setName("Valores");
         listItems.add(item);
 

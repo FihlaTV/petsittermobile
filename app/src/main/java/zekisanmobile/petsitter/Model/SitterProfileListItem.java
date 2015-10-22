@@ -7,8 +7,11 @@ public class SitterProfileListItem {
 
     private String name;
     private int id;
+    private Sitter sitter;
 
-    public SitterProfileListItem(){}
+    public SitterProfileListItem(Sitter sitter){
+        this.sitter = sitter;
+    }
 
     public String getName() {
         return name;
@@ -24,5 +27,13 @@ public class SitterProfileListItem {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
     }
 }
