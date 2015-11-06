@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import zekisanmobile.petsitter.Model.Header;
@@ -54,6 +55,9 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             SitterProfileListItem currentItem = getItem(position - 1);
             VHItem VHitem = (VHItem) holder;
             VHitem.txtTitleValues.setText(currentItem.getName());
+            VHitem.txtTitleHourValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_hour()));
+            VHitem.txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_shift()));
+            VHitem.txtTitleDayValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_day()));
 
             VHitem.txtAboutMeText.setText(currentItem.getSitter().getAbout_me());
         }
@@ -86,10 +90,19 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class VHItem extends RecyclerView.ViewHolder{
         TextView txtTitleValues;
+        TextView txtTitleShiftValue;
+        TextView txtTitleDayValue;
+        TextView txtTitleHourValue;
+
         TextView txtAboutMeText;
+
         public VHItem(View itemView) {
             super(itemView);
             this.txtTitleValues = (TextView)itemView.findViewById(R.id.txtTitleValues);
+            this.txtTitleHourValue = (TextView)itemView.findViewById(R.id.txtTitleHourValue);
+            this.txtTitleShiftValue = (TextView)itemView.findViewById(R.id.txtTitleShiftValue);
+            this.txtTitleDayValue = (TextView)itemView.findViewById(R.id.txtTitleDayValue);
+
             this.txtAboutMeText = (TextView)itemView.findViewById(R.id.txtAboutMeText);
         }
     }
