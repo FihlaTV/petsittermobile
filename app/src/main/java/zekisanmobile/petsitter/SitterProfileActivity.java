@@ -46,7 +46,7 @@ public class SitterProfileActivity extends AppCompatActivity {
 
 
         toolbar = (Toolbar) findViewById(R.id.tb_sitter_profile);
-        toolbar.setTitle("Nome do Pet Sitter");
+        toolbar.setTitle("Pet Sitter");
         setSupportActionBar(toolbar);
 
         // NAVIGATION DRAWER
@@ -56,7 +56,7 @@ public class SitterProfileActivity extends AppCompatActivity {
                 .withCompactStyle(false)
                 .withSavedInstance(savedInstanceState)
                 .withThreeSmallProfileImages(false)
-                .withHeaderBackground(R.color.ColorPrimary)
+                .withHeaderBackground(getResources().getDrawable(R.drawable.drawer_background))
                 .withTextColor(R.color.primary_text)
                 .addProfiles(
                         new ProfileDrawerItem()
@@ -64,7 +64,7 @@ public class SitterProfileActivity extends AppCompatActivity {
                                 .withEmail("zeki-san@hotmail.com")
                                 .withIcon(getResources().getDrawable(R.drawable.me))
                 )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener(){
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean current) {
@@ -86,7 +86,12 @@ public class SitterProfileActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-
+                        switch (position){
+                            case 0:
+                                Intent intentHome = new Intent(SitterProfileActivity.this, DonoHomeActivity.class);
+                                startActivity(intentHome);
+                                break;
+                        }
                     }
                 })
                 .withOnDrawerItemLongClickListener(new Drawer.OnDrawerItemLongClickListener(){
@@ -101,10 +106,7 @@ public class SitterProfileActivity extends AppCompatActivity {
 
         navigationDrawerLeft.addItem(new PrimaryDrawerItem()
                 .withName("Pet Sitters")
-                .withIcon(R.drawable.account_star_variant));
-        navigationDrawerLeft.addItem(new PrimaryDrawerItem()
-                .withName("Pet Sitters 2")
-                .withIcon(R.drawable.spotify));
+                .withIcon(R.drawable.account));
         navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configuraçoes"));
 
 
@@ -118,7 +120,6 @@ public class SitterProfileActivity extends AppCompatActivity {
 
     public Header getHeader() {
         Header header = new Header();
-        header.setHeaderText(sitter.getName());
         header.setBackgroundImage(sitter.getProfile_background());
         return header;
     }

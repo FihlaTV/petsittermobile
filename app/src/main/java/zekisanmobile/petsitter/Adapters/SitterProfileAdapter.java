@@ -13,9 +13,6 @@ import zekisanmobile.petsitter.Model.Header;
 import zekisanmobile.petsitter.Model.SitterProfileListItem;
 import zekisanmobile.petsitter.R;
 
-/**
- * Created by ezequiel on 11/10/15.
- */
 public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;

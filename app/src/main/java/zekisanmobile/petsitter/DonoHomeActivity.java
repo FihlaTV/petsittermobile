@@ -1,7 +1,6 @@
 package zekisanmobile.petsitter;
 
 import android.content.Context;
-import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,13 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
@@ -37,12 +31,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import zekisanmobile.petsitter.Adapters.TabsAdapter;
 import zekisanmobile.petsitter.Extras.SlidingTabLayout;
-import zekisanmobile.petsitter.Fragments.SitterFragment;
-import zekisanmobile.petsitter.Model.Dono;
 import zekisanmobile.petsitter.Model.Sitter;
 
 public class DonoHomeActivity extends AppCompatActivity {
@@ -99,7 +90,7 @@ public class DonoHomeActivity extends AppCompatActivity {
                 .withCompactStyle(false)
                 .withSavedInstance(savedInstanceState)
                 .withThreeSmallProfileImages(false)
-                .withHeaderBackground(R.color.ColorPrimary)
+                .withHeaderBackground(getResources().getDrawable(R.drawable.drawer_background))
                 .withTextColor(R.color.primary_text)
                 .addProfiles(
                         new ProfileDrawerItem()
@@ -144,10 +135,7 @@ public class DonoHomeActivity extends AppCompatActivity {
 
         navigationDrawerLeft.addItem(new PrimaryDrawerItem()
                 .withName("Pet Sitters")
-                .withIcon(R.drawable.account_star_variant));
-        navigationDrawerLeft.addItem(new PrimaryDrawerItem()
-                .withName("Pet Sitters 2")
-                .withIcon(R.drawable.spotify));
+                .withIcon(R.drawable.account));
         navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configuraçoes"));
     }
 

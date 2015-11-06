@@ -1,8 +1,5 @@
 package zekisanmobile.petsitter.Model;
 
-/**
- * Created by ezequiel on 11/10/15.
- */
 public class SitterProfileListItem {
 
     private String name;

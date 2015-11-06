@@ -15,9 +15,6 @@ import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
-/**
- * Created by ezequiel on 09/10/15.
- */
 public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.MyViewHolder> {
 
     private List<Sitter> mList;
