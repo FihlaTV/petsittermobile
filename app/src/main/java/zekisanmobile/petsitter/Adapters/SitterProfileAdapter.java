@@ -54,6 +54,7 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
         else if(holder instanceof VHItem){
             SitterProfileListItem currentItem = getItem(position - 1);
             VHItem VHitem = (VHItem) holder;
+            VHitem.txtPetSitterDistrictValue.setText(currentItem.getSitter().getDistrict());
             VHitem.txtTitleValues.setText(currentItem.getName());
             VHitem.txtTitleHourValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_hour()));
             VHitem.txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_shift()));
@@ -89,6 +90,7 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     class VHItem extends RecyclerView.ViewHolder{
+        TextView txtPetSitterDistrictValue;
         TextView txtTitleValues;
         TextView txtTitleShiftValue;
         TextView txtTitleDayValue;
@@ -98,6 +100,7 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public VHItem(View itemView) {
             super(itemView);
+            this.txtPetSitterDistrictValue = (TextView)itemView.findViewById(R.id.txtPetSitterDistrictValue);
             this.txtTitleValues = (TextView)itemView.findViewById(R.id.txtTitleValues);
             this.txtTitleHourValue = (TextView)itemView.findViewById(R.id.txtTitleHourValue);
             this.txtTitleShiftValue = (TextView)itemView.findViewById(R.id.txtTitleShiftValue);
