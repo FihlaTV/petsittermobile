@@ -20,4 +20,13 @@
     <string name="lucia">Lucia</string>
     <string name="lucia_description">Cuidadora de animais</string>
     <string name="title_activity_sitter_profile">SitterProfileActivity</string>
+    <string name="title_activity_pet_sitter_gallery_acitivity">PetSitterGalleryAcitivity</string>
+
+    <string-array name="image_ids">
+        <item>@drawable/cachorro</item>
+        <item>@drawable/gato</item>
+        <item>@drawable/porco</item>
+        <item>@drawable/papagaio</item>
+    </string-array>
+    <string name="title_activity_gallery_details">GalleryDetailsActivity</string>
 </resources>

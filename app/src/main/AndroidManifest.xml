@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".SitterProfileActivity"
-            android:label="@string/title_activity_sitter_profile">
+            android:label="@string/title_activity_sitter_profile" >
         </activity>
 
         <meta-data
@@ -39,6 +39,14 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyCxp48zY4dbJDx5mRWYA97mleGOlxk8ZO0" />
 
+        <activity
+            android:name=".PetSitterGalleryAcitivity"
+            android:label="@string/title_activity_pet_sitter_gallery_acitivity" >
+        </activity>
+        <activity
+            android:name=".GalleryDetailsActivity"
+            android:label="@string/title_activity_gallery_details" >
+        </activity>
     </application>
 
 </manifest>

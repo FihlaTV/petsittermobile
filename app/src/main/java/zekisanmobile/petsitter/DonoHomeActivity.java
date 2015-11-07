@@ -1,6 +1,7 @@
 package zekisanmobile.petsitter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -120,7 +121,12 @@ public class DonoHomeActivity extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-
+                        switch (position){
+                            case 0:
+                                Intent intentHome = new Intent(DonoHomeActivity.this, PetSitterGalleryAcitivity.class);
+                                startActivity(intentHome);
+                                break;
+                        }
                     }
                 })
                 .withOnDrawerItemLongClickListener(new Drawer.OnDrawerItemLongClickListener() {

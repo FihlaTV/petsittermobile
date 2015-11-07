@@ -56,9 +56,9 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             VHItem VHitem = (VHItem) holder;
             VHitem.txtPetSitterDistrictValue.setText(currentItem.getSitter().getDistrict());
             VHitem.txtTitleValues.setText(currentItem.getName());
-            VHitem.txtTitleHourValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_hour()));
-            VHitem.txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_shift()));
-            VHitem.txtTitleDayValue.setText(NumberFormat.getCurrencyInstance().format(currentItem.getSitter().getValue_day()));
+            VHitem.txtTitleHourValue.setText(formattedCurrency(currentItem.getSitter().getValue_hour()));
+            VHitem.txtTitleShiftValue.setText(formattedCurrency(currentItem.getSitter().getValue_shift()));
+            VHitem.txtTitleDayValue.setText(formattedCurrency(currentItem.getSitter().getValue_day()));
 
             VHitem.txtAboutMeText.setText(currentItem.getSitter().getAbout_me());
         }
@@ -108,5 +108,10 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             this.txtAboutMeText = (TextView)itemView.findViewById(R.id.txtAboutMeText);
         }
+    }
+
+    private String formattedCurrency(double value){
+        if(value > 0.0) return NumberFormat.getCurrencyInstance().format(value);
+        return "-";
     }
 }

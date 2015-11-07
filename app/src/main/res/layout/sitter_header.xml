@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +10,7 @@
         android:layout_height = "wrap_content"
         >-->
 
-        <TextView
+    <TextView
             android:id="@+id/txtHeader"
             android:gravity="bottom|center"
             android:textColor="@android:color/primary_text_dark"
@@ -19,6 +19,18 @@
             android:layout_height="200dp"
             android:textAlignment="gravity"/>
 
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/comment"
+        android:background="@drawable/circle"
+        android:id="@+id/imageButton"
+        android:layout_marginRight="15dp"
+        android:layout_marginEnd="30dp"
+        android:layout_alignBottom="@+id/txtHeader"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
     <!--</android.support.v7.widget.CardView>-->
 
-</LinearLayout>
+</RelativeLayout>

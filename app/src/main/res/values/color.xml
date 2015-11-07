@@ -6,4 +6,7 @@
     <color name="ColorAccent">#4CAF50</color>
     <color name="colorPrimarytext">#212121</color>
 
+    <color name="blue">#00abea</color>
+    <color name="white">#ffffff</color>
+
 </resources>
