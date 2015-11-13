@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -54,6 +53,7 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
         else if(holder instanceof VHItem){
             SitterProfileListItem currentItem = getItem(position - 1);
             VHItem VHitem = (VHItem) holder;
+            VHitem.txtPetSitterName.setText(currentItem.getSitter().getName().toUpperCase());
             VHitem.txtPetSitterDistrictValue.setText(currentItem.getSitter().getDistrict());
             VHitem.txtTitleValues.setText(currentItem.getName());
             VHitem.txtTitleHourValue.setText(formattedCurrency(currentItem.getSitter().getValue_hour()));
@@ -90,6 +90,7 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     class VHItem extends RecyclerView.ViewHolder{
+        TextView txtPetSitterName;
         TextView txtPetSitterDistrictValue;
         TextView txtTitleValues;
         TextView txtTitleShiftValue;
@@ -100,6 +101,7 @@ public class SitterProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public VHItem(View itemView) {
             super(itemView);
+            this.txtPetSitterName = (TextView)itemView.findViewById(R.id.txtPetSitterName);
             this.txtPetSitterDistrictValue = (TextView)itemView.findViewById(R.id.txtPetSitterDistrictValue);
             this.txtTitleValues = (TextView)itemView.findViewById(R.id.txtTitleValues);
             this.txtTitleHourValue = (TextView)itemView.findViewById(R.id.txtTitleHourValue);

@@ -18,13 +18,29 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/txtPetSitterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="NOME"
+                android:textSize="17dp"
+                android:layout_marginTop="10dp" />
+            <View
+                android:id="@+id/vw_divider0"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/txtPetSitterName"
+                android:background="@color/md_grey_400"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp" />
+            <TextView
                 android:id="@+id/txtPetSitterDistrict"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_text"
                 android:text="Local"
                 android:textSize="17dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/vw_divider0"/>
             <TextView
                 android:id="@+id/txtPetSitterDistrictValue"
                 android:layout_width="wrap_content"
@@ -174,6 +190,33 @@
                 android:background="@color/md_grey_400"
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp" />
+            <TextView
+                android:id="@+id/txtDog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/vw_divider2"
+                android:textColor="@color/primary_text"
+                android:text="Cães"
+                android:textSize="17dp"/>
+            <TextView
+                android:id="@+id/txtCat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtDog"
+                android:textColor="@color/primary_text"
+                android:text="Gatos"
+                android:textSize="17dp"/>
+            <TextView
+                android:id="@+id/txtHamster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtCat"
+                android:textColor="@color/primary_text"
+                android:text="Hamsters"
+                android:textSize="17dp"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
@@ -206,6 +249,33 @@
                 android:background="@color/md_grey_400"
                 android:layout_width="match_parent"
                 android:layout_height="0.8dp" />
+            <TextView
+                android:id="@+id/txtOralMedication"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/vw_divider3"
+                android:textColor="@color/primary_text"
+                android:text="Medicação Oral"
+                android:textSize="17dp"/>
+            <TextView
+                android:id="@+id/txtInjetableMedication"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtOralMedication"
+                android:textColor="@color/primary_text"
+                android:text="medicação Injetável"
+                android:textSize="17dp"/>
+            <TextView
+                android:id="@+id/txtBath"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtInjetableMedication"
+                android:textColor="@color/primary_text"
+                android:text="Banho"
+                android:textSize="17dp"/>
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
