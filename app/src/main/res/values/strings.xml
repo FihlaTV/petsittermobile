@@ -20,4 +20,7 @@
     <string name="lucia">Lucia</string>
     <string name="lucia_description">Cuidadora de animais</string>
     <string name="title_activity_sitter_profile">SitterProfileActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

@@ -25,7 +25,8 @@
         </activity>
         <activity
             android:name=".DonoHomeActivity"
-            android:label="@string/title_activity_dono_home" >
+            android:label="@string/title_activity_dono_home"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".SitterProfileActivity"
