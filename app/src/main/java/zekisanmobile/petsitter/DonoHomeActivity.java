@@ -3,6 +3,7 @@ package zekisanmobile.petsitter;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.GravityCompat;
 
@@ -24,17 +28,20 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-import zekisanmobile.petsitter.Adapters.TabsAdapter;
-import zekisanmobile.petsitter.Extras.SlidingTabLayout;
+import zekisanmobile.petsitter.Fragments.MapsFragment;
+import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
 
 public class DonoHomeActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
-    private ViewPager mViewPager;
-    private SlidingTabLayout mSlidingTabLayout;
+    private ViewPager viewPager;
+    private ViewPagerAdapter adapter;
+    private SitterFragment sitterFragment;
+    private TabLayout tabLayout;
 
     private ArrayList<Sitter> sitters;
     private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
@@ -51,29 +58,11 @@ public class DonoHomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // TABS
-        mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
-        mViewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), this));
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
 
-        mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
-        mSlidingTabLayout.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
-        mSlidingTabLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        mSlidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.colorPrimaryLight));
-        mSlidingTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-
-        mSlidingTabLayout.setViewPager(mViewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
         // NAVIGATION DRAWER
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,6 +74,14 @@ public class DonoHomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+    }
+
+    private void setupViewPager(ViewPager viewPager){
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        sitterFragment = new SitterFragment();
+        adapter.addFragment(sitterFragment, "LISTA");
+        adapter.addFragment(new MapsFragment(), "MAPA");
+        viewPager.setAdapter(adapter);
     }
 
     @Override
@@ -121,7 +118,7 @@ public class DonoHomeActivity extends AppCompatActivity
 
     public ArrayList<Sitter> getSitterList(){
         if (sitters != null) return sitters;
-        return null;
+        return new ArrayList<Sitter>();
     }
 
     @Override
@@ -129,6 +126,35 @@ public class DonoHomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     private class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
@@ -165,6 +191,7 @@ public class DonoHomeActivity extends AppCompatActivity
                             Double.valueOf(jsonObject.getString("value_shift")),
                             Double.valueOf(jsonObject.getString("value_day")),
                             jsonObject.getString("about_me")));
+
                 }
 
                 return returnedSitters;
@@ -180,6 +207,7 @@ public class DonoHomeActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
             sitters = returnedSitters;
+            sitterFragment.setList(sitters);
         }
     }
 }

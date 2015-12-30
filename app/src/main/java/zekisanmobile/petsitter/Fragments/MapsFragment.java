@@ -50,9 +50,16 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     // The Map object
     private GoogleMap mMap;
 
+    public MapsFragment() {}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_2,container,false);
+        View v = inflater.inflate(R.layout.fragment_maps,container,false);
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         callConnection();

@@ -24,91 +24,49 @@ import zekisanmobile.petsitter.SitterProfileActivity;
 public class SitterFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 
     private RecyclerView mRecyclerView;
+    private SitterAdapter adapter;
     private List<Sitter> mList;
+
+    public SitterFragment() {}
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_sitter, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_list);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                LinearLayoutManager llm = (LinearLayoutManager) mRecyclerView.getLayoutManager();
-                SitterAdapter adapter = (SitterAdapter) mRecyclerView.getAdapter();
-
-                if (mList.size() == llm.findLastCompletelyVisibleItemPosition() + 1) {
-                    List<Sitter> listAux = ((DonoHomeActivity) getActivity()).getSitterList();
-                    for (int i = 0; i < listAux.size(); i++) {
-                        adapter.addListItem(listAux.get(i), mList.size());
-                    }
-                }
-            }
-        });
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        if (mList != null) {
+        //if (mList != null) {
             mList = ((DonoHomeActivity) getActivity()).getSitterList();
-        } else {
-            mList = new ArrayList<Sitter>();
-        }
-        SitterAdapter adapter = new SitterAdapter(getActivity(), mList);
+        //} else {
+        //}
+        adapter = new SitterAdapter(mList);
         adapter.setmRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
-
-
-        new ReloadSitterList().execute("");
 
         return view;
     }
 
     @Override
     public void onClickListener(View view, int position) {
-        //Toast.makeText(getActivity(), "Position: " + position, Toast.LENGTH_SHORT).show();
-
-        //SitterAdapter adapter = (SitterAdapter) mRecyclerView.getAdapter();
-        //adapter.removeListItem(position);
-
         Intent intent = new Intent(getActivity(), SitterProfileActivity.class);
         intent.putExtra("SITTER", mList.get(position));
         startActivity(intent);
     }
 
-    private class ReloadSitterList extends AsyncTask<String, Void, ArrayList<Sitter>> {
+    public SitterAdapter getAdapter(){
+        return adapter;
+    }
 
-        @Override
-        protected ArrayList<Sitter> doInBackground(String... url) {
-
-            ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
-
-            return returnedSitters;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
-            boolean fim = true;
-
-            while (fim) {
-                receivedSitters = ((DonoHomeActivity) getActivity()).getSitterList();
-                if (receivedSitters != null) {
-                    fim = false;
-                }
-            }
-            SitterAdapter adapter = (SitterAdapter) mRecyclerView.getAdapter();
-            mList = receivedSitters;
-            adapter.setList(receivedSitters);
-            adapter.notifyDataSetChanged();
-        }
+    public void setList(List<Sitter> mList){
+        adapter.setList(mList);
     }
 }

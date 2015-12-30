@@ -15,65 +15,21 @@ import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
-public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.MyViewHolder> {
+public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder> {
 
     private List<Sitter> mList;
-    private LayoutInflater mLayoutInflater;
     private RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
 
-    public SitterAdapter(Context c, List<Sitter> l){
+    public SitterAdapter(List<Sitter> l){
         mList = l;
-        mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = mLayoutInflater.inflate(R.layout.item_sitter, parent, false);
-        MyViewHolder mvh = new MyViewHolder(v);
-
-        return mvh;
-    }
-
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.iv_sitter.setImageResource(mList.get(position).getPhoto());
-        holder.tv_name.setText(mList.get(position).getName());
-        holder.tv_descricao.setText("Cuidador de animais");
-    }
-
-    @Override
-    public int getItemCount() {
-        return mList.size();
-    }
-
-    public void setmRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r){
-        mRecyclerViewOnClickListenerHack = r;
-    }
-
-    public void setList(ArrayList<Sitter> receivedSitters){
-        mList = receivedSitters;
-    }
-
-    public void addListItem(Sitter s, int position){
-        mList.add(s);
-        notifyItemInserted(position);
-    }
-
-    public void removeListItem(int position){
-        mList.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public Sitter getListItem(int position){
-        return mList.get(position);
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView iv_sitter;
         public TextView tv_name;
         public TextView tv_descricao;
 
-        public MyViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             iv_sitter = (ImageView) itemView.findViewById(R.id.iv_sitter);
@@ -89,5 +45,39 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.MyViewHold
                 mRecyclerViewOnClickListenerHack.onClickListener(v, getPosition());
             }
         }
+    }
+
+    @Override
+    public SitterAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+
+        View view = inflater.inflate(R.layout.item_sitter, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+
+        return viewHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(SitterAdapter.ViewHolder holder, int position) {
+        Sitter sitter = mList.get(position);
+
+        holder.iv_sitter.setImageResource(sitter.getPhoto());
+        holder.tv_name.setText(sitter.getName());
+        holder.tv_descricao.setText("Cuidador de animais");
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size();
+    }
+
+    public void setmRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r){
+        mRecyclerViewOnClickListenerHack = r;
+    }
+
+    public void setList(List<Sitter> mList){
+        this.mList = mList;
+        notifyDataSetChanged();
     }
 }
