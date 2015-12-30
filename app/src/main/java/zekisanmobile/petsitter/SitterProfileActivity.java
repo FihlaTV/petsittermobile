@@ -2,39 +2,27 @@ package zekisanmobile.petsitter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import java.text.NumberFormat;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import zekisanmobile.petsitter.Adapters.SitterProfileAdapter;
-import zekisanmobile.petsitter.Model.Header;
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.Model.SitterProfileListItem;
 
-public class SitterProfileActivity extends AppCompatActivity {
+public class SitterProfileActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    private Drawer.Result navigationDrawerLeft;
-    private AccountHeader.Result headerNavigationLeft;
-    Sitter sitter;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private Sitter sitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,94 +32,58 @@ public class SitterProfileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("SITTER");
 
+        // collapsingToolbarLayout
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle("Título da Collapsing Toolbar");
+        //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
-        toolbar = (Toolbar) findViewById(R.id.tb_sitter_profile);
+        ImageView image_sitter_profile = (ImageView) findViewById(R.id.image_sitter_profile);
+        image_sitter_profile.setImageResource(sitter.getProfile_background());
+
+        // TOOLBAR
+        toolbar = (Toolbar) findViewById(R.id.toolbar_sitter_profile);
         toolbar.setTitle("Pet Sitter");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         // NAVIGATION DRAWER
 
-        headerNavigationLeft = new AccountHeader()
-                .withActivity(this)
-                .withCompactStyle(false)
-                .withSavedInstance(savedInstanceState)
-                .withThreeSmallProfileImages(false)
-                .withHeaderBackground(getResources().getDrawable(R.drawable.drawer_background))
-                .withTextColor(R.color.primary_text)
-                .addProfiles(
-                        new ProfileDrawerItem()
-                                .withName("Ezequiel Guilherme")
-                                .withEmail("zeki-san@hotmail.com")
-                                .withIcon(getResources().getDrawable(R.drawable.me))
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_sitter_profile);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        );
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
 
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                        Toast.makeText(SitterProfileActivity.this, "profilechanged", Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-                })
-                .build();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_sitter_profile);
+        navigationView.setNavigationItemSelectedListener(this);
 
-        navigationDrawerLeft = new Drawer()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withDisplayBelowToolbar(false)
-                .withActionBarDrawerToggleAnimated(true)
-                .withDrawerGravity(Gravity.LEFT)
-                .withSavedInstance(savedInstanceState)
-                .withSelectedItem(0)
-                .withAccountHeader(headerNavigationLeft)
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-                        switch (position){
-                            case 0:
-                                Intent intentHome = new Intent(SitterProfileActivity.this, DonoHomeActivity.class);
-                                startActivity(intentHome);
-                                break;
-                        }
-                    }
-                })
-                .withOnDrawerItemLongClickListener(new Drawer.OnDrawerItemLongClickListener(){
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-                        Toast.makeText(SitterProfileActivity.this, "OnItemLongClick: " + position, Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-                })
-
-                .build();
-
-        navigationDrawerLeft.addItem(new PrimaryDrawerItem()
-                .withName("Pet Sitters")
-                .withIcon(R.drawable.account));
-        navigationDrawerLeft.addItem(new SectionDrawerItem().withName("Configuraçoes"));
-
-
-        recyclerView = (RecyclerView) findViewById(R.id.sitter_profile_recycler_view);
-        linearLayoutManager = new LinearLayoutManager(this);
-
-        SitterProfileAdapter adapter = new SitterProfileAdapter(getHeader(), getListItems());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(adapter);
+        prepareSitterData();
     }
 
-    public Header getHeader() {
-        Header header = new Header();
-        header.setBackgroundImage(sitter.getProfile_background());
-        return header;
+    private void prepareSitterData() {
+        TextView txtPetSitterDistrictValue = (TextView) findViewById(R.id.txtPetSitterDistrictValue);
+        txtPetSitterDistrictValue.setText(sitter.getDistrict());
+
+        TextView txtTitleValues = (TextView) findViewById(R.id.txtTitleValues);
+        txtTitleValues.setText("Valores");
+
+        TextView txtTitleHourValue = (TextView) findViewById(R.id.txtTitleHourValue);
+        txtTitleHourValue.setText(NumberFormat.getCurrencyInstance().format(sitter.getValue_hour()));
+
+        TextView txtTitleShiftValue = (TextView) findViewById(R.id.txtTitleShiftValue);
+        txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance().format(sitter.getValue_shift()));
+
+        TextView txtTitleDayValue = (TextView) findViewById(R.id.txtTitleDayValue);
+        txtTitleDayValue.setText(NumberFormat.getCurrencyInstance().format(sitter.getValue_day()));
+
+        TextView txtAboutMeText = (TextView) findViewById(R.id.txtAboutMeText);
+        txtAboutMeText.setText(sitter.getAbout_me());
     }
 
-    public List<SitterProfileListItem> getListItems() {
-        List<SitterProfileListItem> listItems = new ArrayList<SitterProfileListItem>();
-
-        SitterProfileListItem item = new SitterProfileListItem(sitter);
-        item.setName("Valores");
-        listItems.add(item);
-
-        return listItems;
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        return false;
     }
-
 }

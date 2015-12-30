@@ -45,7 +45,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         mRecyclerView.setLayoutManager(llm);
 
         //if (mList != null) {
-            mList = ((DonoHomeActivity) getActivity()).getSitterList();
+        mList = ((DonoHomeActivity) getActivity()).getSitterList();
         //} else {
         //}
         adapter = new SitterAdapter(mList);
@@ -67,6 +67,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     }
 
     public void setList(List<Sitter> mList){
+        this.mList = mList;
         adapter.setList(mList);
     }
 }
