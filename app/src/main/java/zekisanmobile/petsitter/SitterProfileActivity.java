@@ -34,15 +34,13 @@ public class SitterProfileActivity extends AppCompatActivity
 
         // collapsingToolbarLayout
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("Título da Collapsing Toolbar");
-        //collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        collapsingToolbarLayout.setTitle(sitter.getName());
 
         ImageView image_sitter_profile = (ImageView) findViewById(R.id.image_sitter_profile);
         image_sitter_profile.setImageResource(sitter.getProfile_background());
 
         // TOOLBAR
         toolbar = (Toolbar) findViewById(R.id.toolbar_sitter_profile);
-        toolbar.setTitle("Pet Sitter");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
