@@ -17,6 +17,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.GravityCompat;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -30,9 +33,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.Model.User;
 
 public class DonoHomeActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,15 +52,22 @@ public class DonoHomeActivity extends AppCompatActivity
     private ArrayList<Sitter> sitters;
     private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
 
+    private Realm realm;
+    private RealmResults<User> users;
+
+    private User loggedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dono_home);
 
+        loggedUser = getLoggedUser();
+
         new JSONResponseHandler().execute(API_SEARCH_URL);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Ezequiel Guilherme");
+        toolbar.setTitle(loggedUser.getName());
         setSupportActionBar(toolbar);
 
         // TABS
@@ -74,6 +87,41 @@ public class DonoHomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View header = navigationView.getHeaderView(0);
+
+        Context context = getApplicationContext();
+        ImageView ivUserImage = (ImageView) header.findViewById(R.id.ivUserImage);
+        ivUserImage.setImageResource(context.getResources()
+                .getIdentifier(loggedUser.getPhoto(), "drawable", context.getPackageName()));
+
+        TextView tvUsername = (TextView) header.findViewById(R.id.tvUsername);
+        tvUsername.setText(loggedUser.getName());
+
+        TextView tvUserEmail = (TextView) header.findViewById(R.id.tvUserEmail);
+        tvUserEmail.setText(loggedUser.getEmail());
+
+    }
+
+    private User getLoggedUser() {
+        realm = Realm.getDefaultInstance();
+        Log.d(DonoHomeActivity.class.getSimpleName(), "Versão: " + realm.getVersion());
+        RealmResults<User> allUsers = realm.where(User.class).findAll();
+        User user;
+        if (allUsers.size() > 0) {
+            user = realm.where(User.class).equalTo("logged", true).findAll().get(0);
+        }
+        else{
+            realm.beginTransaction();
+            user = realm.createObject(User.class);
+            user.setId(0);
+            user.setName("Ezequiel Guilherme");
+            user.setEmail("zeki-san@hotmail.com");
+            user.setPhoto("me");
+            user.setLogged(true);
+            user.setType(0);
+            realm.commitTransaction();
+        }
+        return user;
     }
 
     private void setupViewPager(ViewPager viewPager){

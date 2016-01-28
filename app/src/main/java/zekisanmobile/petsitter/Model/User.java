@@ -9,6 +9,7 @@ public class User extends RealmObject {
     private long id;
     private String name;
     private String email;
+    private String photo;
     private boolean logged;
     private int type; // 0 - Owner, 1 - PetSitter
 
@@ -50,5 +51,13 @@ public class User extends RealmObject {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
