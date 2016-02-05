@@ -1,8 +1,6 @@
 package zekisanmobile.petsitter.Fragments;
 
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -50,20 +48,42 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     // The Map object
     private GoogleMap mMap;
 
+    private static View rootView;
+
     public MapsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        setRetainInstance(true);
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_maps,container,false);
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        callConnection();
-        return v;
+        if(savedInstanceState == null) {
+            if (rootView != null) {
+                ViewGroup parent = (ViewGroup) rootView.getParent();
+                if (parent != null)
+                    parent.removeView(rootView);
+            }
+
+            try{
+                if(rootView == null)
+                {
+                    rootView = inflater.inflate(R.layout.fragment_maps, container, false);
+                }
+
+                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+                callConnection();
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return rootView;
     }
 
     @Override

@@ -36,6 +36,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
+import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
@@ -127,7 +128,8 @@ public class DonoHomeActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager){
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         sitterFragment = new SitterFragment();
-        adapter.addFragment(sitterFragment, "LISTA");
+        adapter.addFragment(new SearchFragment(), "PESQUISA");
+        adapter.addFragment(sitterFragment, "PET SITTERS");
         adapter.addFragment(new MapsFragment(), "MAPA");
         viewPager.setAdapter(adapter);
     }
