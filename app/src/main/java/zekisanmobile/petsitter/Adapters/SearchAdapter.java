@@ -4,15 +4,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import java.util.List;
 
-import zekisanmobile.petsitter.Holders.SearchItemHolder;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.SearchItem;
 import zekisanmobile.petsitter.R;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchItemHolder>{
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItemHolder>{
 
     private List<SearchItem> items;
     private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
@@ -28,11 +30,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchItemHolder>{
     }
 
     @Override
-    public void onBindViewHolder(SearchItemHolder searchItemHolder, int i) {
-        SearchItem item = items.get(i);
+    public void onBindViewHolder(SearchItemHolder searchItemHolder, final int position) {
+        SearchItem item = items.get(position);
 
         searchItemHolder.tv_search_item.setText(item.getName());
-        searchItemHolder.chk_search_item.setSelected(item.isSelected());
+        //searchItemHolder.chk_search_item.setSelected(item.isSelected());
+
+        searchItemHolder.chk_search_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                items.get(position).setSelected(isChecked);
+            }
+        });
     }
 
     @Override
@@ -42,5 +51,29 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchItemHolder>{
 
     public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack) {
         this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
+    }
+
+    public List<SearchItem> getItems(){
+        return items;
+    }
+
+    public class SearchItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public TextView tv_search_item;
+        public CheckBox chk_search_item;
+
+        public SearchItemHolder(View view) {
+            super(view);
+            this.tv_search_item = (TextView) view.findViewById(R.id.tv_search_item);
+            this.chk_search_item = (CheckBox) view.findViewById(R.id.chk_search_item);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (recyclerViewOnClickListenerHack != null){
+                recyclerViewOnClickListenerHack.onClickListener(v, getPosition());
+            }
+        }
+
     }
 }
