@@ -48,6 +48,7 @@ public class OwnerHomeActivity extends AppCompatActivity
     private ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private SitterFragment sitterFragment;
+    private MapsFragment mapsFragment;
     private TabLayout tabLayout;
 
     private ArrayList<Sitter> sitters;
@@ -128,9 +129,10 @@ public class OwnerHomeActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager){
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         sitterFragment = new SitterFragment();
+        mapsFragment = new MapsFragment();
         adapter.addFragment(new SearchFragment(), "PESQUISA");
         adapter.addFragment(sitterFragment, "PET SITTERS");
-        adapter.addFragment(new MapsFragment(), "MAPA");
+        adapter.addFragment(mapsFragment, "MAPA");
         viewPager.setAdapter(adapter);
     }
 
@@ -243,7 +245,7 @@ public class OwnerHomeActivity extends AppCompatActivity
                             jsonObject.getString("about_me")));
 
                 }
-
+                mapsFragment.setSitters(returnedSitters);
                 return returnedSitters;
             } catch (IOException e) {
                 Log.d(TAG, e.getMessage());

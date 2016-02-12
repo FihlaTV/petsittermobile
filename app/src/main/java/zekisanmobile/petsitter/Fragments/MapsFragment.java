@@ -50,6 +50,8 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
     private static View rootView;
 
+    private List<Sitter> sitters;
+
     public MapsFragment() {}
 
     @Override
@@ -86,6 +88,10 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         return rootView;
     }
 
+    public void setSitters(List<Sitter> sitters) {
+        this.sitters = sitters;
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -101,7 +107,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         super.onStart();
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
-        };
+        }
     }
 
     @Override
@@ -132,24 +138,40 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         if (mCurrentLocation != null){
             Log.i("LOG", "latitude: " + mCurrentLocation.getLatitude());
             Log.i("LOG", "longitude: " + mCurrentLocation.getLongitude());
-            new JSONResponseHandler().execute(API_SEARCH_URL);
+            updateMapMarkers();
+        }
+    }
+
+    private void updateMapMarkers() {
+        // Get the Map Object
+        mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+
+        if (mMap != null){
+            initListeners();
+            try{
+                for(int i = 0; i < sitters.size(); i++) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(sitters.get(i).getLatitude(), sitters.get(i).getLongitude()))
+                            .title(sitters.get(i).getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.pet_marker))
+                            .snippet(sitters.get(i).getAddress()));
+                }
+            }catch (Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+
+            initCamera( mCurrentLocation );
         }
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
+    public void onConnectionSuspended(int i) {}
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
+    public void onConnectionFailed(ConnectionResult connectionResult) {}
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
-
-    }
+    public void onInfoWindowClick(Marker marker) {}
 
     @Override
     public boolean onMarkerClick(Marker marker) {
@@ -157,61 +179,16 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-
-    }
+    public void onLocationChanged(Location location) {}
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
     @Override
-    public void onProviderEnabled(String provider) {
-
-    }
+    public void onProviderEnabled(String provider) {}
 
     @Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    private class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
-
-        private final String TAG = JSONResponseHandler.class.getSimpleName();
-
-        @Override
-        protected ArrayList<Sitter> doInBackground(String... url) {
-
-            ArrayList<Sitter> receivedSitters = ((OwnerHomeActivity) getActivity()).getSitterList();
-            return receivedSitters;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Sitter> receivedSitters){
-
-            // Get the Map Object
-            mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
-
-            if (mMap != null){
-                initListeners();
-                try{
-                    for(int i = 0; i < receivedSitters.size(); i++) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(receivedSitters.get(i).getLatitude(), receivedSitters.get(i).getLongitude()))
-                                .title(receivedSitters.get(i).getName())
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pet_marker))
-                                .snippet(receivedSitters.get(i).getAddress()));
-                    }
-                }catch (Exception e){
-                    Log.d(TAG, e.getMessage());
-                }
-
-                initCamera( mCurrentLocation );
-            }
-        }
-
-    }
+    public void onProviderDisabled(String provider) {}
 
     private void initCamera(Location location) {
         CameraPosition position = CameraPosition.builder()
