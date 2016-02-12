@@ -257,7 +257,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
             sitters = returnedSitters;
-            sitterFragment.setList(sitters);
+            sitterFragment.updateSittersList(sitters);
         }
     }
 }

@@ -24,14 +24,13 @@ import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.SearchItem;
 import zekisanmobile.petsitter.R;
 
-public class SearchFragment extends Fragment implements RecyclerViewOnClickListenerHack {
+public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private SearchAdapter adapter;
     private List<SearchItem> items = new ArrayList<SearchItem>();
     private List<String> selectedItems = new ArrayList<String>();
     private final static String POST_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters/search";
-
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -51,7 +50,6 @@ public class SearchFragment extends Fragment implements RecyclerViewOnClickListe
         items = loadSearchOptions();
 
         adapter = new SearchAdapter(items);
-        adapter.setRecyclerViewOnClickListenerHack(this);
         recyclerView.setAdapter(adapter);
 
         Button btn_search = (Button) view.findViewById(R.id.btn_search);
@@ -97,7 +95,4 @@ public class SearchFragment extends Fragment implements RecyclerViewOnClickListe
         }
         return items;
     }
-
-    @Override
-    public void onClickListener(View view, int position) {}
 }

@@ -16,11 +16,11 @@ import zekisanmobile.petsitter.R;
 
 public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder> {
 
-    private List<Sitter> mList;
-    private RecyclerViewOnClickListenerHack mRecyclerViewOnClickListenerHack;
+    private List<Sitter> sitters;
+    private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
 
     public SitterAdapter(List<Sitter> l){
-        mList = l;
+        sitters = l;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -40,8 +40,8 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            if (mRecyclerViewOnClickListenerHack != null){
-                mRecyclerViewOnClickListenerHack.onClickListener(v, getPosition());
+            if (recyclerViewOnClickListenerHack != null){
+                recyclerViewOnClickListenerHack.onClickListener(v, getPosition());
             }
         }
     }
@@ -59,7 +59,7 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(SitterAdapter.ViewHolder holder, int position) {
-        Sitter sitter = mList.get(position);
+        Sitter sitter = sitters.get(position);
 
         holder.iv_sitter.setImageResource(sitter.getPhoto());
         holder.tv_name.setText(sitter.getName());
@@ -68,15 +68,15 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return sitters.size();
     }
 
-    public void setmRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack r){
-        mRecyclerViewOnClickListenerHack = r;
+    public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack){
+        this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
     }
 
-    public void setList(List<Sitter> mList){
-        this.mList = mList;
+    public void updateSittersList(List<Sitter> sitters){
+        this.sitters = sitters;
         notifyDataSetChanged();
     }
 }

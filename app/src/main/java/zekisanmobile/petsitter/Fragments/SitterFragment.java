@@ -46,7 +46,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         //} else {
         //}
         adapter = new SitterAdapter(mList);
-        adapter.setmRecyclerViewOnClickListenerHack(this);
+        adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 
         return view;
@@ -59,12 +59,8 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         startActivity(intent);
     }
 
-    public SitterAdapter getAdapter(){
-        return adapter;
-    }
-
-    public void setList(List<Sitter> mList){
+    public void updateSittersList(List<Sitter> mList){
         this.mList = mList;
-        adapter.setList(mList);
+        adapter.updateSittersList(mList);
     }
 }

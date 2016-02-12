@@ -17,7 +17,6 @@ import zekisanmobile.petsitter.R;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItemHolder>{
 
     private List<SearchItem> items;
-    private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
 
     public SearchAdapter(List<SearchItem> items) {
         this.items = items;
@@ -34,7 +33,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
         SearchItem item = items.get(position);
 
         searchItemHolder.tv_search_item.setText(item.getName());
-        //searchItemHolder.chk_search_item.setSelected(item.isSelected());
 
         searchItemHolder.chk_search_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -49,15 +47,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
         return (null != items ? items.size() : 0);
     }
 
-    public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack) {
-        this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
-    }
-
-    public List<SearchItem> getItems(){
-        return items;
-    }
-
-    public class SearchItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class SearchItemHolder extends RecyclerView.ViewHolder {
 
         public TextView tv_search_item;
         public CheckBox chk_search_item;
@@ -67,13 +57,5 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
             this.tv_search_item = (TextView) view.findViewById(R.id.tv_search_item);
             this.chk_search_item = (CheckBox) view.findViewById(R.id.chk_search_item);
         }
-
-        @Override
-        public void onClick(View v) {
-            if (recyclerViewOnClickListenerHack != null){
-                recyclerViewOnClickListenerHack.onClickListener(v, getPosition());
-            }
-        }
-
     }
 }
