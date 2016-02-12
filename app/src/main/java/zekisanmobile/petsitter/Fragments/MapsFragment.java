@@ -28,7 +28,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import zekisanmobile.petsitter.DonoHomeActivity;
+import zekisanmobile.petsitter.OwnerHomeActivity;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -183,7 +183,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         @Override
         protected ArrayList<Sitter> doInBackground(String... url) {
 
-            ArrayList<Sitter> receivedSitters = ((DonoHomeActivity) getActivity()).getSitterList();
+            ArrayList<Sitter> receivedSitters = ((OwnerHomeActivity) getActivity()).getSitterList();
             return receivedSitters;
         }
 

@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login Dono Pet"
-        android:id="@+id/loginDono"
+        android:id="@+id/loginOwner"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="153dp" />
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:text="Login Pet Sitter"
         android:id="@+id/loginPetsitter"
-        android:layout_below="@+id/loginDono"
+        android:layout_below="@+id/loginOwner"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="56dp" />
 </RelativeLayout>

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
-import zekisanmobile.petsitter.DonoHomeActivity;
+import zekisanmobile.petsitter.OwnerHomeActivity;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
@@ -42,7 +42,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         mRecyclerView.setLayoutManager(llm);
 
         //if (mList != null) {
-        mList = ((DonoHomeActivity) getActivity()).getSitterList();
+        mList = ((OwnerHomeActivity) getActivity()).getSitterList();
         //} else {
         //}
         adapter = new SitterAdapter(mList);

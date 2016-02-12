@@ -41,7 +41,7 @@ import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
 
-public class DonoHomeActivity extends AppCompatActivity
+public class OwnerHomeActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
     private Toolbar toolbar;
@@ -61,7 +61,7 @@ public class DonoHomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dono_home);
+        setContentView(R.layout.activity_owner_home);
 
         loggedUser = getLoggedUser();
 
@@ -105,7 +105,7 @@ public class DonoHomeActivity extends AppCompatActivity
 
     private User getLoggedUser() {
         realm = Realm.getDefaultInstance();
-        Log.d(DonoHomeActivity.class.getSimpleName(), "Versão: " + realm.getVersion());
+        Log.d(OwnerHomeActivity.class.getSimpleName(), "Versão: " + realm.getVersion());
         RealmResults<User> allUsers = realm.where(User.class).findAll();
         User user;
         if (allUsers.size() > 0) {
@@ -147,7 +147,7 @@ public class DonoHomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_dono_home, menu);
+        getMenuInflater().inflate(R.menu.menu_owner_home, menu);
         return true;
     }
 

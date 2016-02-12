@@ -10,20 +10,20 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button loginDono, loginPetsitter;
+    Button loginOwner, loginPetsitter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginDono = (Button) findViewById(R.id.loginDono);
+        loginOwner = (Button) findViewById(R.id.loginOwner);
         loginPetsitter = (Button) findViewById(R.id.loginPetsitter);
 
-        loginDono.setOnClickListener(new View.OnClickListener() {
+        loginOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, DonoHomeActivity.class);
+                Intent intent = new Intent(MainActivity.this, OwnerHomeActivity.class);
                 startActivity(intent);
             }
         });

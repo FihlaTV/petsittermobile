@@ -1,13 +1,10 @@
 package zekisanmobile.petsitter.Model;
 
-/**
- * Created by ezequiel on 27/09/15.
- */
-public class Dono {
+public class Owner {
 
     private String nome;
 
-    public Dono(String nome){
+    public Owner(String nome){
         this.nome = nome;
     }
 
