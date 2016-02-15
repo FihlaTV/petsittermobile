@@ -78,6 +78,7 @@ public class OwnerHomeActivity extends AppCompatActivity
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(1).select();
 
         // NAVIGATION DRAWER
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -173,6 +174,14 @@ public class OwnerHomeActivity extends AppCompatActivity
         return new ArrayList<Sitter>();
     }
 
+    public void updateSitterList(List<Sitter> sitters){
+        sitterFragment.updateSittersList(sitters);
+        mapsFragment.setSitters(sitters);
+        mapsFragment.clearAllMarkers();
+        mapsFragment.updateMapMarkers();
+        tabLayout.getTabAt(1).select();
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -259,7 +268,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
             sitters = returnedSitters;
-            sitterFragment.updateSittersList(sitters);
+            updateSitterList(sitters);
         }
     }
 }

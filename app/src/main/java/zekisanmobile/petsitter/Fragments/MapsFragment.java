@@ -4,7 +4,6 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,10 +24,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import zekisanmobile.petsitter.OwnerHomeActivity;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -46,7 +43,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     private LocationManager locationManager;
 
     // The Map object
-    private GoogleMap mMap;
+    private GoogleMap map;
 
     private static View rootView;
 
@@ -92,14 +89,18 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         this.sitters = sitters;
     }
 
+    public void clearAllMarkers(){
+        if(map != null) map.clear();
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
     private void initListeners() {
-        mMap.setOnMarkerClickListener(MapsFragment.this);
-        mMap.setOnInfoWindowClickListener(MapsFragment.this);
+        map.setOnMarkerClickListener(MapsFragment.this);
+        map.setOnInfoWindowClickListener(MapsFragment.this);
     }
 
     @Override
@@ -142,15 +143,15 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         }
     }
 
-    private void updateMapMarkers() {
+    public void updateMapMarkers() {
         // Get the Map Object
-        mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+        map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
 
-        if (mMap != null){
+        if (map != null){
             initListeners();
             try{
                 for(int i = 0; i < sitters.size(); i++) {
-                    mMap.addMarker(new MarkerOptions()
+                    map.addMarker(new MarkerOptions()
                             .position(new LatLng(sitters.get(i).getLatitude(), sitters.get(i).getLongitude()))
                             .title(sitters.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.pet_marker))
@@ -199,10 +200,10 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 .tilt(0.0f)
                 .build();
 
-        mMap.animateCamera(CameraUpdateFactory
+        map.animateCamera(CameraUpdateFactory
                 .newCameraPosition(position), null);
 
-        mMap.getUiSettings().setZoomControlsEnabled( true );
+        map.getUiSettings().setZoomControlsEnabled( true );
     }
 
     private Location bestLastKnownLocation(float minAccuracy, long maxAge) {

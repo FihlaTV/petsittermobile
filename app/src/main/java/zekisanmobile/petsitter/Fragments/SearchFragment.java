@@ -19,6 +19,7 @@ import java.util.List;
 import zekisanmobile.petsitter.Adapters.SearchAdapter;
 import zekisanmobile.petsitter.Handlers.SearchHandler;
 import zekisanmobile.petsitter.Model.SearchItem;
+import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class SearchFragment extends Fragment {
@@ -27,7 +28,7 @@ public class SearchFragment extends Fragment {
     private SearchAdapter adapter;
     private List<SearchItem> items = new ArrayList<SearchItem>();
     private List<String> selectedItems = new ArrayList<String>();
-    private final static String SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters/search";
+    private List<Sitter> sitters = new ArrayList<Sitter>();
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -79,8 +80,8 @@ public class SearchFragment extends Fragment {
         }
 
         json.put("animals", jsonArray);
-        String[] params = {SEARCH_URL, json.toString()};
-        new SearchHandler().execute(params);
+        String[] params = {json.toString(), String.valueOf(1)};
+        new SearchHandler(getContext()).execute(params);
     }
 
     private List<SearchItem> loadSearchOptions() {
@@ -92,4 +93,5 @@ public class SearchFragment extends Fragment {
         }
         return items;
     }
+
 }
