@@ -38,8 +38,8 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
     private static final String TAG = MapsFragment.class.getSimpleName();
 
-    private GoogleApiClient mGoogleApiClient;
-    private Location mCurrentLocation;
+    private GoogleApiClient googleApiClient;
+    private Location currentLocation;
     private LocationManager locationManager;
 
     // The Map object
@@ -106,39 +106,39 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onStart() {
         super.onStart();
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
+        if (googleApiClient != null) {
+            googleApiClient.connect();
         }
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if( mGoogleApiClient != null && mGoogleApiClient.isConnected() ) {
-            mGoogleApiClient.disconnect();
+        if( googleApiClient != null && googleApiClient.isConnected() ) {
+            googleApiClient.disconnect();
         }
     }
 
     private synchronized void callConnection(){
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+        googleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addOnConnectionFailedListener(this)
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .build();
-        mGoogleApiClient.connect();
+        googleApiClient.connect();
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
 
-        if (mCurrentLocation == null){
-            mCurrentLocation = bestLastKnownLocation(500.0f, (60000 * 5));
+        if (currentLocation == null){
+            currentLocation = bestLastKnownLocation(500.0f, (60000 * 5));
         }
 
-        if (mCurrentLocation != null){
-            Log.i("LOG", "latitude: " + mCurrentLocation.getLatitude());
-            Log.i("LOG", "longitude: " + mCurrentLocation.getLongitude());
+        if (currentLocation != null){
+            Log.i("LOG", "latitude: " + currentLocation.getLatitude());
+            Log.i("LOG", "longitude: " + currentLocation.getLongitude());
             updateMapMarkers();
         }
     }
@@ -161,7 +161,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 Log.d(TAG, e.getMessage());
             }
 
-            initCamera( mCurrentLocation );
+            if (currentLocation != null) initCamera(currentLocation);
         }
     }
 

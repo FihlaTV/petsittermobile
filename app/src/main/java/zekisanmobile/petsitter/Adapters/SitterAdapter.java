@@ -77,6 +77,6 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder
 
     public void updateSittersList(List<Sitter> sitters){
         this.sitters = sitters;
-        notifyDataSetChanged();
+        if(this.sitters != null) notifyDataSetChanged();
     }
 }
