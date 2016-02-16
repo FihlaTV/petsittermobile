@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
@@ -22,13 +23,18 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
 
     private RecyclerView mRecyclerView;
     private SitterAdapter adapter;
-    private List<Sitter> mList;
+    private ArrayList<Sitter> sitters;
 
     public SitterFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            sitters = (ArrayList<Sitter>)savedInstanceState.getSerializable("sittersList");
+        }else {
+            sitters = ((OwnerHomeActivity) getActivity()).getSitterList();
+        }
     }
 
     @Override
@@ -41,11 +47,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        //if (mList != null) {
-        mList = ((OwnerHomeActivity) getActivity()).getSitterList();
-        //} else {
-        //}
-        adapter = new SitterAdapter(mList);
+        adapter = new SitterAdapter(sitters);
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 
@@ -53,14 +55,19 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     }
 
     @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putSerializable("sittersList", sitters);
+    }
+
+    @Override
     public void onClickListener(View view, int position) {
         Intent intent = new Intent(getActivity(), SitterProfileActivity.class);
-        intent.putExtra("SITTER", mList.get(position));
+        intent.putExtra("SITTER", sitters.get(position));
         startActivity(intent);
     }
 
-    public void updateSittersList(List<Sitter> mList){
-        this.mList = mList;
+    public void updateSittersList(ArrayList<Sitter> mList){
+        this.sitters = mList;
         adapter.updateSittersList(mList);
     }
 }

@@ -174,7 +174,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         return new ArrayList<Sitter>();
     }
 
-    public void updateSitterList(List<Sitter> sitters){
+    public void updateSitterList(ArrayList<Sitter> sitters){
         sitterFragment.updateSittersList(sitters);
         mapsFragment.setSitters(sitters);
         mapsFragment.clearAllMarkers();
