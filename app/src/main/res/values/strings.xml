@@ -27,5 +27,11 @@
     <string-array name="search_options">
         <item>Cão</item>
         <item>Gato</item>
+        <item>Hamster</item>
+        <item>Tartaruga</item>
+        <item>Pássaro</item>
+        <item>Peixe</item>
+        <item>Coelho</item>
+        <item>Porquinho da Índia</item>
     </string-array>
 </resources>
