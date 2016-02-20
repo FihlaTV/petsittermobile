@@ -32,7 +32,8 @@
         <activity
             android:name=".SitterProfileActivity"
             android:label="@string/title_activity_sitter_profile"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".OwnerHomeActivity">
         </activity>
 
         <meta-data

@@ -43,19 +43,7 @@ public class SitterProfileActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar_sitter_profile);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        // NAVIGATION DRAWER
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_sitter_profile);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        );
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_sitter_profile);
-        navigationView.setNavigationItemSelectedListener(this);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         prepareSitterData();
     }

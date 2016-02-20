@@ -53,7 +53,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setRetainInstance(true);
+        //setRetainInstance(true);
         super.onCreate(savedInstanceState);
     }
 
