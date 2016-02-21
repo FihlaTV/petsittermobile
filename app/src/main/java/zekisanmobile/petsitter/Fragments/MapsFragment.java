@@ -1,25 +1,31 @@
 package zekisanmobile.petsitter.Fragments;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentSender;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,30 +37,28 @@ import zekisanmobile.petsitter.R;
 
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMarkerClickListener,
         LocationListener {
 
-    private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
-    private static final String TAG = MapsFragment.class.getSimpleName();
-
-    private GoogleApiClient googleApiClient;
-    private Location currentLocation;
-    private LocationManager locationManager;
-
-    // The Map object
+    private SupportMapFragment mapFragment;
     private GoogleMap map;
+    private GoogleApiClient googleApiClient;
+    private LocationRequest locationRequest;
+    private long UPDATE_INTERVAL = 60000; // 60 seconds
+    private long FASTEST_INTERVAL = 5000; // 5 seconds
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
+    private static final String TAG = MapsFragment.class.getSimpleName();
     private static View rootView;
-
     private List<Sitter> sitters;
 
     public MapsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //setRetainInstance(true);
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -71,11 +75,15 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 {
                     rootView = inflater.inflate(R.layout.fragment_maps, container, false);
                 }
-
-                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-                callConnection();
-
+                mapFragment = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map));
+                if (mapFragment != null) {
+                    mapFragment.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            loadMap(googleMap);
+                        }
+                    });
+                }
             } catch (Exception e)
             {
                 e.printStackTrace();
@@ -83,6 +91,29 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         }
 
         return rootView;
+    }
+
+    protected void loadMap(GoogleMap googleMap){
+        map = googleMap;
+        if(map != null){
+            try {
+                map.setMyLocationEnabled(true);
+
+                googleApiClient = new GoogleApiClient.Builder(getActivity())
+                        .addApi(LocationServices.API)
+                        .addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this).build();
+                connectClient();
+            }catch (SecurityException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    protected void connectClient(){
+        if(isGooglePlayServicesAvailable() && googleApiClient != null){
+            googleApiClient.connect();
+        }
     }
 
     public void setSitters(List<Sitter> sitters) {
@@ -98,57 +129,83 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void initListeners() {
-        map.setOnMarkerClickListener(MapsFragment.this);
-        map.setOnInfoWindowClickListener(MapsFragment.this);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        if (googleApiClient != null) {
-            googleApiClient.connect();
-        }
+        connectClient();
     }
 
     @Override
     public void onStop() {
-        super.onStop();
         if( googleApiClient != null && googleApiClient.isConnected() ) {
             googleApiClient.disconnect();
         }
+        super.onStop();
     }
 
-    private synchronized void callConnection(){
-        googleApiClient = new GoogleApiClient.Builder(getActivity())
-                .addOnConnectionFailedListener(this)
-                .addConnectionCallbacks(this)
-                .addApi(LocationServices.API)
-                .build();
-        googleApiClient.connect();
+    @Override
+    public void onDestroy() {
+
+        if (mapFragment.isResumed()){
+            getFragmentManager().beginTransaction().remove(mapFragment).commit();
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        switch (requestCode){
+            case CONNECTION_FAILURE_RESOLUTION_REQUEST:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        googleApiClient.connect();
+                        break;
+                }
+        }
+    }
+
+    private boolean isGooglePlayServicesAvailable(){
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity());
+        if(ConnectionResult.SUCCESS == resultCode){
+            Log.d("Location Updates", "Google Play services is available.");
+            return true;
+        }
+
+        return false;
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        currentLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-
-        if (currentLocation == null){
-            currentLocation = bestLastKnownLocation(500.0f, (60000 * 5));
+        try {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            if (location != null) {
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+                startLocationUpdates();
+                updateMapMarkers();
+                map.animateCamera(cameraUpdate);
+            }
+        }catch (SecurityException e){
+            e.printStackTrace();
         }
+    }
 
-        if (currentLocation != null){
-            Log.i("LOG", "latitude: " + currentLocation.getLatitude());
-            Log.i("LOG", "longitude: " + currentLocation.getLongitude());
-            updateMapMarkers();
+    protected void startLocationUpdates() {
+        try{
+        locationRequest = new LocationRequest();
+        locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        locationRequest.setInterval(UPDATE_INTERVAL);
+        locationRequest.setFastestInterval(FASTEST_INTERVAL);
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient,
+                locationRequest, this);
+        }catch (SecurityException e){
+            e.printStackTrace();
         }
     }
 
     public void updateMapMarkers() {
-        // Get the Map Object
-        map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
-
         if (map != null){
-            initListeners();
             try{
                 for(int i = 0; i < sitters.size(); i++) {
                     map.addMarker(new MarkerOptions()
@@ -161,7 +218,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 Log.d(TAG, e.getMessage());
             }
 
-            if (currentLocation != null) initCamera(currentLocation);
+            //if (currentLocation != null) initCamera(currentLocation);
         }
     }
 
@@ -169,76 +226,28 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     public void onConnectionSuspended(int i) {}
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {}
-
-    @Override
-    public void onInfoWindowClick(Marker marker) {}
-
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        return false;
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(getActivity(),
+                        CONNECTION_FAILURE_RESOLUTION_REQUEST);
+				/*
+				 * Thrown if Google Play services canceled the original
+				 * PendingIntent
+				 */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void onLocationChanged(Location location) {}
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-    @Override
-    public void onProviderEnabled(String provider) {}
-
-    @Override
-    public void onProviderDisabled(String provider) {}
-
-    private void initCamera(Location location) {
-        CameraPosition position = CameraPosition.builder()
-                .target( new LatLng( location.getLatitude(),
-                        location.getLongitude() ) )
-                .zoom( 13f )
-                .bearing(0.0f)
-                .tilt(0.0f)
-                .build();
-
-        map.animateCamera(CameraUpdateFactory
-                .newCameraPosition(position), null);
-
-        map.getUiSettings().setZoomControlsEnabled( true );
-    }
-
-    private Location bestLastKnownLocation(float minAccuracy, long maxAge) {
-
-        Location bestResult = null;
-        float bestAccuracy = Float.MAX_VALUE;
-        long bestAge = Long.MIN_VALUE;
-
-        List<String> matchingProviders = locationManager.getAllProviders();
-
-        for (String provider : matchingProviders) {
-
-            Location location = locationManager.getLastKnownLocation(provider);
-
-            if (location != null) {
-
-                float accuracy = location.getAccuracy();
-                long time = location.getTime();
-
-                if (accuracy < bestAccuracy) {
-
-                    bestResult = location;
-                    bestAccuracy = accuracy;
-                    bestAge = time;
-
-                }
-            }
-        }
-
-        // Return best reading or null
-        if (bestAccuracy > minAccuracy
-                || (System.currentTimeMillis() - bestAge) > maxAge) {
-            return null;
-        } else {
-            return bestResult;
-        }
+    public boolean onMarkerClick(Marker marker) {
+        return false;
     }
 }
