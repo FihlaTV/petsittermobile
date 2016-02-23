@@ -3,6 +3,7 @@ package zekisanmobile.petsitter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +48,16 @@ public class SitterProfileActivity extends AppCompatActivity
         getSupportActionBar().setHomeButtonEnabled(true);
 
         prepareSitterData();
+
+        FloatingActionButton fab_new_contact = (FloatingActionButton) findViewById(R.id.fab_new_contact);
+        fab_new_contact.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(SitterProfileActivity.this, NewContactActivity.class);
+                intent.putExtra("sitter", sitter);
+                startActivity(intent);
+            }
+        });
     }
 
     private void prepareSitterData() {
