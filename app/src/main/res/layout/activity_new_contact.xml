@@ -28,4 +28,10 @@
         android:gravity="center"
         android:textSize="16sp"/>
 
+    <Button
+        android:id="@+id/bt_datetime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agendar"/>
+
 </LinearLayout>
