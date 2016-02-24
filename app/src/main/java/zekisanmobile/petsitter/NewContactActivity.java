@@ -50,7 +50,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         toolbar = (Toolbar) findViewById(R.id.toolbar_new_contact);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_18dp);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
     }
 
     private void configureViews() {
