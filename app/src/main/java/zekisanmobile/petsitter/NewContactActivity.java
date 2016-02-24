@@ -61,7 +61,6 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         tv_name.setText(sitter.getName());
 
         tv_datetime_start = (TextView) findViewById(R.id.tv_datetime_start);
-        tv_datetime_start.setText("Data/Hora Início");
         tv_datetime_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
