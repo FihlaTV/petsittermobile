@@ -34,6 +34,21 @@ public class SitterProfileActivity extends AppCompatActivity
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("SITTER");
 
+        configureToolbar();
+        prepareSitterData();
+
+        FloatingActionButton fab_new_contact = (FloatingActionButton) findViewById(R.id.fab_new_contact);
+        fab_new_contact.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(SitterProfileActivity.this, NewContactActivity.class);
+                intent.putExtra("sitter", sitter);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void configureToolbar() {
         // collapsingToolbarLayout
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(sitter.getName());
@@ -46,18 +61,6 @@ public class SitterProfileActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        prepareSitterData();
-
-        FloatingActionButton fab_new_contact = (FloatingActionButton) findViewById(R.id.fab_new_contact);
-        fab_new_contact.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(SitterProfileActivity.this, NewContactActivity.class);
-                intent.putExtra("sitter", sitter);
-                startActivity(intent);
-            }
-        });
     }
 
     private void prepareSitterData() {

@@ -45,7 +45,8 @@
 
         <activity
             android:name=".NewContactActivity"
-            android:label="Novo Contato"></activity>
+            android:label="Novo Contato"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

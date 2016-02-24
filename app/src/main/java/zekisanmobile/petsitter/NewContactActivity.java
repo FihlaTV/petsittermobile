@@ -2,8 +2,10 @@ package zekisanmobile.petsitter;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,10 +25,13 @@ import zekisanmobile.petsitter.Model.Sitter;
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener{
 
+    private Toolbar toolbar;
     private Sitter sitter;
-    private TextView tv_datetime;
+    private TextView tv_datetime_start;
+    private TextView tv_datetime_final;
     private Button bt_datetime;
     private int year, month, day, hour, minute;
+    private boolean datetime_start_setted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +41,16 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("sitter");
 
+        configureToolbar();
         configureViews();
+    }
+
+    private void configureToolbar() {
+        // TOOLBAR
+        toolbar = (Toolbar) findViewById(R.id.toolbar_new_contact);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_18dp);
     }
 
     private void configureViews() {
@@ -46,12 +60,28 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         TextView tv_name = (TextView) findViewById(R.id.tv_name);
         tv_name.setText(sitter.getName());
 
-        tv_datetime = (TextView) findViewById(R.id.tv_datetime);
+        tv_datetime_start = (TextView) findViewById(R.id.tv_datetime_start);
+        tv_datetime_start.setText("Data/Hora Início");
+        tv_datetime_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scheduleJob(view);
+            }
+        });
+
+        tv_datetime_final = (TextView) findViewById(R.id.tv_datetime_final);
+        tv_datetime_final.setText("Data/Hora Fim");
+        tv_datetime_final.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                scheduleJob(view);
+            }
+        });
+
         bt_datetime = (Button) findViewById(R.id.bt_datetime);
         bt_datetime.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                scheduleJob(view);
             }
         });
     }
@@ -112,7 +142,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     @Override
     public void onCancel(DialogInterface dialog) {
         year = month = day = hour = minute = 0;
-        tv_datetime.setText("");
+        tv_datetime_start.setText("");
     }
 
     @Override
@@ -136,19 +166,22 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-        if(hourOfDay < 9 || hourOfDay > 18){
-            onDateSet(null, this.year, this.month, this.day);
-            Toast.makeText(this, "Somente entre 9h e 18h", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         this.hour = hourOfDay;
         this.minute = minute;
 
-        tv_datetime.setText((day < 10 ? "0"+day : day)+"/"+
-                ((month + 1) < 10 ? "0"+(month + 1) : (month + 1))+"/"+
-                year +"às "+
-                (hour < 10 ? "0"+hour : hour)+"h"+
-                (minute < 10 ? "0"+minute : minute));
+        if (!datetime_start_setted) {
+            tv_datetime_start.setText(setDateTimeOnTextView());
+        }else{
+            tv_datetime_final.setText(setDateTimeOnTextView());
+        }
+        datetime_start_setted = true;
+    }
+
+    private String setDateTimeOnTextView() {
+        return (day < 10 ? "0" + day : day) + "/" +
+                ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "/" +
+                year + " às " +
+                (hour < 10 ? "0" + hour : hour) + "h" +
+                (this.minute < 10 ? "0" + this.minute : this.minute);
     }
 }
