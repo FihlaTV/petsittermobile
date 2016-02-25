@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +28,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
     private Toolbar toolbar;
     private Sitter sitter;
-    private TextView tv_datetime_start;
-    private TextView tv_datetime_final;
+    private EditText tv_datetime_start;
+    private EditText tv_datetime_final;
     private Button bt_datetime;
     private int year, month, day, hour, minute;
     private boolean datetime_start_setted;
@@ -54,13 +55,10 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void configureViews() {
-        ImageView iv_sitter = (ImageView) findViewById(R.id.iv_sitter);
-        iv_sitter.setImageResource(sitter.getPhoto());
-
         TextView tv_name = (TextView) findViewById(R.id.tv_name);
         tv_name.setText(sitter.getName());
 
-        tv_datetime_start = (TextView) findViewById(R.id.tv_datetime_start);
+        tv_datetime_start = (EditText) findViewById(R.id.tv_datetime_start);
         tv_datetime_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,8 +66,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             }
         });
 
-        tv_datetime_final = (TextView) findViewById(R.id.tv_datetime_final);
-        tv_datetime_final.setText("Data/Hora Fim");
+        tv_datetime_final = (EditText) findViewById(R.id.tv_datetime_final);
         tv_datetime_final.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

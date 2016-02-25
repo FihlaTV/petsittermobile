@@ -28,7 +28,7 @@ public class Test1 {
 
     @Test
     public void validateTextViewContent(){
-        Button loginDono = (Button) activity.findViewById(R.id.loginDono);
+        Button loginDono = (Button) activity.findViewById(R.id.loginOwner);
         assertNotNull("Button could not be found", loginDono);
         assertTrue("Button contains correct text",
                 "LOGIN DONO PET".equalsIgnoreCase(loginDono.getText().toString()));
