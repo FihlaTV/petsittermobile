@@ -66,8 +66,6 @@ public class OwnerHomeActivity extends AppCompatActivity
 
         loggedUser = getLoggedUser();
 
-        new JSONResponseHandler().execute(API_SEARCH_URL);
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(loggedUser.getName());
         setSupportActionBar(toolbar);
@@ -103,6 +101,8 @@ public class OwnerHomeActivity extends AppCompatActivity
         TextView tvUserEmail = (TextView) header.findViewById(R.id.tvUserEmail);
         tvUserEmail.setText(loggedUser.getEmail());
 
+        new JSONResponseHandler().execute(API_SEARCH_URL);
+        if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
     }
 
     private User getLoggedUser() {
@@ -135,6 +135,8 @@ public class OwnerHomeActivity extends AppCompatActivity
         adapter.addFragment(sitterFragment, "PET SITTERS");
         adapter.addFragment(mapsFragment, "MAPA");
         viewPager.setAdapter(adapter);
+
+
     }
 
     @Override
@@ -267,8 +269,14 @@ public class OwnerHomeActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
+            if (sitterFragment.isAdded()) sitterFragment.showProgress(false);
             sitters = returnedSitters;
             updateSitterList(sitters);
+        }
+
+        @Override
+        protected void onCancelled(){
+            sitterFragment.showProgress(false);
         }
     }
 }

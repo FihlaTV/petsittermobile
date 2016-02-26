@@ -1,6 +1,10 @@
 package zekisanmobile.petsitter.Fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +28,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     private RecyclerView mRecyclerView;
     private SitterAdapter adapter;
     private ArrayList<Sitter> sitters;
+    private View progressBar;
 
     public SitterFragment() {}
 
@@ -51,6 +56,8 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 
+        progressBar = view.findViewById(R.id.load_progress);
+
         return view;
     }
 
@@ -69,5 +76,25 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     public void updateSittersList(ArrayList<Sitter> mList){
         this.sitters = mList;
         adapter.updateSittersList(mList);
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public void showProgress(final boolean show){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = 200;
+
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+            progressBar.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 }
