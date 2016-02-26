@@ -17,23 +17,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:focusableInTouchMode="true">
+            >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Pet Sitter"
-                android:textColor="@color/mdtp_light_gray"
+                android:textColor="@color/colorTitleText"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginTop="6dp"
                 android:textColor="@color/colorPrimarytext"
-                android:textSize="18sp" />
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="14sp"
+                android:text="Período das visitas"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -41,10 +48,10 @@
                 android:layout_marginTop="20dp">
 
                 <EditText
-                    android:id="@+id/tv_datetime_start"
+                    android:id="@+id/tv_date_start"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data/Hora Início"
+                    android:hint="Data Início"
                     android:inputType="datetime"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -57,17 +64,56 @@
                 android:layout_marginTop="20dp">
 
                 <EditText
-                    android:id="@+id/tv_datetime_final"
+                    android:id="@+id/tv_date_final"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data/Hora Fim"
+                    android:hint="Data Fim"
+                    android:inputType="datetime"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="14sp"
+                android:text="Horário das visitas"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/tv_time_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Hora Início"
+                    android:inputType="datetime"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <EditText
+                    android:id="@+id/tv_time_final"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Hora Fim"
                     android:inputType="datetime"
                     android:maxLines="1"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
-                android:id="@+id/bt_datetime"
+                android:id="@+id/bt_send"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="ENVIAR"

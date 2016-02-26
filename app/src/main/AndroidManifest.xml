@@ -46,7 +46,8 @@
         <activity
             android:name=".NewContactActivity"
             android:label="Novo Contato"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

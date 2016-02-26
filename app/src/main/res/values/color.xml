@@ -5,5 +5,6 @@
     <color name="colorPrimaryLight">#B2EBF2</color>
     <color name="colorAccent">#4CAF50</color>
     <color name="colorPrimarytext">#212121</color>
+    <color name="colorTitleText">#666565</color>
 
 </resources>
