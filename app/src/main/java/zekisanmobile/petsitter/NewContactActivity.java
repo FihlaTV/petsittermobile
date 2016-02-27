@@ -14,12 +14,18 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Handlers.ContactHandler;
 import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.Util.LoggedUser;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
@@ -35,6 +41,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     private boolean date_start_setted;
     private boolean time_start_setted;
     private Calendar tDefault;
+    private User loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("sitter");
+
+        loggedUser = LoggedUser.getLoggedUser();
 
         configureToolbar();
         configureViews();
@@ -59,22 +68,6 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     private void configureViews() {
         TextView tv_name = (TextView) findViewById(R.id.tv_name);
         tv_name.setText(sitter.getName());
-
-        tv_date_start = (EditText) findViewById(R.id.tv_date_start);
-        tv_date_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scheduleJobDate(view);
-            }
-        });
-
-        tv_date_final = (EditText) findViewById(R.id.tv_date_final);
-        tv_date_final.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scheduleJobDate(view);
-            }
-        });
 
         tv_date_start = (EditText) findViewById(R.id.tv_date_start);
         tv_date_start.setOnClickListener(new View.OnClickListener() {
@@ -118,9 +111,18 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact() {
-        new ContactHandler().execute();
-        Intent intent = new Intent(this, OwnerHomeActivity.class);
-        startActivity(intent);
+        JSONObject json = new JSONObject();
+
+        try {
+            json.put("sitter_id", sitter.getApiId());
+            String[] params = {json.toString(), String.valueOf(loggedUser.getOwner().getApiId())};
+
+            new ContactHandler().execute(params);
+            Intent intent = new Intent(this, OwnerHomeActivity.class);
+            startActivity(intent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void scheduleJobDate(View view) {

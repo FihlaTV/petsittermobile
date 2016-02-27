@@ -50,7 +50,8 @@ public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
 
                 int idPhoto = context.getResources().getIdentifier(jsonObject.getString("photo"), "drawable", context.getPackageName());
                 int idBg = context.getResources().getIdentifier(jsonObject.getString("header_background"), "drawable", context.getPackageName());
-                sitters.add(new Sitter(jsonObject.getString("name"),
+                sitters.add(new Sitter(jsonObject.getLong("id"),
+                        jsonObject.getString("name"),
                         jsonObject.getString("address"),
                         idPhoto,
                         idBg,

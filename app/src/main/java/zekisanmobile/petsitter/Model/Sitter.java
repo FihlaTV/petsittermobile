@@ -25,8 +25,9 @@ public class Sitter extends RealmObject implements Serializable{
 
     public Sitter(){}
 
-    public Sitter(String name, String address, int photo, int profile_background, float latitude, float longitude,
+    public Sitter(long apiId, String name, String address, int photo, int profile_background, float latitude, float longitude,
                   String district, double value_hour, double value_shift, double value_day, String about_me){
+        this.apiId = apiId;
         this.name = name;
         this.address = address;
         this.photo = photo;

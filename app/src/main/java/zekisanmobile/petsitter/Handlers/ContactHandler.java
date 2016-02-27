@@ -8,19 +8,16 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import zekisanmobile.petsitter.Model.Sitter;
-
-public class ContactHandler extends AsyncTask<String, Void, ArrayList<Sitter>>{
+public class ContactHandler extends AsyncTask<String, Void, Void>{
 
     private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     private final static String BASE_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/pet_owners/";
-    private final static String FINAL_SEARCH_URL = "/search_sitters";
+    private final static String FINAL_SEARCH_URL = "/request_contact";
     private OkHttpClient client = new OkHttpClient();
 
     @Override
-    protected ArrayList<Sitter> doInBackground(String... params) {
+    protected Void doInBackground(String... params) {
 
         RequestBody body = RequestBody.create(JSON, params[0]);
         Request request = new Request.Builder()

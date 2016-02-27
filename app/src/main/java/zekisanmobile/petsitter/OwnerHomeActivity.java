@@ -40,6 +40,7 @@ import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.Util.LoggedUser;
 
 public class OwnerHomeActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,7 +56,6 @@ public class OwnerHomeActivity extends AppCompatActivity
     private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
 
     private Realm realm;
-    private RealmResults<User> users;
 
     private User loggedUser;
 
@@ -64,19 +64,10 @@ public class OwnerHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
 
-        loggedUser = getLoggedUser();
+        loggedUser = LoggedUser.getLoggedUser();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(loggedUser.getName());
-        setSupportActionBar(toolbar);
-
-        // TABS
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(1).select();
+        configureToolbar();
+        configureTabLayout();
 
         // NAVIGATION DRAWER
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -105,26 +96,20 @@ public class OwnerHomeActivity extends AppCompatActivity
         if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
     }
 
-    private User getLoggedUser() {
-        realm = Realm.getDefaultInstance();
-        Log.d(OwnerHomeActivity.class.getSimpleName(), "Versão: " + realm.getVersion());
-        RealmResults<User> allUsers = realm.where(User.class).findAll();
-        User user;
-        if (allUsers.size() > 0) {
-            user = realm.where(User.class).equalTo("logged", true).findAll().get(0);
-        }
-        else{
-            realm.beginTransaction();
-            user = realm.createObject(User.class);
-            user.setId(0);
-            user.setName("Ezequiel Guilherme");
-            user.setEmail("zeki-san@hotmail.com");
-            user.setPhoto("me");
-            user.setLogged(true);
-            user.setType(0);
-            realm.commitTransaction();
-        }
-        return user;
+    private void configureTabLayout() {
+        // TABS
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.getTabAt(1).select();
+    }
+
+    private void configureToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(loggedUser.getName());
+        setSupportActionBar(toolbar);
     }
 
     private void setupViewPager(ViewPager viewPager){
@@ -135,8 +120,6 @@ public class OwnerHomeActivity extends AppCompatActivity
         adapter.addFragment(sitterFragment, "PET SITTERS");
         adapter.addFragment(mapsFragment, "MAPA");
         viewPager.setAdapter(adapter);
-
-
     }
 
     @Override
@@ -243,7 +226,8 @@ public class OwnerHomeActivity extends AppCompatActivity
 
                     int idPhoto = context.getResources().getIdentifier(jsonObject.getString("photo"), "drawable", context.getPackageName());
                     int idBg = context.getResources().getIdentifier(jsonObject.getString("header_background"), "drawable", context.getPackageName());
-                    returnedSitters.add(new Sitter(jsonObject.getString("name"),
+                    returnedSitters.add(new Sitter(jsonObject.getLong("id"),
+                            jsonObject.getString("name"),
                             jsonObject.getString("address"),
                             idPhoto,
                             idBg,
