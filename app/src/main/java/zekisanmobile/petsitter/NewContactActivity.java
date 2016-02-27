@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import zekisanmobile.petsitter.Handlers.ContactHandler;
 import zekisanmobile.petsitter.Model.Sitter;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
@@ -117,6 +118,9 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact() {
+        new ContactHandler().execute();
+        Intent intent = new Intent(this, OwnerHomeActivity.class);
+        startActivity(intent);
     }
 
     private void scheduleJobDate(View view) {

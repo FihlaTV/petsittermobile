@@ -2,7 +2,6 @@ package zekisanmobile.petsitter.Handlers;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -16,7 +15,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.OwnerHomeActivity;
