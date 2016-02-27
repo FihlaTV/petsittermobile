@@ -111,8 +111,12 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         bt_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                requestContact();
             }
         });
+    }
+
+    private void requestContact() {
     }
 
     private void scheduleJobDate(View view) {

@@ -12,6 +12,8 @@ public class User extends RealmObject {
     private String photo;
     private boolean logged;
     private int type; // 0 - Owner, 1 - PetSitter
+    private Owner owner;
+    private Sitter sitter;
 
     public long getId() {
         return id;
@@ -59,5 +61,21 @@ public class User extends RealmObject {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
     }
 }

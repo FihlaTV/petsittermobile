@@ -14,7 +14,7 @@ public class CustomApplication extends Application {
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .name("realm-petsitter.realm")
-                .schemaVersion(10)
+                .schemaVersion(11)
                 .migration(new MigrationData())
                 .deleteRealmIfMigrationNeeded()
                 .build();

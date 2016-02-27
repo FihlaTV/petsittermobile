@@ -34,7 +34,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:8.4.0'
     compile 'com.squareup.okhttp:okhttp:2.7.0'
 
-    compile 'io.realm:realm-android:0.87.3'
+    compile 'io.realm:realm-android:0.87.5'
 
     compile 'com.wdullaer:materialdatetimepicker:2.2.0'
 }
