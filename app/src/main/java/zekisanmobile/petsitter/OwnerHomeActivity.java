@@ -34,13 +34,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
+import zekisanmobile.petsitter.DAO.SitterDAO;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
-import zekisanmobile.petsitter.Util.LoggedUser;
+import zekisanmobile.petsitter.DAO.UserDAO;
 
 public class OwnerHomeActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
@@ -55,8 +55,6 @@ public class OwnerHomeActivity extends AppCompatActivity
     private ArrayList<Sitter> sitters;
     private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
 
-    private Realm realm;
-
     private User loggedUser;
 
     @Override
@@ -64,7 +62,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
 
-        loggedUser = LoggedUser.getLoggedUser();
+        loggedUser = UserDAO.getLoggedUser();
 
         configureToolbar();
         configureTabLayout();

@@ -14,18 +14,23 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.realm.Realm;
+import zekisanmobile.petsitter.DAO.SitterDAO;
 import zekisanmobile.petsitter.Handlers.ContactHandler;
+import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
-import zekisanmobile.petsitter.Util.LoggedUser;
+import zekisanmobile.petsitter.DAO.ContactDAO;
+import zekisanmobile.petsitter.DAO.UserDAO;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
@@ -51,7 +56,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("sitter");
 
-        loggedUser = LoggedUser.getLoggedUser();
+        loggedUser = UserDAO.getLoggedUser();
 
         configureToolbar();
         configureViews();
@@ -111,10 +116,14 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact() {
+        createContact();
         JSONObject json = new JSONObject();
-
         try {
             json.put("sitter_id", sitter.getApiId());
+            json.put("date_start", tv_date_start.getText());
+            json.put("date_final", tv_date_final.getText());
+            json.put("time_start", tv_time_start.getText());
+            json.put("time_final", tv_time_final.getText());
             String[] params = {json.toString(), String.valueOf(loggedUser.getOwner().getApiId())};
 
             new ContactHandler().execute(params);
@@ -123,6 +132,30 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private Contact createContact() {
+        Sitter persitedSitter = SitterDAO.insertOrUpdateSitter(sitter.getApiId(), sitter.getName(),
+                sitter.getAddress(), sitter.getPhoto(),
+                sitter.getProfile_background(), sitter.getLatitude(), sitter.getLongitude(), sitter.getDistrict(),
+                sitter.getValue_hour(), sitter.getValue_shift(), sitter.getValue_day(), sitter.getAbout_me());
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        Contact contact = realm.createObject(Contact.class);
+        contact.setId(ContactDAO.getAllContacts().size() + 1);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            contact.setDate_start(formatter.parse(tv_date_start.getText().toString()));
+            contact.setDate_final(formatter.parse(tv_date_final.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        contact.setTime_start(tv_time_start.getText().toString());
+        contact.setTime_final(tv_time_final.getText().toString());
+        contact.setOwner(loggedUser.getOwner());
+        contact.setSitter(persitedSitter);
+        realm.commitTransaction();
+        return contact;
     }
 
     private void scheduleJobDate(View view) {

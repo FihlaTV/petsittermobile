@@ -1,5 +1,7 @@
 package zekisanmobile.petsitter.Model;
 
+import java.util.Date;
+
 import io.realm.DynamicRealm;
 import io.realm.FieldAttribute;
 import io.realm.RealmMigration;
@@ -41,6 +43,19 @@ public class MigrationData implements RealmMigration {
                     .addField("about_me", String.class);
 
             schema.get("User")
+                    .addRealmObjectField("sitter", sitterSchema)
+                    .addRealmObjectField("owner", ownerSchema);
+        }
+
+        if (oldVersion == 11) {
+            RealmObjectSchema sitterSchema = schema.get("Sitter");
+            RealmObjectSchema ownerSchema = schema.get("Owner");
+            schema.create("Contact")
+                    .addField("id", Long.class, FieldAttribute.PRIMARY_KEY)
+                    .addField("date_start", Date.class)
+                    .addField("date_final", Date.class)
+                    .addField("time_start", String.class)
+                    .addField("time_final", String.class)
                     .addRealmObjectField("sitter", sitterSchema)
                     .addRealmObjectField("owner", ownerSchema);
         }
