@@ -36,18 +36,17 @@
         <activity
             android:name=".OwnerHomeActivity"
             android:label="@string/title_activity_dono_home"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SitterProfileActivity"
             android:label="@string/title_activity_sitter_profile"
             android:parentActivityName=".OwnerHomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NewContactActivity"
             android:label="Novo Contato"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -56,6 +55,7 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBBm-hbxgSk2bjQEXu9xIGPCUaL_L2dojk" />
 
+        <activity android:name=".SitterHomeActivity"></activity>
     </application>
 
 </manifest>

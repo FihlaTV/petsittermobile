@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
         loginPetsitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, SitterHomeActivity.class);
+                startActivity(intent);
             }
         });
     }
