@@ -9,10 +9,10 @@ import zekisanmobile.petsitter.Model.User;
 
 public class UserDAO {
 
-    public static User getLoggedUser(){
+    public static User getLoggedUser(int userType){
         Realm realm = Realm.getDefaultInstance();
         Log.d(UserDAO.class.getSimpleName(), "Versão: " + realm.getVersion());
-        RealmResults<User> allUsers = realm.where(User.class).findAll();
+        /*RealmResults<User> allUsers = realm.where(User.class).findAll();
         RealmResults<Owner> allOwners = realm.where(Owner.class).findAll();
         User user;
 
@@ -42,9 +42,13 @@ public class UserDAO {
             owner.setNome("Ezequiel Guilherme");
             user.setOwner(owner);
             realm.commitTransaction();
-        }
+        }*/
+
+        User user = realm.where(User.class)
+                .equalTo("logged", true)
+                .equalTo("type", userType)
+                .findFirst();
 
         return user;
     }
-
 }

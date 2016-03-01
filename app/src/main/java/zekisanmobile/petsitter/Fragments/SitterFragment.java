@@ -52,7 +52,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
 
-        adapter = new SitterAdapter(sitters);
+        adapter = new SitterAdapter(sitters, getContext());
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 

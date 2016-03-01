@@ -18,8 +18,10 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder
 
     private List<Sitter> sitters;
     private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
+    private Context parentContext;
 
-    public SitterAdapter(List<Sitter> l){
+    public SitterAdapter(List<Sitter> l, Context parentContext){
+        this.parentContext = parentContext;
         sitters = l;
     }
 
@@ -61,7 +63,8 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder
     public void onBindViewHolder(SitterAdapter.ViewHolder holder, int position) {
         Sitter sitter = sitters.get(position);
 
-        holder.iv_sitter.setImageResource(sitter.getPhoto());
+        int imageId = parentContext.getResources().getIdentifier(sitter.getProfile_background(), "drawable", parentContext.getPackageName());
+        holder.iv_sitter.setImageResource(imageId);
         holder.tv_name.setText(sitter.getName());
         holder.tv_descricao.setText("Cuidador de animais");
     }

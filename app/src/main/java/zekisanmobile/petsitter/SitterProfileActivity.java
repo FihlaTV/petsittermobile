@@ -54,7 +54,8 @@ public class SitterProfileActivity extends AppCompatActivity
         collapsingToolbarLayout.setTitle(sitter.getName());
 
         ImageView image_sitter_profile = (ImageView) findViewById(R.id.image_sitter_profile);
-        image_sitter_profile.setImageResource(sitter.getProfile_background());
+        int imageId = getResources().getIdentifier(sitter.getProfile_background(), "drawable", getPackageName());
+        image_sitter_profile.setImageResource(imageId);
 
         // TOOLBAR
         toolbar = (Toolbar) findViewById(R.id.toolbar_sitter_profile);

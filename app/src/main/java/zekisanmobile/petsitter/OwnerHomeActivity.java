@@ -62,7 +62,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
 
-        loggedUser = UserDAO.getLoggedUser();
+        loggedUser = UserDAO.getLoggedUser(0);
 
         configureToolbar();
         configureTabLayout();
@@ -222,13 +222,11 @@ public class OwnerHomeActivity extends AppCompatActivity
 
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                    int idPhoto = context.getResources().getIdentifier(jsonObject.getString("photo"), "drawable", context.getPackageName());
-                    int idBg = context.getResources().getIdentifier(jsonObject.getString("header_background"), "drawable", context.getPackageName());
                     returnedSitters.add(new Sitter(jsonObject.getLong("id"),
                             jsonObject.getString("name"),
                             jsonObject.getString("address"),
-                            idPhoto,
-                            idBg,
+                            jsonObject.getString("photo"),
+                            jsonObject.getString("header_background"),
                             Float.parseFloat(jsonObject.getString("latitude")),
                             Float.parseFloat(jsonObject.getString("longitude")),
                             jsonObject.getString("district"),

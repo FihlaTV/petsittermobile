@@ -14,14 +14,14 @@ public class CustomApplication extends Application {
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .name("realm-petsitter.realm")
-                .schemaVersion(12)
+                .schemaVersion(13)
                 .migration(new MigrationData())
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
         Realm.setDefaultConfiguration(realmConfiguration);
 
-
+        //Realm.deleteRealm(realmConfiguration);
     }
 
 }

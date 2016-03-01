@@ -16,8 +16,8 @@ public class SitterDAO {
         return realm.where(Sitter.class).equalTo("apiId", apiId).findFirst();
     }
 
-    public static Sitter insertOrUpdateSitter(long apiId, String name, String address, int photo,
-                                              int profile_background, float latitude, float longitude,
+    public static Sitter insertOrUpdateSitter(long apiId, String name, String address, String photo,
+                                              String profile_background, float latitude, float longitude,
                                               String district, double value_hour, double value_shift,
                                               double value_day, String about_me){
         Realm realm = Realm.getDefaultInstance();

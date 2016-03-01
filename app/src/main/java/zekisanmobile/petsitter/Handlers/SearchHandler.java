@@ -48,13 +48,11 @@ public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                int idPhoto = context.getResources().getIdentifier(jsonObject.getString("photo"), "drawable", context.getPackageName());
-                int idBg = context.getResources().getIdentifier(jsonObject.getString("header_background"), "drawable", context.getPackageName());
                 sitters.add(new Sitter(jsonObject.getLong("id"),
                         jsonObject.getString("name"),
                         jsonObject.getString("address"),
-                        idPhoto,
-                        idBg,
+                        jsonObject.getString("photo"),
+                        jsonObject.getString("header_background"),
                         Float.parseFloat(jsonObject.getString("latitude")),
                         Float.parseFloat(jsonObject.getString("longitude")),
                         jsonObject.getString("district"),

@@ -14,8 +14,8 @@ public class Sitter extends RealmObject implements Serializable{
     private String name;
     private String address;
     private String district;
-    private int photo;
-    private int profile_background;
+    private String photo;
+    private String profile_background;
     private float latitude;
     private float longitude;
     private double value_hour;
@@ -25,7 +25,7 @@ public class Sitter extends RealmObject implements Serializable{
 
     public Sitter(){}
 
-    public Sitter(long apiId, String name, String address, int photo, int profile_background, float latitude, float longitude,
+    public Sitter(long apiId, String name, String address, String photo, String profile_background, float latitude, float longitude,
                   String district, double value_hour, double value_shift, double value_day, String about_me){
         this.apiId = apiId;
         this.name = name;
@@ -73,15 +73,15 @@ public class Sitter extends RealmObject implements Serializable{
         return name;
     }
 
-    public int getPhoto() {
+    public String getPhoto() {
         return photo;
     }
 
-    public void setPhoto(int photo) {
+    public void setPhoto(String photo) {
         this.photo = photo;
     }
 
-    public int getProfile_background() {
+    public String getProfile_background() {
         return profile_background;
     }
 
@@ -101,7 +101,7 @@ public class Sitter extends RealmObject implements Serializable{
         this.longitude = longitude;
     }
 
-    public void setProfile_background(int profile_background) {
+    public void setProfile_background(String profile_background) {
         this.profile_background = profile_background;
     }
 

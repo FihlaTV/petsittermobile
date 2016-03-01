@@ -56,7 +56,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("sitter");
 
-        loggedUser = UserDAO.getLoggedUser();
+        loggedUser = UserDAO.getLoggedUser(0);
 
         configureToolbar();
         configureViews();
