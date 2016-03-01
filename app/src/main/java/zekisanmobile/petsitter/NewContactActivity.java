@@ -25,7 +25,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import zekisanmobile.petsitter.DAO.SitterDAO;
-import zekisanmobile.petsitter.Handlers.ContactHandler;
+import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
@@ -126,7 +126,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             json.put("time_final", tv_time_final.getText());
             String[] params = {json.toString(), String.valueOf(loggedUser.getOwner().getApiId())};
 
-            new ContactHandler().execute(params);
+            new SendRequestContactHandler().execute(params);
             Intent intent = new Intent(this, OwnerHomeActivity.class);
             startActivity(intent);
         } catch (JSONException e) {
