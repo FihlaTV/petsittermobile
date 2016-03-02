@@ -20,7 +20,7 @@ public class ContactDAO {
         return realm.where(Contact.class).equalTo("id", id).findFirst();
     }
 
-    public static Contact insertOrUpdateSitter(long id, Date date_start, Date date_final, String time_start,
+    public static Contact insertOrUpdateContact(long id, Date date_start, Date date_final, String time_start,
                                                String time_final, Sitter sitter, Owner owner){
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

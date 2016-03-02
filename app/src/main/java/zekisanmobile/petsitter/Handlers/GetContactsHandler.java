@@ -12,9 +12,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import zekisanmobile.petsitter.DAO.ContactDAO;
+import zekisanmobile.petsitter.DAO.SitterDAO;
+import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Model.Contact;
+import zekisanmobile.petsitter.Model.Owner;
+import zekisanmobile.petsitter.Model.Sitter;
 
 public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contact>>{
 
@@ -43,10 +51,32 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
 
             for(int i = 0; i < jsonArray.length(); i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                JSONObject sitterObject = jsonObject.getJSONObject("sitter");
 
-                // TODO: localizar ou criar o sitter do contact
-                // TODO: localizar ou criar o owner do contact
-                // TODO: localizar ou criar o contact
+                Sitter sitter = SitterDAO.insertOrUpdateSitter(
+                        sitterObject.getLong("id"), sitterObject.getString("name"), sitterObject.getString("address"),
+                        sitterObject.getString("photo"), sitterObject.getString("profile_background"),
+                        Float.parseFloat(sitterObject.getString("latitude")),
+                        Float.parseFloat(sitterObject.getString("longitude")),
+                        sitterObject.getString("district"), Double.valueOf(sitterObject.getString("value_hour")),
+                        Double.valueOf(sitterObject.getString("value_shift")),
+                        Double.valueOf(sitterObject.getString("value_day")), sitterObject.getString("about_me")
+                );
+
+                Owner owner = UserDAO.getLoggedUser(1).getOwner();
+
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                try {
+                    Date date_start = formatter.parse(jsonObject.getString("date_start"));
+                    Date date_final = formatter.parse(jsonObject.getString("date_final"));
+
+                Contact contact = ContactDAO.insertOrUpdateContact(jsonObject.getLong("id"),
+                        date_start, date_final, jsonObject.getString("time_start"),
+                        jsonObject.getString("time_final"), sitter, owner);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }catch (IOException e){
             e.printStackTrace();
