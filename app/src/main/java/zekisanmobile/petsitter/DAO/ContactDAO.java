@@ -47,9 +47,9 @@ public class ContactDAO {
 
     public static ArrayList<Contact> getAllContactsFromSitter(long apiId) {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Contact> contactsFromRealm = realm.where(Contact.class).equalTo("sitter_id", apiId).findAll();
+        RealmResults<Contact> contactsFromRealm = realm.where(Contact.class).equalTo("sitter.apiId", apiId).findAll();
         ArrayList<Contact> contacts = new ArrayList<Contact>();
-        for(int i = 0; i < contacts.size(); i++){
+        for(int i = 0; i < contactsFromRealm.size(); i++){
             contacts.add(contactsFromRealm.get(i));
         }
         return contacts;

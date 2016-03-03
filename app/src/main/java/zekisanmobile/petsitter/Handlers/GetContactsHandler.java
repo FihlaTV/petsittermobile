@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import zekisanmobile.petsitter.DAO.ContactDAO;
+import zekisanmobile.petsitter.DAO.OwnerDAO;
 import zekisanmobile.petsitter.DAO.SitterDAO;
-import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
@@ -64,7 +64,8 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
                         Double.valueOf(sitterObject.getString("value_day")), sitterObject.getString("about_me")
                 );
 
-                Owner owner = UserDAO.getLoggedUser(1).getOwner();
+                JSONObject ownerObject = jsonObject.getJSONObject("pet_owner");
+                Owner owner = OwnerDAO.insertOrUpdateOwner(ownerObject.getLong("id"), ownerObject.getString("name"));
 
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 try {
@@ -92,7 +93,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
 
     @Override
     protected void onPostExecute(ArrayList<Contact> receivedContacts) {
-        if (!receivedContacts.isEmpty()) {
+        if (receivedContacts != null) {
             ((SitterHomeActivity) context).updateAdapter();
         }
     }
