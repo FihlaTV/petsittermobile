@@ -51,6 +51,10 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
     }
 
+    public void updateList(ArrayList<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView iv_contact_owner;

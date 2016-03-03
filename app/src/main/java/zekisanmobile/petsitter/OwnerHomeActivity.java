@@ -217,7 +217,6 @@ public class OwnerHomeActivity extends AppCompatActivity
                 response = client.newCall(request).execute();
                 String jsonData = response.body().string();
                 JSONArray jsonArray = new JSONArray(jsonData);
-                Context context = getApplicationContext();
                 for (int i = 0; i < jsonArray.length(); i++) {
 
                     JSONObject jsonObject = jsonArray.getJSONObject(i);

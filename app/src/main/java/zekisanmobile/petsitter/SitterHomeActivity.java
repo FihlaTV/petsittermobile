@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 import zekisanmobile.petsitter.Adapters.ContactListAdapter;
+import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.DAO.UserDAO;
+import zekisanmobile.petsitter.Handlers.GetContactsHandler;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.User;
@@ -32,10 +34,12 @@ public class SitterHomeActivity extends AppCompatActivity implements RecyclerVie
         setContentView(R.layout.activity_sitter_home);
 
         user = UserDAO.getLoggedUser(1);
-
+        contacts = new ArrayList<Contact>();
         configureToolbar();
         configureAdapter();
         configureRecyclerView();
+        String[] params = {String.valueOf(user.getSitter().getApiId())};
+        new GetContactsHandler(this).execute(String.valueOf(user.getSitter().getApiId()));
     }
 
     private void configureRecyclerView() {
@@ -69,5 +73,11 @@ public class SitterHomeActivity extends AppCompatActivity implements RecyclerVie
     @Override
     public void onClickListener(View view, int position) {
 
+    }
+
+    public void updateAdapter(){
+        this.contacts = ContactDAO.getAllContactsFromSitter(user.getSitter().getApiId());
+        adapter.updateList(contacts);
+        adapter.notifyDataSetChanged();
     }
 }

@@ -23,6 +23,7 @@ import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.SitterHomeActivity;
 
 public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contact>>{
 
@@ -41,7 +42,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
     @Override
     protected ArrayList<Contact> doInBackground(String... params) {
         Request request = new Request.Builder()
-                .url(BASE_SEARCH_URL + params[1] + FINAL_SEARCH_URL)
+                .url(BASE_SEARCH_URL + params[0] + FINAL_SEARCH_URL)
                 .build();
 
         try {
@@ -55,7 +56,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
 
                 Sitter sitter = SitterDAO.insertOrUpdateSitter(
                         sitterObject.getLong("id"), sitterObject.getString("name"), sitterObject.getString("address"),
-                        sitterObject.getString("photo"), sitterObject.getString("profile_background"),
+                        sitterObject.getString("photo"), sitterObject.getString("header_background"),
                         Float.parseFloat(sitterObject.getString("latitude")),
                         Float.parseFloat(sitterObject.getString("longitude")),
                         sitterObject.getString("district"), Double.valueOf(sitterObject.getString("value_hour")),
@@ -70,14 +71,16 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
                     Date date_start = formatter.parse(jsonObject.getString("date_start"));
                     Date date_final = formatter.parse(jsonObject.getString("date_final"));
 
-                Contact contact = ContactDAO.insertOrUpdateContact(jsonObject.getLong("id"),
-                        date_start, date_final, jsonObject.getString("time_start"),
-                        jsonObject.getString("time_final"), sitter, owner);
+                    Contact contact = ContactDAO.insertOrUpdateContact(jsonObject.getLong("id"),
+                            date_start, date_final, jsonObject.getString("time_start"),
+                            jsonObject.getString("time_final"), sitter, owner);
 
+                    returnedContacts.add(contact);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
+            return returnedContacts;
         }catch (IOException e){
             e.printStackTrace();
         } catch (JSONException e) {
@@ -89,6 +92,8 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
 
     @Override
     protected void onPostExecute(ArrayList<Contact> receivedContacts) {
-        // TODO: passar os contacts para a Activity
+        if (!receivedContacts.isEmpty()) {
+            ((SitterHomeActivity) context).updateAdapter();
+        }
     }
 }
