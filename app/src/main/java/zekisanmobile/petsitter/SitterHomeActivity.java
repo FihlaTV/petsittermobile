@@ -38,7 +38,6 @@ public class SitterHomeActivity extends AppCompatActivity implements RecyclerVie
         configureToolbar();
         configureAdapter();
         configureRecyclerView();
-        String[] params = {String.valueOf(user.getSitter().getApiId())};
         new GetContactsHandler(this).execute(String.valueOf(user.getSitter().getApiId()));
     }
 
