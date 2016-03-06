@@ -70,7 +70,8 @@
                     android:hint="Data Fim"
                     android:inputType="datetime"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:focusableInTouchMode="false"/>
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -93,7 +94,8 @@
                     android:hint="Hora Início"
                     android:inputType="datetime"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:focusableInTouchMode="false"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -109,7 +111,8 @@
                     android:hint="Hora Fim"
                     android:inputType="datetime"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:focusableInTouchMode="false"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
