@@ -14,12 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
-import zekisanmobile.petsitter.OwnerHomeActivity;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.OwnerHomeActivity;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.SitterProfileActivity;
 
@@ -57,7 +56,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         mRecyclerView.setAdapter(adapter);
 
         progressBar = view.findViewById(R.id.load_progress);
-
+        showProgress(true);
         return view;
     }
 

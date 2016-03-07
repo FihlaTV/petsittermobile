@@ -91,7 +91,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         tvUserEmail.setText(loggedUser.getEmail());
 
         new JSONResponseHandler().execute(API_SEARCH_URL);
-        if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
+        //if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
     }
 
     private void configureTabLayout() {
