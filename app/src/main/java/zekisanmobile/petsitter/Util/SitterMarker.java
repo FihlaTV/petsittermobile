@@ -1,15 +1,19 @@
 package zekisanmobile.petsitter.Util;
 
+import zekisanmobile.petsitter.Model.Sitter;
+
 public class SitterMarker {
 
     private String title;
     private String snippet;
     private int badge;
+    private Sitter sitter;
 
-    public SitterMarker(String title, String snippet, int badge){
+    public SitterMarker(String title, String snippet, int badge, Sitter sitter){
         this.title = title;
         this.snippet = snippet;
         this.badge = badge;
+        this.sitter = sitter;
     }
 
     public String getTitle() {
@@ -34,5 +38,13 @@ public class SitterMarker {
 
     public void setBadge(int badge) {
         this.badge = badge;
+    }
+
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
     }
 }

@@ -39,6 +39,7 @@ import java.util.List;
 
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.SitterProfileActivity;
 import zekisanmobile.petsitter.Util.SitterMarker;
 
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
@@ -61,7 +62,6 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     private List<Sitter> sitters;
 
     private HashMap<Marker, SitterMarker> markerSitterMarkerHashMap;
-    private ArrayList<SitterMarker> sitterMarkers = new ArrayList<SitterMarker>();
 
     public MapsFragment() {}
 
@@ -218,6 +218,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     public void updateMapMarkers() {
         if (map != null){
             try{
+                markerSitterMarkerHashMap = new HashMap<>();
                 for(int i = 0; i < sitters.size(); i++) {
                     map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
                     Marker marker = map.addMarker(new MarkerOptions()
@@ -225,10 +226,8 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                             .title(sitters.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.pet_marker))
                             .snippet(sitters.get(i).getAddress()));
-                    int imageId = getResources().getIdentifier(sitters.get(i).getProfile_background(), "drawable", getActivity().getPackageName());
-                    //sitterMarkers.add(new SitterMarker(sitters.get(i).getName(), sitters.get(i).getAddress(), imageId));
-                    markerSitterMarkerHashMap.put(marker, new SitterMarker(sitters.get(i).getName(), sitters.get(i).getAddress(), imageId));
-                    marker.showInfoWindow();
+                    int imageId = getResources().getIdentifier(sitters.get(i).getPhoto(), "drawable", getActivity().getPackageName());
+                    markerSitterMarkerHashMap.put(marker, new SitterMarker(sitters.get(i).getName(), sitters.get(i).getAddress(), imageId, sitters.get(i)));
                 }
 
             }catch (Exception e){
@@ -271,7 +270,9 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
+        Intent intent = new Intent(getActivity(), SitterProfileActivity.class);
+        intent.putExtra("SITTER", markerSitterMarkerHashMap.get(marker).getSitter());
+        startActivity(intent);
     }
 
     @Override
@@ -286,7 +287,6 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
         @Override
         public View getInfoWindow(Marker marker) {
-            marker.showInfoWindow();
             return null;
         }
 
