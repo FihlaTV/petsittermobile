@@ -88,7 +88,9 @@ public class OwnerHomeActivity extends AppCompatActivity
         TextView tvUserEmail = (TextView) header.findViewById(R.id.tvUserEmail);
         tvUserEmail.setText(loggedUser.getEmail());
 
-        new JSONResponseHandler().execute(API_SEARCH_URL);
+        if (savedInstanceState == null) {
+            new JSONResponseHandler().execute(API_SEARCH_URL);
+        }
         //if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
     }
 

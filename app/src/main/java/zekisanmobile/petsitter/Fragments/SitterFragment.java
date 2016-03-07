@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,9 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     private SitterAdapter adapter;
     private ArrayList<Sitter> sitters;
     private View progressBar;
+
+    private final String KEY_RECYCLER_STATE = "recycler_state";
+    private static Bundle mBundleRecyclerViewState;
 
     public SitterFragment() {}
 
@@ -61,7 +65,27 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+
+        mBundleRecyclerViewState = new Bundle();
+        Parcelable listState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        mBundleRecyclerViewState.putParcelable(KEY_RECYCLER_STATE, listState);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (mBundleRecyclerViewState != null) {
+            Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putSerializable("sittersList", sitters);
     }
 
@@ -74,6 +98,9 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
 
     public void updateSittersList(ArrayList<Sitter> mList){
         this.sitters = mList;
+        if (adapter == null) {
+            adapter = new SitterAdapter(sitters, getContext());
+        }
         adapter.updateSittersList(mList);
     }
 
