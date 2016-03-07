@@ -3,21 +3,24 @@ package zekisanmobile.petsitter.Fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
@@ -30,15 +33,20 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.Util.SitterMarker;
 
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnMarkerClickListener,
-        LocationListener {
+        LocationListener,
+        GoogleMap.OnInfoWindowClickListener,
+        GoogleMap.OnInfoWindowCloseListener{
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
@@ -52,13 +60,14 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     private static View rootView;
     private List<Sitter> sitters;
 
+    private HashMap<Marker, SitterMarker> markerSitterMarkerHashMap;
+    private ArrayList<SitterMarker> sitterMarkers = new ArrayList<SitterMarker>();
+
     public MapsFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -97,6 +106,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         map = googleMap;
         if(map != null){
             try {
+                map.setOnInfoWindowClickListener(this);
                 map.setMyLocationEnabled(true);
 
                 googleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -104,6 +114,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                         .addConnectionCallbacks(this)
                         .addOnConnectionFailedListener(this).build();
                 connectClient();
+
             }catch (SecurityException e){
                 e.printStackTrace();
             }
@@ -208,12 +219,18 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
         if (map != null){
             try{
                 for(int i = 0; i < sitters.size(); i++) {
-                    map.addMarker(new MarkerOptions()
+                    map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+                    Marker marker = map.addMarker(new MarkerOptions()
                             .position(new LatLng(sitters.get(i).getLatitude(), sitters.get(i).getLongitude()))
                             .title(sitters.get(i).getName())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.pet_marker))
                             .snippet(sitters.get(i).getAddress()));
+                    int imageId = getResources().getIdentifier(sitters.get(i).getProfile_background(), "drawable", getActivity().getPackageName());
+                    //sitterMarkers.add(new SitterMarker(sitters.get(i).getName(), sitters.get(i).getAddress(), imageId));
+                    markerSitterMarkerHashMap.put(marker, new SitterMarker(sitters.get(i).getName(), sitters.get(i).getAddress(), imageId));
+                    marker.showInfoWindow();
                 }
+
             }catch (Exception e){
                 Log.d(TAG, e.getMessage());
             }
@@ -248,6 +265,60 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        return false;
+        marker.showInfoWindow();
+        return true;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+    }
+
+    @Override
+    public void onInfoWindowClose(Marker marker) {
+
+    }
+
+    class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        CustomInfoWindowAdapter() {
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            marker.showInfoWindow();
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            View view = getActivity().getLayoutInflater().inflate(R.layout.content_marker, null);
+            SitterMarker sitterMarker = markerSitterMarkerHashMap.get(marker);
+            ImageView badge = (ImageView) view.findViewById(R.id.badge);
+            badge.setImageResource(sitterMarker.getBadge());
+
+            String title = sitterMarker.getTitle();
+            TextView titleUi = ((TextView) view.findViewById(R.id.title));
+            if(title != null){
+                SpannableString titleText = new SpannableString(title);
+                titleText.setSpan(new ForegroundColorSpan(Color.RED), 0, titleText.length(), 0);
+                titleUi.setText(titleText);
+            }else {
+                titleUi.setText("");
+            }
+
+            String snippet = marker.getSnippet();
+            TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
+            if(snippet != null && snippet.length() > 12) {
+                SpannableString snippetText = new SpannableString(snippet);
+                snippetText.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, 10, 0);
+                snippetText.setSpan(new ForegroundColorSpan(Color.BLUE), 12, snippet.length(),0);
+                snippetUi.setText(snippetText);
+            }else{
+                snippetUi.setText("");
+            }
+
+            return view;
+        }
     }
 }
