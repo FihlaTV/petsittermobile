@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.OwnerHomeActivity;
+import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 
 public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
 

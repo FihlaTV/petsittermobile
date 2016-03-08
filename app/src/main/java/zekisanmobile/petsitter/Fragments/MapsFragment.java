@@ -33,13 +33,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.SitterProfileActivity;
+import zekisanmobile.petsitter.Sitter.SitterProfileActivity;
 import zekisanmobile.petsitter.Util.SitterMarker;
 
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,

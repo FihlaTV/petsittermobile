@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter;
+package zekisanmobile.petsitter.Owner;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -39,6 +39,7 @@ import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.R;
 
 public class OwnerHomeActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {

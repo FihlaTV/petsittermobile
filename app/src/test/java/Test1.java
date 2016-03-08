@@ -12,7 +12,7 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import zekisanmobile.petsitter.BuildConfig;
-import zekisanmobile.petsitter.MainActivity;
+import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.R;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)

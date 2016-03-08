@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter;
+package zekisanmobile.petsitter.Main;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
+import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 

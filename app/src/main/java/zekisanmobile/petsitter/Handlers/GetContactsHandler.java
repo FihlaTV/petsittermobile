@@ -23,7 +23,7 @@ import zekisanmobile.petsitter.DAO.SitterDAO;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.SitterHomeActivity;
+import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
 
 public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contact>>{
 

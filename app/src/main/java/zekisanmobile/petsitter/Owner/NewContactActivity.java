@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter;
+package zekisanmobile.petsitter.Owner;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +31,7 @@ import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.DAO.UserDAO;
+import zekisanmobile.petsitter.R;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {

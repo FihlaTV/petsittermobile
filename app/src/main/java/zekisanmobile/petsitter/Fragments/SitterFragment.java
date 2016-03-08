@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.OwnerHomeActivity;
+import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.SitterProfileActivity;
+import zekisanmobile.petsitter.Sitter.SitterProfileActivity;
 
 public class SitterFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 

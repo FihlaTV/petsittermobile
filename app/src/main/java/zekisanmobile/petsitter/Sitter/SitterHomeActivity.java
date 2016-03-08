@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter;
+package zekisanmobile.petsitter.Sitter;
 
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +18,7 @@ import zekisanmobile.petsitter.Handlers.GetContactsHandler;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.R;
 
 public class SitterHomeActivity extends AppCompatActivity implements RecyclerViewOnClickListenerHack {
 
