@@ -21,7 +21,7 @@ import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.Sitter.SitterProfileActivity;
+import zekisanmobile.petsitter.Owner.SitterProfileActivity;
 
 public class SitterFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 
@@ -118,8 +118,6 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }

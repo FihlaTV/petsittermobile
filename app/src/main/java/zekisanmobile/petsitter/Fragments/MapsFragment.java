@@ -38,7 +38,7 @@ import java.util.List;
 
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.Sitter.SitterProfileActivity;
+import zekisanmobile.petsitter.Owner.SitterProfileActivity;
 import zekisanmobile.petsitter.Util.SitterMarker;
 
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
@@ -300,7 +300,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
             TextView titleUi = ((TextView) view.findViewById(R.id.title));
             if(title != null){
                 SpannableString titleText = new SpannableString(title);
-                titleText.setSpan(new ForegroundColorSpan(Color.RED), 0, titleText.length(), 0);
+                titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0, titleText.length(), 0);
                 titleUi.setText(titleText);
             }else {
                 titleUi.setText("");
@@ -310,8 +310,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
             TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
             if(snippet != null && snippet.length() > 12) {
                 SpannableString snippetText = new SpannableString(snippet);
-                snippetText.setSpan(new ForegroundColorSpan(Color.MAGENTA), 0, 10, 0);
-                snippetText.setSpan(new ForegroundColorSpan(Color.BLUE), 12, snippet.length(),0);
+                snippetText.setSpan(new ForegroundColorSpan(Color.GRAY), 0, snippet.length(),0);
                 snippetUi.setText(snippetText);
             }else{
                 snippetUi.setText("");

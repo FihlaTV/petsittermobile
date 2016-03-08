@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Sitter;
+package zekisanmobile.petsitter.Owner;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.Owner.NewContactActivity;
 import zekisanmobile.petsitter.R;
 
 public class SitterProfileActivity extends AppCompatActivity

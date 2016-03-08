@@ -38,7 +38,7 @@
             android:label="@string/title_activity_dono_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Sitter.SitterProfileActivity"
+            android:name=".Owner.SitterProfileActivity"
             android:label="@string/title_activity_sitter_profile"
             android:parentActivityName=".Owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />

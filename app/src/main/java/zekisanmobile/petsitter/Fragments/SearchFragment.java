@@ -28,7 +28,6 @@ public class SearchFragment extends Fragment {
     private SearchAdapter adapter;
     private List<SearchItem> items = new ArrayList<SearchItem>();
     private List<String> selectedItems = new ArrayList<String>();
-    private List<Sitter> sitters = new ArrayList<Sitter>();
 
     @Override
     public void onCreate(Bundle savedInstance) {
