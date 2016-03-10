@@ -23,6 +23,9 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 import zekisanmobile.petsitter.DAO.SitterDAO;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
@@ -36,23 +39,27 @@ import zekisanmobile.petsitter.R;
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
 
-    private Toolbar toolbar;
     private Sitter sitter;
-    private EditText tv_date_start;
-    private EditText tv_date_final;
-    private EditText tv_time_start;
-    private EditText tv_time_final;
-    private Button bt_send;
+    private User loggedUser;
+
+    @Bind(R.id.toolbar_new_contact) Toolbar toolbar;
+    @Bind(R.id.tv_name) TextView tv_name;
+    @Bind(R.id.tv_date_start) EditText tv_date_start;
+    @Bind(R.id.tv_date_final) EditText tv_date_final;
+    @Bind(R.id.tv_time_start) EditText tv_time_start;
+    @Bind(R.id.tv_time_final) EditText tv_time_final;
+
     private int year, month, day, hour, minute;
     private boolean date_start_setted;
     private boolean time_start_setted;
     private Calendar tDefault;
-    private User loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_contact);
+
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("sitter");
@@ -60,60 +67,14 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         loggedUser = UserDAO.getLoggedUser(0);
 
         configureToolbar();
-        configureViews();
+        tv_name.setText(sitter.getName());
     }
 
     private void configureToolbar() {
         // TOOLBAR
-        toolbar = (Toolbar) findViewById(R.id.toolbar_new_contact);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
-    }
-
-    private void configureViews() {
-        TextView tv_name = (TextView) findViewById(R.id.tv_name);
-        tv_name.setText(sitter.getName());
-
-        tv_date_start = (EditText) findViewById(R.id.tv_date_start);
-        tv_date_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scheduleJobDate(view);
-            }
-        });
-
-        tv_date_final = (EditText) findViewById(R.id.tv_date_final);
-        tv_date_final.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scheduleJobDate(view);
-            }
-        });
-
-        tv_time_start = (EditText) findViewById(R.id.tv_time_start);
-        tv_time_start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scheduleJobTime(view);
-            }
-        });
-
-        tv_time_final = (EditText) findViewById(R.id.tv_time_final);
-        tv_time_final.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                scheduleJobTime(view);
-            }
-        });
-
-        bt_send = (Button) findViewById(R.id.bt_send);
-        bt_send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                requestContact();
-            }
-        });
     }
 
     private void requestContact() {
@@ -159,7 +120,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         return contact;
     }
 
-    private void scheduleJobDate(View view) {
+    private void scheduleJobDate() {
         initDateData();
         Calendar calendarDefault = Calendar.getInstance();
         calendarDefault.set(year, month, day);
@@ -200,7 +161,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
     }
 
-    private void scheduleJobTime(View view) {
+    private void scheduleJobTime() {
         tDefault = Calendar.getInstance();
         initTimeData();
         TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
@@ -274,5 +235,20 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     private String setTimeOnTextView() {
         return (hour < 10 ? "0" + hour : hour) + "h" +
                 (this.minute < 10 ? "0" + this.minute : this.minute);
+    }
+
+    @OnClick(R.id.bt_send)
+    public void send(){
+        requestContact();
+    }
+
+    @OnClick({ R.id.tv_date_start, R.id.tv_date_final })
+    public void doScheduleDate(){
+        scheduleJobDate();
+    }
+
+    @OnClick({ R.id.tv_time_start, R.id.tv_time_final })
+    public void doScheduleTime(){
+        scheduleJobTime();
     }
 }

@@ -17,6 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
@@ -37,4 +44,6 @@ dependencies {
     compile 'io.realm:realm-android:0.87.5'
 
     compile 'com.wdullaer:materialdatetimepicker:2.2.0'
+
+    compile 'com.jakewharton:butterknife:7.0.1'
 }
