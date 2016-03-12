@@ -96,9 +96,18 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
             {
                 e.printStackTrace();
             }
+            /*if(savedInstanceState != null){
+                markerSitterMarkerHashMap = (HashMap<Marker, SitterMarker>) savedInstanceState.getSerializable("markers");
+            }*/
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        //outState.putSerializable("markers", markerSitterMarkerHashMap);
     }
 
     protected void loadMap(GoogleMap googleMap){

@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.SearchItem;
 import zekisanmobile.petsitter.R;
@@ -49,13 +51,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
 
     public class SearchItemHolder extends RecyclerView.ViewHolder {
 
-        public TextView tv_search_item;
-        public CheckBox chk_search_item;
+        @Bind(R.id.tv_search_item) TextView tv_search_item;
+        @Bind(R.id.chk_search_item) CheckBox chk_search_item;
 
         public SearchItemHolder(View view) {
             super(view);
-            this.tv_search_item = (TextView) view.findViewById(R.id.tv_search_item);
-            this.chk_search_item = (CheckBox) view.findViewById(R.id.chk_search_item);
+            ButterKnife.bind(this, view);
         }
     }
 }

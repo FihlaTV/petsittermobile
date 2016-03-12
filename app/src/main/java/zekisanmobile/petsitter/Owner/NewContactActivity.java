@@ -3,10 +3,10 @@ package zekisanmobile.petsitter.Owner;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,13 +27,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.DAO.SitterDAO;
+import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
-import zekisanmobile.petsitter.DAO.ContactDAO;
-import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.R;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
@@ -63,17 +63,44 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("sitter");
+        tv_name.setText(sitter.getName());
 
         loggedUser = UserDAO.getLoggedUser(0);
 
         configureToolbar();
-        tv_name.setText(sitter.getName());
+
+        if (savedInstanceState != null){
+            tv_date_start.setText(savedInstanceState.getString("date_start"));
+            tv_date_final.setText(savedInstanceState.getString("date_final"));
+            tv_time_start.setText(savedInstanceState.getString("time_start"));
+            tv_time_final.setText(savedInstanceState.getString("time_final"));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString("date_start", tv_date_start.getText().toString());
+        outState.putString("date_final", tv_date_final.getText().toString());
+        outState.putString("time_start", tv_time_start.getText().toString());
+        outState.putString("time_final", tv_time_final.getText().toString());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void configureToolbar() {
         // TOOLBAR
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
     }
 

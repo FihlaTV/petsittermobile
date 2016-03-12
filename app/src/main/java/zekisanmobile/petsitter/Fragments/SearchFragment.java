@@ -16,6 +16,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import zekisanmobile.petsitter.Adapters.SearchAdapter;
 import zekisanmobile.petsitter.Handlers.SearchHandler;
 import zekisanmobile.petsitter.Model.SearchItem;
@@ -24,7 +27,7 @@ import zekisanmobile.petsitter.R;
 
 public class SearchFragment extends Fragment {
 
-    private RecyclerView recyclerView;
+    @Bind(R.id.rv_search) RecyclerView recyclerView;
     private SearchAdapter adapter;
     private List<SearchItem> items = new ArrayList<SearchItem>();
     private List<String> selectedItems = new ArrayList<String>();
@@ -37,9 +40,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_search);
-
+        ButterKnife.bind(this, view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -49,25 +50,22 @@ public class SearchFragment extends Fragment {
         adapter = new SearchAdapter(items);
         recyclerView.setAdapter(adapter);
 
-        Button btn_search = (Button) view.findViewById(R.id.btn_search);
-        btn_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedItems.clear();
-                for (SearchItem item : items) {
-                    if (item.isSelected()) {
-                        selectedItems.add(item.getName());
-                    }
-                }
-                try {
-                    doSearch();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         return view;
+    }
+
+    @OnClick(R.id.btn_search)
+    public void onBtnSearchClick(){
+        selectedItems.clear();
+        for (SearchItem item : items) {
+            if (item.isSelected()) {
+                selectedItems.add(item.getName());
+            }
+        }
+        try {
+            doSearch();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void doSearch() throws JSONException {
@@ -93,4 +91,9 @@ public class SearchFragment extends Fragment {
         return items;
     }
 
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 }
