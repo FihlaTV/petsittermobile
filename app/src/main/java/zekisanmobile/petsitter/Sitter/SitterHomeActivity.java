@@ -29,15 +29,16 @@ import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
 
 public class SitterHomeActivity extends AppCompatActivity
-        implements RecyclerViewOnClickListenerHack, NavigationView.OnNavigationItemSelectedListener {
+        implements RecyclerViewOnClickListenerHack, NavigationView.OnNavigationItemSelectedListener,
+        SitterHomeView{
 
     @Bind(R.id.drawer_layout_sitter_home) DrawerLayout drawer;
     @Bind(R.id.toolbar_sitter_home) Toolbar toolbar;
     @Bind(R.id.nav_view_sitter_home) NavigationView navigationView;
     @Bind(R.id.rv_list_received_contacts) RecyclerView recyclerView;
-    private User user;
+
     private ContactListAdapter adapter;
-    private ArrayList<Contact> contacts;
+    private SitterHomePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,7 @@ public class SitterHomeActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        user = UserDAO.getLoggedUser(1);
-        contacts = new ArrayList<Contact>();
+        this.presenter = new SitterHomePresenterImpl(this);
 
         configureToolbar();
         configureNavigationDrawer();
@@ -55,28 +55,34 @@ public class SitterHomeActivity extends AppCompatActivity
 
         configureAdapter();
         configureRecyclerView();
-        new GetContactsHandler(this).execute(String.valueOf(user.getSitter().getApiId()));
+        presenter.getContacts();
+    }
+
+    @Override
+    protected void onDestroy(){
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     private void configureNavigationView() {
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
-        Context context = getApplicationContext();
-        ImageView ivUserImage = (ImageView) header.findViewById(R.id.ivUserImage);
-        ivUserImage.setImageResource(context.getResources()
-                .getIdentifier(user.getPhoto(), "drawable", context.getPackageName()));
 
-        TextView tvUsername = (TextView) header.findViewById(R.id.tvUsername);
-        tvUsername.setText(user.getName());
+        ImageView ivUserImage = ButterKnife.findById(header, R.id.ivUserImage);
+        ivUserImage.setImageResource(getApplicationContext().getResources()
+                .getIdentifier(presenter.getLoggedUserPhoto(), "drawable", getApplicationContext().getPackageName()));
 
-        TextView tvUserEmail = (TextView) header.findViewById(R.id.tvUserEmail);
-        tvUserEmail.setText(user.getEmail());
+        TextView tvUsername = ButterKnife.findById(header, R.id.tvUsername);
+        tvUsername.setText(presenter.getLoggedUserName());
+
+        TextView tvUserEmail = ButterKnife.findById(header, R.id.tvUserEmail);
+        tvUserEmail.setText(presenter.getLoggedUserEmail());
     }
 
     private void configureNavigationDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close        );
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
     }
 
@@ -89,22 +95,22 @@ public class SitterHomeActivity extends AppCompatActivity
     }
 
     private void configureAdapter() {
-        adapter = new ContactListAdapter(contacts, this);
+        adapter = new ContactListAdapter(new ArrayList<Contact>(), this);
         adapter.setRecyclerViewOnClickListenerHack(this);
     }
 
     private void configureToolbar() {
-        toolbar.setTitle(user.getName());
+        toolbar.setTitle(presenter.getLoggedUserName());
         setSupportActionBar(toolbar);
     }
 
     @Override
     public void onClickListener(View view, int position) {
-
+        presenter.onItemClicked(position);
     }
 
-    public void updateAdapter(){
-        this.contacts = ContactDAO.getAllContactsFromSitter(user.getSitter().getApiId());
+    @Override
+    public void updateAdapter(ArrayList<Contact> contacts){
         adapter.updateList(contacts);
         adapter.notifyDataSetChanged();
     }

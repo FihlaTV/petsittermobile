@@ -1,6 +1,5 @@
 package zekisanmobile.petsitter.Handlers;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.squareup.okhttp.OkHttpClient;
@@ -23,24 +22,22 @@ import zekisanmobile.petsitter.DAO.SitterDAO;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
+import zekisanmobile.petsitter.Sitter.SitterHomePresenter;
 
 public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contact>>{
 
     private final static String BASE_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters/";
     private final static String FINAL_SEARCH_URL = "/contacts";
     private OkHttpClient client = new OkHttpClient();
+    private SitterHomePresenter presenter;
 
-    private ArrayList<Contact> returnedContacts = new ArrayList<Contact>();
-
-    private Context context;
-
-    public GetContactsHandler(Context context){
-        this.context = context;
+    public GetContactsHandler(SitterHomePresenter presenter){
+        this.presenter = presenter;
     }
 
     @Override
     protected ArrayList<Contact> doInBackground(String... params) {
+        ArrayList<Contact> returnedContacts = new ArrayList<Contact>();
         Request request = new Request.Builder()
                 .url(BASE_SEARCH_URL + params[0] + FINAL_SEARCH_URL)
                 .build();
@@ -84,7 +81,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
                 }
             }
             return returnedContacts;
-        }catch (IOException e){
+        } catch (IOException e){
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -96,7 +93,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
     @Override
     protected void onPostExecute(ArrayList<Contact> receivedContacts) {
         if (receivedContacts != null) {
-            ((SitterHomeActivity) context).updateAdapter();
+            presenter.updateContacts();
         }
     }
 }
