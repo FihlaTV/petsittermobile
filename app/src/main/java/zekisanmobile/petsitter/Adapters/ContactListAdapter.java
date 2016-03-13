@@ -8,8 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.R;
@@ -40,6 +45,19 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
         holder.iv_contact_owner.setImageResource(imageId);
         holder.tv_contact_owner.setText(contact.getOwner().getNome());
+        holder.tv_contact_created_at.setText(formattedDate(contact.getCreated_at()));
+    }
+
+    private String formattedDate(String contact_date) {
+        try {
+            SimpleDateFormat input = new SimpleDateFormat("yy-MM-dd");
+            SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
+            Date oldDate = input.parse(contact_date);
+            return output.format(oldDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     @Override
@@ -57,15 +75,13 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public ImageView iv_contact_owner;
-        public TextView tv_contact_owner;
+        @Bind(R.id.iv_contact_owner) ImageView iv_contact_owner;
+        @Bind(R.id.tv_contact_owner) TextView tv_contact_owner;
+        @Bind(R.id.tv_contact_created_at) TextView tv_contact_created_at;
 
         public ViewHolder(View view){
             super(view);
-
-            iv_contact_owner = (ImageView) view.findViewById(R.id.iv_contact_owner);
-            tv_contact_owner = (TextView) view.findViewById(R.id.tv_contact_owner);
-
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 

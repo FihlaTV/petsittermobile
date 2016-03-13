@@ -35,8 +35,7 @@
         <activity
             android:name=".Owner.OwnerHomeActivity"
             android:label="@string/title_activity_dono_home"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".Owner.SitterProfileActivity"
             android:label="@string/title_activity_sitter_profile"

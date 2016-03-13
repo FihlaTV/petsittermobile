@@ -60,7 +60,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     private static View rootView;
     private List<Sitter> sitters;
 
-    private HashMap<Marker, SitterMarker> markerSitterMarkerHashMap;
+    private HashMap<Marker, SitterMarker> markerSitterMarkerHashMap = new HashMap<>();
 
     public MapsFragment() {}
 
@@ -96,9 +96,9 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
             {
                 e.printStackTrace();
             }
-            /*if(savedInstanceState != null){
-                markerSitterMarkerHashMap = (HashMap<Marker, SitterMarker>) savedInstanceState.getSerializable("markers");
-            }*/
+            //if(savedInstanceState != null){
+              //  markerSitterMarkerHashMap = savedInstanceState.getParcelable("markers");
+            //}
         }
 
         return rootView;
@@ -107,7 +107,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
-        //outState.putSerializable("markers", markerSitterMarkerHashMap);
+        //outState.putParcelable("markers", markerSitterMarkerHashMap);
     }
 
     protected void loadMap(GoogleMap googleMap){
@@ -164,11 +164,6 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
 
     @Override
     public void onDestroy() {
-
-        if (mapFragment.isResumed()){
-            getFragmentManager().beginTransaction().remove(mapFragment).commit();
-        }
-
         super.onDestroy();
     }
 
@@ -226,7 +221,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     public void updateMapMarkers() {
         if (map != null){
             try{
-                markerSitterMarkerHashMap = new HashMap<>();
+                markerSitterMarkerHashMap.clear();
                 for(int i = 0; i < sitters.size(); i++) {
                     map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
                     Marker marker = map.addMarker(new MarkerOptions()

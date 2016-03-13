@@ -22,7 +22,7 @@ public class ContactDAO {
     }
 
     public static Contact insertOrUpdateContact(long id, Date date_start, Date date_final, String time_start,
-                                               String time_final, Sitter sitter, Owner owner){
+                                               String time_final, String created_at, Sitter sitter, Owner owner){
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         Contact newContact;
@@ -37,6 +37,7 @@ public class ContactDAO {
         newContact.setDate_final(date_final);
         newContact.setTime_start(time_start);
         newContact.setTime_final(time_final);
+        newContact.setCreated_at(created_at);
         newContact.setSitter(sitter);
         newContact.setOwner(owner);
 

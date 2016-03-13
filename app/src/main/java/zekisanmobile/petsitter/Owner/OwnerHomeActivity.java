@@ -33,6 +33,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
@@ -44,8 +46,10 @@ import zekisanmobile.petsitter.R;
 public class OwnerHomeActivity extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
-    private ViewPager viewPager;
+    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.drawer_layout) DrawerLayout drawer;
+    @Bind(R.id.nav_view) NavigationView navigationView;
+    @Bind(R.id.viewpager) ViewPager viewPager;
     private ViewPagerAdapter adapter;
     private SitterFragment sitterFragment;
     private MapsFragment mapsFragment;
@@ -61,21 +65,30 @@ public class OwnerHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
 
+        ButterKnife.bind(this);
+
         loggedUser = UserDAO.getLoggedUser(0);
 
         configureToolbar();
         configureTabLayout();
+        configureNavigationDrawer();
+        configureNavigationView();
 
-        // NAVIGATION DRAWER
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (savedInstanceState == null) {
+            new JSONResponseHandler().execute(API_SEARCH_URL);
+        }
+    }
+
+    // NAVIGATION DRAWER
+    private void configureNavigationDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    private void configureNavigationView() {
         navigationView.setNavigationItemSelectedListener(this);
-
         View header = navigationView.getHeaderView(0);
 
         Context context = getApplicationContext();
@@ -88,15 +101,10 @@ public class OwnerHomeActivity extends AppCompatActivity
 
         TextView tvUserEmail = (TextView) header.findViewById(R.id.tvUserEmail);
         tvUserEmail.setText(loggedUser.getEmail());
-
-        if (savedInstanceState == null) {
-            new JSONResponseHandler().execute(API_SEARCH_URL);
-        }
     }
 
+    // TABS
     private void configureTabLayout() {
-        // TABS
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -105,7 +113,6 @@ public class OwnerHomeActivity extends AppCompatActivity
     }
 
     private void configureToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(loggedUser.getName());
         setSupportActionBar(toolbar);
     }

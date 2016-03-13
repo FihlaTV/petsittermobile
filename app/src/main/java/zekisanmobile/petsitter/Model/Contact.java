@@ -14,18 +14,20 @@ public class Contact extends RealmObject{
     private Date date_final;
     private String time_start;
     private String time_final;
+    private String created_at;
     private Sitter sitter;
     private Owner owner;
 
     public Contact(){}
 
     public Contact(long id, Date date_start, Date date_final, String time_start,
-                   String time_final, Sitter sitter, Owner owner){
+                   String time_final, String created_at, Sitter sitter, Owner owner){
         this.id = id;
         this.date_start = date_start;
         this.date_final = date_final;
         this.time_start = time_start;
         this.time_final = time_final;
+        this.created_at = created_at;
         this.sitter = sitter;
         this.owner = owner;
     }
@@ -76,6 +78,14 @@ public class Contact extends RealmObject{
 
     public void setSitter(Sitter sitter) {
         this.sitter = sitter;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
     public Owner getOwner() {

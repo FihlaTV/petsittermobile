@@ -74,7 +74,9 @@ public class GetContactsHandler extends AsyncTask<String, Void, ArrayList<Contac
 
                     Contact contact = ContactDAO.insertOrUpdateContact(jsonObject.getLong("id"),
                             date_start, date_final, jsonObject.getString("time_start"),
-                            jsonObject.getString("time_final"), sitter, owner);
+                            jsonObject.getString("time_final"),
+                            jsonObject.getString("created_at").substring(0, 10),
+                            sitter, owner);
 
                     returnedContacts.add(contact);
                 } catch (ParseException e) {

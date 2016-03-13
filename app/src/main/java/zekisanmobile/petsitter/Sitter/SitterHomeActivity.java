@@ -1,16 +1,23 @@
 package zekisanmobile.petsitter.Sitter;
 
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.ContactListAdapter;
 import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.DAO.UserDAO;
@@ -20,12 +27,14 @@ import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
 
-public class SitterHomeActivity extends AppCompatActivity implements RecyclerViewOnClickListenerHack {
+public class SitterHomeActivity extends AppCompatActivity
+        implements RecyclerViewOnClickListenerHack, NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.drawer_layout_sitter_home) DrawerLayout drawer;
+    @Bind(R.id.toolbar_sitter_home) Toolbar toolbar;
+    @Bind(R.id.nav_view) NavigationView navigationView;
+    @Bind(R.id.rv_list_received_contacts) RecyclerView recyclerView;
     private User user;
-    private RecyclerView recyclerView;
     private ContactListAdapter adapter;
     private ArrayList<Contact> contacts;
 
@@ -34,8 +43,31 @@ public class SitterHomeActivity extends AppCompatActivity implements RecyclerVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sitter_home);
 
+        ButterKnife.bind(this);
+
         user = UserDAO.getLoggedUser(1);
         contacts = new ArrayList<Contact>();
+
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        );
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        Context context = getApplicationContext();
+        ImageView ivUserImage = (ImageView) header.findViewById(R.id.ivUserImage);
+        ivUserImage.setImageResource(context.getResources()
+                .getIdentifier(user.getPhoto(), "drawable", context.getPackageName()));
+
+        TextView tvUsername = (TextView) header.findViewById(R.id.tvUsername);
+        tvUsername.setText(user.getName());
+
+        TextView tvUserEmail = (TextView) header.findViewById(R.id.tvUserEmail);
+        tvUserEmail.setText(user.getEmail());
+
         configureToolbar();
         configureAdapter();
         configureRecyclerView();
@@ -43,8 +75,6 @@ public class SitterHomeActivity extends AppCompatActivity implements RecyclerVie
     }
 
     private void configureRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.rv_list_received_contacts);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -58,15 +88,7 @@ public class SitterHomeActivity extends AppCompatActivity implements RecyclerVie
     }
 
     private void configureToolbar() {
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle(user.getSitter().getName());
-
-        ImageView image_sitter_profile = (ImageView) findViewById(R.id.image_sitter_home);
-        int imageId = getResources().getIdentifier("header_background_2", "drawable", getPackageName());
-        image_sitter_profile.setImageResource(imageId);
-
-        // TOOLBAR
-        toolbar = (Toolbar) findViewById(R.id.toolbar_sitter_home);
+        toolbar.setTitle(user.getName());
         setSupportActionBar(toolbar);
     }
 
@@ -79,5 +101,10 @@ public class SitterHomeActivity extends AppCompatActivity implements RecyclerVie
         this.contacts = ContactDAO.getAllContactsFromSitter(user.getSitter().getApiId());
         adapter.updateList(contacts);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        return false;
     }
 }
