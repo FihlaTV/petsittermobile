@@ -38,6 +38,8 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.7.5'
 
     compile 'io.realm:realm-android:0.87.5'
+    //reactivex used only to run tests, there is a bug with realm 0.87
+    compile 'io.reactivex:rxjava:1.1.0'
 
     compile 'com.wdullaer:materialdatetimepicker:2.2.0'
 

@@ -1,3 +1,4 @@
+import android.content.Intent;
 import android.os.Build;
 import android.widget.Button;
 
@@ -9,10 +10,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowActivity;
 
 import zekisanmobile.petsitter.BuildConfig;
 import zekisanmobile.petsitter.Main.MainActivity;
+import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.R;
 
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
@@ -36,7 +40,7 @@ public class Test1 {
 
     /*@Test
     public void donoHomeActivityStartedOnClick(){
-        activity.findViewById(R.id.loginDono).performClick();
+        activity.findViewById(R.id.loginOwner).performClick();
 
         Intent expectedIntent = new Intent(activity, OwnerHomeActivity.class);
 
