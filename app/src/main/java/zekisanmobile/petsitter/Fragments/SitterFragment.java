@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
@@ -25,10 +27,10 @@ import zekisanmobile.petsitter.Owner.SitterProfileActivity;
 
 public class SitterFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 
-    private RecyclerView mRecyclerView;
+    @Bind(R.id.rv_list) RecyclerView mRecyclerView;
+    @Bind(R.id.load_progress) View progressBar;
     private SitterAdapter adapter;
     private ArrayList<Sitter> sitters;
-    private View progressBar;
 
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
@@ -48,8 +50,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View view = inflater.inflate(R.layout.fragment_sitter, container, false);
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_list);
+        ButterKnife.bind(this, view);
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -59,7 +60,6 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 
-        progressBar = view.findViewById(R.id.load_progress);
         showProgress(true);
         return view;
     }
@@ -102,6 +102,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
             adapter = new SitterAdapter(sitters, getContext());
         }
         adapter.updateSittersList(mList);
+        adapter.notifyDataSetChanged();
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)

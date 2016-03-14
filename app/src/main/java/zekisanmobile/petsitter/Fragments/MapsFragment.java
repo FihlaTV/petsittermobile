@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -96,18 +97,9 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
             {
                 e.printStackTrace();
             }
-            //if(savedInstanceState != null){
-              //  markerSitterMarkerHashMap = savedInstanceState.getParcelable("markers");
-            //}
         }
 
         return rootView;
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState){
-        super.onSaveInstanceState(outState);
-        //outState.putParcelable("markers", markerSitterMarkerHashMap);
     }
 
     protected void loadMap(GoogleMap googleMap){
@@ -163,11 +155,6 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         switch (requestCode){
             case CONNECTION_FAILURE_RESOLUTION_REQUEST:
@@ -197,7 +184,6 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                 CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
                 startLocationUpdates();
-                updateMapMarkers();
                 map.animateCamera(cameraUpdate);
             }
         }catch (SecurityException e){
@@ -236,8 +222,6 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
             }catch (Exception e){
                 Log.d(TAG, e.getMessage());
             }
-
-            //if (currentLocation != null) initCamera(currentLocation);
         }
     }
 
