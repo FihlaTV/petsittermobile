@@ -60,7 +60,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 
-        showProgress(true);
+        //showProgress(true);
         return view;
     }
 

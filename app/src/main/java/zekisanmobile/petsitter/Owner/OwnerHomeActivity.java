@@ -209,14 +209,18 @@ public class OwnerHomeActivity extends AppCompatActivity
         private ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
 
         @Override
+        protected void onPreExecute(){
+            if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
+        }
+
+        @Override
         protected ArrayList<Sitter> doInBackground(String... url) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(url[0])
                     .build();
-            Response response = null;
             try {
-                response = client.newCall(request).execute();
+                Response response  = client.newCall(request).execute();
                 String jsonData = response.body().string();
                 JSONArray jsonArray = new JSONArray(jsonData);
                 for (int i = 0; i < jsonArray.length(); i++) {
