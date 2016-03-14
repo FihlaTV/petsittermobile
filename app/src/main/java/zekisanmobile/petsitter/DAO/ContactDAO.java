@@ -55,4 +55,9 @@ public class ContactDAO {
         }
         return contacts;
     }
+
+    public static Contact getContact(long id) {
+        Realm realm = Realm.getDefaultInstance();
+        return realm.where(Contact.class).equalTo("id", id).findFirst();
+    }
 }

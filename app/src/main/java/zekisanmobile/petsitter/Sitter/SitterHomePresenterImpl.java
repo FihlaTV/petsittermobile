@@ -38,11 +38,6 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     }
 
     @Override
-    public void onItemClicked(int position) {
-
-    }
-
-    @Override
     public String getLoggedUserName() {
         return user.getName();
     }

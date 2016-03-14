@@ -73,6 +73,10 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         this.contacts = contacts;
     }
 
+    public Contact getContactAtPosition(int position) {
+        return contacts.get(position);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_contact_owner) ImageView iv_contact_owner;

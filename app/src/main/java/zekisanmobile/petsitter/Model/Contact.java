@@ -1,11 +1,12 @@
 package zekisanmobile.petsitter.Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Contact extends RealmObject{
+public class Contact extends RealmObject {
 
     @PrimaryKey
     private long id;

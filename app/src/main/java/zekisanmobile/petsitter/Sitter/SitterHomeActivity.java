@@ -1,6 +1,7 @@
 package zekisanmobile.petsitter.Sitter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -106,7 +107,9 @@ public class SitterHomeActivity extends AppCompatActivity
 
     @Override
     public void onClickListener(View view, int position) {
-        presenter.onItemClicked(position);
+        Intent intent = new Intent(this, ContactDetailsActivity.class);
+        intent.putExtra("contact", adapter.getContactAtPosition(position).getId());
+        startActivity(intent);
     }
 
     @Override
