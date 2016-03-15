@@ -1,9 +1,16 @@
 package zekisanmobile.petsitter.Sitter;
 
-import zekisanmobile.petsitter.Model.Contact;
-
 public interface ContactDetailsPresenter {
 
-    Contact getContactFromDb(long id);
+    void getContactFromDb(long id);
 
+    String getContactOwnerName();
+    String getContactPhoto();
+    String getContactDistrict();
+    String getContactAddress();
+    String getContactDatePeriod();
+    String getContactTimePeriod();
+
+    double getContactOwnerLatitude();
+    double getContactOwnerLongitude();
 }

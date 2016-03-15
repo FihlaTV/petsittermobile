@@ -108,7 +108,7 @@ public class SitterHomeActivity extends AppCompatActivity
     @Override
     public void onClickListener(View view, int position) {
         Intent intent = new Intent(this, ContactDetailsActivity.class);
-        intent.putExtra("contact", adapter.getContactAtPosition(position).getId());
+        intent.putExtra("contactId", adapter.getContactAtPosition(position).getId());
         startActivity(intent);
     }
 

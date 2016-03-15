@@ -7,7 +7,7 @@
     android:id="@+id/drawer_layout_contact_details">
 
     <include
-        layout="@layout/app_bar_contact_details"
+        layout="@layout/app_bar_main_contact_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

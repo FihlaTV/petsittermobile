@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="178dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <ImageView
+            android:id="@+id/iv_contact_owner"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/tv_contact_owner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/iv_contact_owner"
+            android:paddingRight="20dp"
+            android:textColor="@color/colorPrimarytext"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_place"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/iv_contact_owner"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_place_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_contact_district"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_place"
+            android:layout_below="@+id/iv_contact_owner"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@+id/iv_place"
+            android:paddingRight="16dp"
+            android:text="dsfsdfsdf"
+            android:textColor="@color/colorPrimarytext"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_contact_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_contact_district"
+            android:layout_below="@+id/tv_contact_district"
+            android:paddingRight="16dp"
+            android:text="sdfsdf"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_date"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/tv_contact_address"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_event_note_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_contact_date_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_contact_address"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/iv_date"
+            android:paddingRight="16dp"
+            android:text="dsfsdfsdf"
+            android:textColor="@color/colorTitleText"
+            android:textSize="15sp" />
+
+        <ImageView
+            android:id="@+id/iv_time"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/tv_contact_date_period"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_access_time_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_contact_time_period"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_contact_date_period"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@+id/iv_time"
+            android:paddingRight="16dp"
+            android:text="sdfsdf"
+            android:textColor="@color/colorTitleText"
+            android:textSize="15sp" />
+    </RelativeLayout>
+</LinearLayout>

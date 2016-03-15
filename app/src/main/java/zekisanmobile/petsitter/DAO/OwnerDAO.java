@@ -16,7 +16,8 @@ public class OwnerDAO {
         return realm.where(Owner.class).equalTo("apiId", apiId).findFirst();
     }
 
-    public static Owner insertOrUpdateOwner(long apiId, String nome){
+    public static Owner insertOrUpdateOwner(long apiId, String nome, String address, String district,
+                                            float latitude, float longitude){
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         Owner newOwner;
@@ -28,6 +29,10 @@ public class OwnerDAO {
 
         newOwner.setApiId(apiId);
         newOwner.setNome(nome);
+        newOwner.setAddress(address);
+        newOwner.setDistrict(district);
+        newOwner.setLatitude(latitude);
+        newOwner.setLongitude(longitude);
 
         realm.commitTransaction();
 

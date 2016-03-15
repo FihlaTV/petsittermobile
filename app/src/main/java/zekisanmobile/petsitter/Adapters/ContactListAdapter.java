@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.Util.Formatter;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
@@ -45,19 +46,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
         holder.iv_contact_owner.setImageResource(imageId);
         holder.tv_contact_owner.setText(contact.getOwner().getNome());
-        holder.tv_contact_created_at.setText(formattedDate(contact.getCreated_at()));
-    }
-
-    private String formattedDate(String contact_date) {
-        try {
-            SimpleDateFormat input = new SimpleDateFormat("yy-MM-dd");
-            SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
-            Date oldDate = input.parse(contact_date);
-            return output.format(oldDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
+        holder.tv_contact_created_at.setText(Formatter.formattedDateFromString(contact.getCreated_at()));
     }
 
     @Override

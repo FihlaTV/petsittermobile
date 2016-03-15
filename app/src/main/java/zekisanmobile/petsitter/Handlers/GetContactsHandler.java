@@ -59,7 +59,12 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
                 );
 
                 JSONObject ownerObject = jsonObject.getJSONObject("pet_owner");
-                Owner owner = OwnerDAO.insertOrUpdateOwner(ownerObject.getLong("id"), ownerObject.getString("name"));
+                Owner owner = OwnerDAO.insertOrUpdateOwner(ownerObject.getLong("id"),
+                        ownerObject.getString("name"),
+                        ownerObject.getString("address"),
+                        ownerObject.getString("district"),
+                        Float.parseFloat(ownerObject.getString("latitude")),
+                        Float.parseFloat(ownerObject.getString("longitude")));
 
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 try {

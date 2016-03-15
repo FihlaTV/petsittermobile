@@ -9,11 +9,19 @@ public class Owner extends RealmObject {
     private long id;
     private long apiId;
     private String nome;
+    private String address;
+    private String district;
+    private float latitude;
+    private float longitude;
 
     public Owner(){}
 
-    public Owner(String nome){
+    public Owner(String nome, String address, String district, float latitude, float longitude){
         this.nome = nome;
+        this.address = address;
+        this.district = district;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public long getId() {
@@ -37,5 +45,37 @@ public class Owner extends RealmObject {
     }
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 }
