@@ -1,6 +1,5 @@
 package zekisanmobile.petsitter.Model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;

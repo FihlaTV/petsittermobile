@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -38,8 +37,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Owner.SitterProfileActivity;
+import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Util.SitterMarker;
 
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,

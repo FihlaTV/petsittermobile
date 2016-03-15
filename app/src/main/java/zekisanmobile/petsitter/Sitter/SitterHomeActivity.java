@@ -1,6 +1,5 @@
 package zekisanmobile.petsitter.Sitter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -21,12 +20,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.ContactListAdapter;
-import zekisanmobile.petsitter.DAO.ContactDAO;
-import zekisanmobile.petsitter.DAO.UserDAO;
-import zekisanmobile.petsitter.Handlers.GetContactsHandler;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Contact;
-import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
 
 public class SitterHomeActivity extends AppCompatActivity
