@@ -58,7 +58,7 @@
             android:layout_marginBottom="5dp"
             android:layout_toRightOf="@+id/iv_place"
             android:paddingRight="16dp"
-            android:text="dsfsdfsdf"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/colorPrimarytext"
             android:textSize="16sp" />
 
@@ -69,7 +69,6 @@
             android:layout_alignLeft="@+id/tv_contact_district"
             android:layout_below="@+id/tv_contact_district"
             android:paddingRight="16dp"
-            android:text="sdfsdf"
             android:textSize="12sp" />
 
         <ImageView
@@ -90,7 +89,7 @@
             android:layout_marginTop="30dp"
             android:layout_toRightOf="@+id/iv_date"
             android:paddingRight="16dp"
-            android:text="dsfsdfsdf"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/colorTitleText"
             android:textSize="15sp" />
 
@@ -112,7 +111,7 @@
             android:layout_marginTop="30dp"
             android:layout_toRightOf="@+id/iv_time"
             android:paddingRight="16dp"
-            android:text="sdfsdf"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/colorTitleText"
             android:textSize="15sp" />
     </RelativeLayout>
