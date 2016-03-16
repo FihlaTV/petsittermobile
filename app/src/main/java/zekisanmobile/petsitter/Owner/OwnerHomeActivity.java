@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.stetho.okhttp.StethoInterceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -216,6 +217,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         @Override
         protected ArrayList<Sitter> doInBackground(String... url) {
             OkHttpClient client = new OkHttpClient();
+            client.networkInterceptors().add(new StethoInterceptor());
             Request request = new Request.Builder()
                     .url(url[0])
                     .build();
