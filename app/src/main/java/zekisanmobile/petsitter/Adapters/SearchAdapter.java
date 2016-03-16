@@ -33,8 +33,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
     public void onBindViewHolder(SearchItemHolder searchItemHolder, final int position) {
         SearchItem item = items.get(position);
 
-        searchItemHolder.tv_search_item.setText(item.getName());
-
+        searchItemHolder.chk_search_item.setText(item.getName());
         searchItemHolder.chk_search_item.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -50,7 +49,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
 
     public class SearchItemHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.tv_search_item) TextView tv_search_item;
         @Bind(R.id.chk_search_item) CheckBox chk_search_item;
 
         public SearchItemHolder(View view) {

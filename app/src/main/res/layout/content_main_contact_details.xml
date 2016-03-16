@@ -114,5 +114,28 @@
             android:layout_marginLeft="20dp"
             android:textColor="@color/colorTitleText"
             android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/bt_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ACEITAR"
+            android:layout_below="@+id/tv_contact_time_period"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/white"
+            android:background="@color/colorAccent"
+            android:layout_marginTop="40dp"/>
+
+        <Button
+            android:id="@+id/bt_reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RECUSAR"
+            android:layout_alignTop="@+id/bt_accept"
+            android:layout_toLeftOf="@+id/bt_accept"
+            android:layout_toStartOf="@+id/bt_accept"
+            android:textColor="@android:color/white"
+            android:background="@android:color/holo_red_dark"
+            android:layout_marginRight="10dp"/>
     </RelativeLayout>
 </LinearLayout>
