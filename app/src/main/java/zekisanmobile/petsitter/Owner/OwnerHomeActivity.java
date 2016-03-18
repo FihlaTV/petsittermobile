@@ -1,7 +1,6 @@
 package zekisanmobile.petsitter.Owner;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -14,38 +13,28 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.stetho.okhttp.StethoInterceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
+import zekisanmobile.petsitter.Handlers.JSONResponseHandler;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
 
 public class OwnerHomeActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener, OwnerHomeView {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
@@ -56,10 +45,9 @@ public class OwnerHomeActivity extends AppCompatActivity
     private MapsFragment mapsFragment;
     private TabLayout tabLayout;
 
-    private ArrayList<Sitter> sitters;
     private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
 
-    private User loggedUser;
+    private OwnerHomePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +56,7 @@ public class OwnerHomeActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        loggedUser = UserDAO.getLoggedUser(0);
+        presenter = new OwnerHomePresenterImpl(this);
 
         configureToolbar();
         configureTabLayout();
@@ -76,11 +64,10 @@ public class OwnerHomeActivity extends AppCompatActivity
         configureNavigationView();
 
         if (savedInstanceState == null) {
-            new JSONResponseHandler().execute(API_SEARCH_URL);
+            new JSONResponseHandler(sitterFragment, this).execute(API_SEARCH_URL);
         }
     }
 
-    // NAVIGATION DRAWER
     private void configureNavigationDrawer() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -95,16 +82,15 @@ public class OwnerHomeActivity extends AppCompatActivity
         Context context = getApplicationContext();
         ImageView ivUserImage = (ImageView) header.findViewById(R.id.ivUserImage);
         ivUserImage.setImageResource(context.getResources()
-                .getIdentifier(loggedUser.getPhoto(), "drawable", context.getPackageName()));
+                .getIdentifier(presenter.getLoggedUserPhoto(), "drawable", context.getPackageName()));
 
         TextView tvUsername = (TextView) header.findViewById(R.id.tvUsername);
-        tvUsername.setText(loggedUser.getName());
+        tvUsername.setText(presenter.getLoggedUserName());
 
         TextView tvUserEmail = (TextView) header.findViewById(R.id.tvUserEmail);
-        tvUserEmail.setText(loggedUser.getEmail());
+        tvUserEmail.setText(presenter.getLoggedUserEmail());
     }
 
-    // TABS
     private void configureTabLayout() {
         setupViewPager(viewPager);
 
@@ -114,7 +100,7 @@ public class OwnerHomeActivity extends AppCompatActivity
     }
 
     private void configureToolbar() {
-        toolbar.setTitle(loggedUser.getName());
+        toolbar.setTitle(presenter.getLoggedUserName());
         setSupportActionBar(toolbar);
     }
 
@@ -139,27 +125,6 @@ public class OwnerHomeActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_owner_home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public ArrayList<Sitter> getSitterList(){
-        if (sitters != null) return sitters;
-        return new ArrayList<Sitter>();
-    }
-
     public void updateSitterList(ArrayList<Sitter> sitters){
         sitterFragment.updateSittersList(sitters);
         mapsFragment.setSitters(sitters);
@@ -173,97 +138,5 @@ public class OwnerHomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
-    }
-
-    private class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
-
-        private final String TAG = JSONResponseHandler.class.getSimpleName();
-        private ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
-
-        @Override
-        protected void onPreExecute(){
-            if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
-        }
-
-        @Override
-        protected ArrayList<Sitter> doInBackground(String... url) {
-            OkHttpClient client = new OkHttpClient();
-            client.networkInterceptors().add(new StethoInterceptor());
-            Request request = new Request.Builder()
-                    .url(url[0])
-                    .build();
-            try {
-                Response response  = client.newCall(request).execute();
-                String jsonData = response.body().string();
-                JSONArray jsonArray = new JSONArray(jsonData);
-                for (int i = 0; i < jsonArray.length(); i++) {
-
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                    returnedSitters.add(new Sitter(jsonObject.getLong("id"),
-                            jsonObject.getString("name"),
-                            jsonObject.getString("address"),
-                            jsonObject.getString("photo"),
-                            jsonObject.getString("header_background"),
-                            Float.parseFloat(jsonObject.getString("latitude")),
-                            Float.parseFloat(jsonObject.getString("longitude")),
-                            jsonObject.getString("district"),
-                            Double.valueOf(jsonObject.getString("value_hour")),
-                            Double.valueOf(jsonObject.getString("value_shift")),
-                            Double.valueOf(jsonObject.getString("value_day")),
-                            jsonObject.getString("about_me")));
-
-                }
-                mapsFragment.setSitters(returnedSitters);
-                return returnedSitters;
-            } catch (IOException e) {
-                Log.d(TAG, e.getMessage());
-            } catch (JSONException e) {
-                Log.d(TAG, e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
-            if (sitterFragment.isAdded()) sitterFragment.showProgress(false);
-            sitters = returnedSitters;
-            updateSitterList(sitters);
-        }
-
-        @Override
-        protected void onCancelled(){
-            sitterFragment.showProgress(false);
-        }
     }
 }
