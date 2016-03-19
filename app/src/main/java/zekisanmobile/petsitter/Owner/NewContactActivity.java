@@ -6,8 +6,14 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -27,10 +33,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmResults;
+import zekisanmobile.petsitter.Adapters.AnimalSpinnerAdapter;
+import zekisanmobile.petsitter.DAO.AnimalDAO;
 import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.DAO.SitterDAO;
 import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
+import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
@@ -41,6 +51,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
     private Sitter sitter;
     private User loggedUser;
+    private RealmResults<Animal> animals;
 
     @Bind(R.id.toolbar_new_contact) Toolbar toolbar;
     @Bind(R.id.tv_name) TextView tv_name;
@@ -66,15 +77,32 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         tv_name.setText(sitter.getName());
 
         loggedUser = UserDAO.getLoggedUser(0);
+        animals = AnimalDAO.getAllAnimals();
 
         configureToolbar();
 
-        if (savedInstanceState != null){
+        Spinner spAnimal = (Spinner) findViewById(R.id.sp_animal);
+        spAnimal.setAdapter(new AnimalSpinnerAdapter(this, animals));
+        View btRemoveAnimal = findViewById(R.id.bt_remove_animal);
+        btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callRemoveAnimal(v);
+            }
+        });
+
+        //createPetForView(findViewById(R.id.bt_add_animal), animals);
+
+        /*if (savedInstanceState != null){
             tv_date_start.setText(savedInstanceState.getString("date_start"));
             tv_date_final.setText(savedInstanceState.getString("date_final"));
             tv_time_start.setText(savedInstanceState.getString("time_start"));
             tv_time_final.setText(savedInstanceState.getString("time_final"));
-        }
+        }*/
+    }
+
+    public void callAddAnimal(View view){
+        createPetForView(view, animals);
     }
 
     @Override
@@ -104,8 +132,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
     }
 
-    private void requestContact() {
-        createContact();
+    private void requestContact(View view) {
+        createContact(view);
         JSONObject json = new JSONObject();
         try {
             json.put("sitter_id", sitter.getApiId());
@@ -123,7 +151,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         }
     }
 
-    private Contact createContact() {
+    private Contact createContact(View view) {
         Sitter persitedSitter = SitterDAO.insertOrUpdateSitter(sitter.getApiId(), sitter.getName(),
                 sitter.getAddress(), sitter.getPhoto(),
                 sitter.getProfile_background(), sitter.getLatitude(), sitter.getLongitude(), sitter.getDistrict(),
@@ -143,6 +171,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         contact.setTime_final(tv_time_final.getText().toString());
         contact.setOwner(loggedUser.getOwner());
         contact.setSitter(persitedSitter);
+        contact.getAnimals().addAll(getAnimalsFromView(view, animals));
         realm.commitTransaction();
         return contact;
     }
@@ -265,8 +294,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     @OnClick(R.id.bt_send)
-    public void send(){
-        requestContact();
+    public void send(View view){
+        requestContact(view);
     }
 
     @OnClick({ R.id.tv_date_start, R.id.tv_date_final })
@@ -277,5 +306,63 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     @OnClick({ R.id.tv_time_start, R.id.tv_time_final })
     public void doScheduleTime(){
         scheduleJobTime();
+    }
+
+    private void callRemoveAnimal(View view){
+        LinearLayout linearLayoutParent = (LinearLayout) view.getParent().getParent();
+
+        if(linearLayoutParent.getChildCount() > 2){
+            linearLayoutParent.removeView((LinearLayout) view.getParent());
+        }
+    }
+
+    private void createPetForView(View view, RealmResults<Animal> animals){
+        LayoutInflater inflater = this.getLayoutInflater();
+        LinearLayout linearLayoutChild = (LinearLayout) inflater.inflate(R.layout.box_animal, null);
+
+        Spinner spAnimal = (Spinner) linearLayoutChild.findViewById(R.id.sp_animal);
+        spAnimal.setAdapter(new AnimalSpinnerAdapter(this, animals));
+
+        View btRemoveAnimal = linearLayoutChild.findViewById(R.id.bt_remove_animal);
+        btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                callRemoveAnimal(view);
+            }
+        });
+
+        float scale = getResources().getDisplayMetrics().density;
+        int margin = (int)(5 * scale + 0.5f);
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(margin, margin, margin, margin);
+        linearLayoutChild.setLayoutParams(layoutParams);
+
+        LinearLayout linearLayoutParent = (LinearLayout) view.getParent();
+        linearLayoutParent.addView(linearLayoutChild, linearLayoutParent.getChildCount() - 2);
+    }
+
+    private List<Animal> getAnimalsFromView(View view, RealmResults<Animal> animals){
+        List<Animal> list = new LinkedList<>();
+        LinearLayout linearLayoutParent = (LinearLayout) view.getParent();
+
+        for(int i = 0; i < linearLayoutParent.getChildCount(); i++){
+            if(linearLayoutParent.getChildAt(i) instanceof ScrollView){
+                ScrollView scrollView = (ScrollView) linearLayoutParent.getChildAt(i);
+                LinearLayout linearLayoutChild = (LinearLayout) scrollView.getChildAt(0);
+
+                for(int j = 0; j < linearLayoutChild.getChildCount(); j++){
+                    if(linearLayoutChild.getChildAt(j) instanceof LinearLayout){
+                        Spinner spAnimal = (Spinner) linearLayoutChild.getChildAt(j).findViewById(R.id.sp_animal);
+
+                        Animal animal = new Animal();
+                        animal.setId(animals.get(spAnimal.getSelectedItemPosition()).getId());
+                        animal.setName(animals.get(spAnimal.getSelectedItemPosition()).getName());
+                        list.add(animal);
+                    }
+                }
+            }
+        }
+        return list;
     }
 }

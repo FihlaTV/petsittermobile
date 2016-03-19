@@ -18,7 +18,7 @@ public class CustomApplication extends Application {
                 .name("realm-petsitter.realm")
                 .schemaVersion(13)
                 .migration(new MigrationData())
-                .deleteRealmIfMigrationNeeded()
+                //.deleteRealmIfMigrationNeeded()
                 .build();
 
         Realm.setDefaultConfiguration(realmConfiguration);

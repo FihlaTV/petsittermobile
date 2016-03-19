@@ -2,6 +2,7 @@ package zekisanmobile.petsitter.Model;
 
 import java.util.Date;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -17,6 +18,7 @@ public class Contact extends RealmObject {
     private String created_at;
     private Sitter sitter;
     private Owner owner;
+    private RealmList<Animal> animals;
 
     public Contact(){}
 
@@ -94,5 +96,13 @@ public class Contact extends RealmObject {
 
     public void setOwner(Owner owner) {
         this.owner = owner;
+    }
+
+    public RealmList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(RealmList<Animal> animals) {
+        this.animals = animals;
     }
 }

@@ -9,6 +9,8 @@ public class Animal extends RealmObject{
     private long id;
     private String name;
 
+    public Animal(){}
+
     public long getId() {
         return id;
     }
