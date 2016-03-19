@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Cão"
+  },
+  {
+    "id": 2,
+    "name": "Gato"
+  },
+  {
+    "id": 3,
+    "name": "Tartaruga"
+  },
+  {
+    "id": 4,
+    "name": "Peixe"
+  },
+  {
+    "id": 5,
+    "name": "Pássaro"
+  },
+  {
+    "id": 6,
+    "name": "Coelho"
+  },
+  {
+    "id": 7,
+    "name": "Hamster"
+  },
+  {
+    "id": 8,
+    "name": "Porquinho da Índia"
+  }
+]
