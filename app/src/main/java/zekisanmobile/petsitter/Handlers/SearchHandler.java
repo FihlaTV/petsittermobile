@@ -15,7 +15,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 
@@ -47,8 +49,17 @@ public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                JSONArray animalsArray = jsonObject.getJSONArray("animals");
+                List<Animal> animals = new ArrayList<Animal>();
 
-                sitters.add(new Sitter(jsonObject.getLong("id"),
+                for(int j = 0; j < animalsArray.length(); j++){
+                    JSONObject animalObject = animalsArray.getJSONObject(j);
+                    Animal animal = new Animal();
+                    animal.setId(animalObject.getLong("id"));
+                    animal.setName(animalObject.getString("name"));
+                    animals.add(animal);
+                }
+                Sitter sitter = new Sitter(jsonObject.getLong("id"),
                         jsonObject.getString("name"),
                         jsonObject.getString("address"),
                         jsonObject.getString("photo"),
@@ -59,7 +70,9 @@ public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
                         Double.valueOf(jsonObject.getString("value_hour")),
                         Double.valueOf(jsonObject.getString("value_shift")),
                         Double.valueOf(jsonObject.getString("value_day")),
-                        jsonObject.getString("about_me")));
+                        jsonObject.getString("about_me"),
+                        animals);
+                sitters.add(sitter);
 
             }
             return sitters;

@@ -54,7 +54,7 @@ public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitte
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 JSONArray animalsArray = jsonObject.getJSONArray("animals");
                 List<Animal> animals = new ArrayList<>();
-                for(int j = 0; j < animalsArray.length(); i++){
+                for(int j = 0; j < animalsArray.length(); j++){
                     JSONObject animalObject = animalsArray.getJSONObject(j);
                     Animal animal = new Animal();
                     animal.setId(animalObject.getLong("id"));
@@ -62,7 +62,7 @@ public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitte
                     animals.add(animal);
                 }
 
-                returnedSitters.add(new Sitter(jsonObject.getLong("id"),
+                Sitter sitter = new Sitter(jsonObject.getLong("id"),
                         jsonObject.getString("name"),
                         jsonObject.getString("address"),
                         jsonObject.getString("photo"),
@@ -74,7 +74,8 @@ public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitte
                         Double.valueOf(jsonObject.getString("value_shift")),
                         Double.valueOf(jsonObject.getString("value_day")),
                         jsonObject.getString("about_me"),
-                        animals));
+                        animals);
+                returnedSitters.add(sitter);
 
             }
             return returnedSitters;

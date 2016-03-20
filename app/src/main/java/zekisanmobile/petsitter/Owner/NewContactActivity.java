@@ -84,7 +84,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         tv_name.setText(sitter.getName());
 
         loggedUser = UserDAO.getLoggedUser(0);
-        animals = AnimalDAO.getAllAnimals();
+        animals = AnimalDAO.getAnimalsFromSitter(sitter);
 
         configureToolbar();
 

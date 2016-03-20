@@ -5,6 +5,7 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 @SuppressWarnings("serial")
@@ -24,7 +25,8 @@ public class Sitter extends RealmObject implements Serializable{
     private double value_shift;
     private double value_day;
     private String about_me;
-    private RealmList<Animal> animals;
+    @Ignore
+    private List<Animal> animals;
 
     public Sitter(){}
 
@@ -43,7 +45,7 @@ public class Sitter extends RealmObject implements Serializable{
         this.value_shift = value_shift;
         this.value_day = value_day;
         this.about_me = about_me;
-        this.getAnimals().addAll(animals);
+        this.animals = animals;
     }
 
     public long getId() {
@@ -150,11 +152,11 @@ public class Sitter extends RealmObject implements Serializable{
         this.about_me = about_me;
     }
 
-    public RealmList<Animal> getAnimals() {
+    public List<Animal> getAnimals() {
         return animals;
     }
 
-    public void setAnimals(RealmList<Animal> animals) {
+    public void setAnimals(List<Animal> animals) {
         this.animals = animals;
     }
 }

@@ -1,9 +1,11 @@
 package zekisanmobile.petsitter.Model;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Animal extends RealmObject{
+public class Animal extends RealmObject implements Serializable{
 
     @PrimaryKey
     private long id;
