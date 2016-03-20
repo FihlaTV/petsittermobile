@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <fragment
@@ -13,136 +13,142 @@
         android:layout_width="match_parent"
         android:layout_height="178dp" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        android:fillViewport="true"
+        android:scrollbars="none">
 
-        <ImageView
-            android:id="@+id/iv_contact_owner"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="4dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:id="@+id/tv_contact_owner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/iv_contact_owner"
-            android:paddingRight="20dp"
-            android:textColor="@color/colorPrimarytext"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/iv_contact_owner"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="4dp" />
 
-        <ImageView
-            android:id="@+id/iv_place"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_below="@+id/iv_contact_owner"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_place_black_24dp" />
+            <TextView
+                android:id="@+id/tv_contact_owner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/iv_contact_owner"
+                android:paddingRight="20dp"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_contact_district"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/iv_place"
-            android:layout_below="@+id/iv_contact_owner"
-            android:layout_marginBottom="5dp"
-            android:layout_toRightOf="@+id/iv_place"
-            android:paddingRight="16dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/colorPrimarytext"
-            android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/iv_place"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@+id/iv_contact_owner"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_place_black_24dp" />
 
-        <TextView
-            android:id="@+id/tv_contact_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_contact_district"
-            android:layout_below="@+id/tv_contact_district"
-            android:paddingRight="16dp"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_contact_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/iv_place"
+                android:layout_below="@+id/iv_contact_owner"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/iv_place"
+                android:paddingRight="16dp"
+                android:textColor="@color/colorPrimarytext"
+                android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/iv_date"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_below="@+id/tv_contact_address"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_event_note_black_24dp" />
+            <TextView
+                android:id="@+id/tv_contact_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tv_contact_district"
+                android:layout_below="@+id/tv_contact_district"
+                android:paddingRight="16dp"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_contact_date_period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_contact_address"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="30dp"
-            android:layout_toRightOf="@+id/iv_date"
-            android:paddingRight="16dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/colorTitleText"
-            android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/iv_date"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@+id/tv_contact_address"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_event_note_black_24dp" />
 
-        <ImageView
-            android:id="@+id/iv_time"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_below="@+id/tv_contact_date_period"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/ic_access_time_black_24dp" />
+            <TextView
+                android:id="@+id/tv_contact_date_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_contact_address"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_toRightOf="@+id/iv_date"
+                android:paddingRight="16dp"
+                android:textColor="@color/colorTitleText"
+                android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_contact_time_period"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_contact_date_period"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="30dp"
-            android:layout_toRightOf="@+id/iv_time"
-            android:paddingRight="16dp"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/colorTitleText"
-            android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/iv_time"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@+id/tv_contact_date_period"
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_access_time_black_24dp" />
 
-        <ListView
-            android:id="@+id/lv_contact_pets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_contact_time_period"
-            tools:listitem="@android:layout/simple_list_item_1"></ListView>
+            <TextView
+                android:id="@+id/tv_contact_time_period"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_contact_date_period"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_toRightOf="@+id/iv_time"
+                android:paddingRight="16dp"
+                android:textColor="@color/colorTitleText"
+                android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/bt_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ACEITAR"
-            android:layout_below="@+id/lv_contact_pets"
-            android:layout_alignParentRight="true"
-            android:textColor="@android:color/white"
-            android:background="@color/colorAccent"
-            android:layout_marginTop="40dp"/>
+            <ListView
+                android:id="@+id/lv_contact_pets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_contact_time_period"
+                tools:listitem="@android:layout/simple_list_item_1"></ListView>
 
-        <Button
-            android:id="@+id/bt_reject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="RECUSAR"
-            android:layout_alignTop="@+id/bt_accept"
-            android:layout_toLeftOf="@+id/bt_accept"
-            android:layout_toStartOf="@+id/bt_accept"
-            android:textColor="@android:color/white"
-            android:background="@android:color/holo_red_dark"
-            android:layout_marginRight="10dp"/>
-    </RelativeLayout>
+            <Button
+                android:id="@+id/bt_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/lv_contact_pets"
+                android:layout_marginTop="40dp"
+                android:background="@color/colorAccent"
+                android:text="ACEITAR"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/bt_reject"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/bt_accept"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/bt_accept"
+                android:layout_toStartOf="@+id/bt_accept"
+                android:background="@android:color/holo_red_dark"
+                android:text="RECUSAR"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </ScrollView>
 </LinearLayout>

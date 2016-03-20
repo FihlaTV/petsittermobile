@@ -72,8 +72,8 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
                 JSONArray animalsArray = jsonObject.getJSONArray("animals");
                 List<Animal> animals = new ArrayList<>();
 
-                for(int j = 0; j < animals.size(); j++){
-                    JSONObject animalObject = animalsArray.getJSONObject(i);
+                for(int j = 0; j < animalsArray.length(); j++){
+                    JSONObject animalObject = animalsArray.getJSONObject(j);
                     Animal animal = new Animal();
                     animal.setId(animalObject.getLong("id"));
                     animal.setName(animalObject.getString("name"));

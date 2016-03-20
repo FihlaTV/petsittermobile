@@ -1,7 +1,9 @@
 package zekisanmobile.petsitter.Model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -22,11 +24,13 @@ public class Sitter extends RealmObject implements Serializable{
     private double value_shift;
     private double value_day;
     private String about_me;
+    private RealmList<Animal> animals;
 
     public Sitter(){}
 
     public Sitter(long apiId, String name, String address, String photo, String profile_background, float latitude, float longitude,
-                  String district, double value_hour, double value_shift, double value_day, String about_me){
+                  String district, double value_hour, double value_shift, double value_day, String about_me,
+                  List<Animal> animals){
         this.apiId = apiId;
         this.name = name;
         this.address = address;
@@ -39,6 +43,7 @@ public class Sitter extends RealmObject implements Serializable{
         this.value_shift = value_shift;
         this.value_day = value_day;
         this.about_me = about_me;
+        this.getAnimals().addAll(animals);
     }
 
     public long getId() {
@@ -143,5 +148,13 @@ public class Sitter extends RealmObject implements Serializable{
 
     public void setAbout_me(String about_me) {
         this.about_me = about_me;
+    }
+
+    public RealmList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(RealmList<Animal> animals) {
+        this.animals = animals;
     }
 }

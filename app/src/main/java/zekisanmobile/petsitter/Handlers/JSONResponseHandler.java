@@ -14,8 +14,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import zekisanmobile.petsitter.Fragments.SitterFragment;
+import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
 
@@ -50,6 +52,15 @@ public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitte
             for (int i = 0; i < jsonArray.length(); i++) {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                JSONArray animalsArray = jsonObject.getJSONArray("animals");
+                List<Animal> animals = new ArrayList<>();
+                for(int j = 0; j < animalsArray.length(); i++){
+                    JSONObject animalObject = animalsArray.getJSONObject(j);
+                    Animal animal = new Animal();
+                    animal.setId(animalObject.getLong("id"));
+                    animal.setName(animalObject.getString("name"));
+                    animals.add(animal);
+                }
 
                 returnedSitters.add(new Sitter(jsonObject.getLong("id"),
                         jsonObject.getString("name"),
@@ -62,7 +73,8 @@ public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitte
                         Double.valueOf(jsonObject.getString("value_hour")),
                         Double.valueOf(jsonObject.getString("value_shift")),
                         Double.valueOf(jsonObject.getString("value_day")),
-                        jsonObject.getString("about_me")));
+                        jsonObject.getString("about_me"),
+                        animals));
 
             }
             return returnedSitters;

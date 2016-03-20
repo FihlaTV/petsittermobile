@@ -38,12 +38,14 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Contact contact = contacts.get(position);
+        if (contacts != null || contacts.size() == 0) {
+            Contact contact = contacts.get(position);
 
-        int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
-        holder.iv_contact_owner.setImageResource(imageId);
-        holder.tv_contact_owner.setText(contact.getOwner().getNome());
-        holder.tv_contact_created_at.setText(Formatter.formattedDateFromString(contact.getCreated_at()));
+            int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
+            holder.iv_contact_owner.setImageResource(imageId);
+            holder.tv_contact_owner.setText(contact.getOwner().getNome());
+            holder.tv_contact_created_at.setText(Formatter.formattedDateFromString(contact.getCreated_at()));
+        }
     }
 
     @Override
