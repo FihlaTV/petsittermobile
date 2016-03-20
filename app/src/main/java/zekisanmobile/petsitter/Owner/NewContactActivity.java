@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,11 +19,13 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,12 +54,18 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     private User loggedUser;
     private RealmResults<Animal> animals;
 
-    @Bind(R.id.toolbar_new_contact) Toolbar toolbar;
-    @Bind(R.id.tv_name) TextView tv_name;
-    @Bind(R.id.tv_date_start) EditText tv_date_start;
-    @Bind(R.id.tv_date_final) EditText tv_date_final;
-    @Bind(R.id.tv_time_start) EditText tv_time_start;
-    @Bind(R.id.tv_time_final) EditText tv_time_final;
+    @Bind(R.id.toolbar_new_contact)
+    Toolbar toolbar;
+    @Bind(R.id.tv_name)
+    TextView tv_name;
+    @Bind(R.id.tv_date_start)
+    EditText tv_date_start;
+    @Bind(R.id.tv_date_final)
+    EditText tv_date_final;
+    @Bind(R.id.tv_time_start)
+    EditText tv_time_start;
+    @Bind(R.id.tv_time_final)
+    EditText tv_time_final;
 
     private int year, month, day, hour, minute;
     private boolean date_start_setted;
@@ -101,12 +108,12 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         }*/
     }
 
-    public void callAddAnimal(View view){
+    public void callAddAnimal(View view) {
         createPetForView(view, animals);
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState){
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("date_start", tv_date_start.getText().toString());
         outState.putString("date_final", tv_date_final.getText().toString());
@@ -115,8 +122,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
@@ -134,14 +141,24 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
     private void requestContact(View view) {
         createContact(view);
-        JSONObject json = new JSONObject();
+        JSONObject jsonContact = new JSONObject();
+        JSONArray jsonAnimals = new JSONArray();
         try {
-            json.put("sitter_id", sitter.getApiId());
-            json.put("date_start", tv_date_start.getText());
-            json.put("date_final", tv_date_final.getText());
-            json.put("time_start", tv_time_start.getText());
-            json.put("time_final", tv_time_final.getText());
-            String[] params = {json.toString(), String.valueOf(loggedUser.getOwner().getApiId())};
+            jsonContact.put("sitter_id", sitter.getApiId());
+            jsonContact.put("date_start", tv_date_start.getText());
+            jsonContact.put("date_final", tv_date_final.getText());
+            jsonContact.put("time_start", tv_time_start.getText());
+            jsonContact.put("time_final", tv_time_final.getText());
+
+            List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
+            for (Animal a : selectedAnimals) {
+                JSONObject jsonAnimal = new JSONObject();
+                jsonAnimal.put("animal_id", a.getId());
+                jsonAnimals.put(jsonAnimal);
+            }
+
+            jsonContact.put("animal_contacts", jsonAnimals);
+            String[] params = {jsonContact.toString(), String.valueOf(loggedUser.getOwner().getApiId())};
 
             new SendRequestContactHandler().execute(params);
             Intent intent = new Intent(this, OwnerHomeActivity.class);
@@ -294,29 +311,29 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     @OnClick(R.id.bt_send)
-    public void send(View view){
+    public void send(View view) {
         requestContact(view);
     }
 
-    @OnClick({ R.id.tv_date_start, R.id.tv_date_final })
-    public void doScheduleDate(){
+    @OnClick({R.id.tv_date_start, R.id.tv_date_final})
+    public void doScheduleDate() {
         scheduleJobDate();
     }
 
-    @OnClick({ R.id.tv_time_start, R.id.tv_time_final })
-    public void doScheduleTime(){
+    @OnClick({R.id.tv_time_start, R.id.tv_time_final})
+    public void doScheduleTime() {
         scheduleJobTime();
     }
 
-    private void callRemoveAnimal(View view){
+    private void callRemoveAnimal(View view) {
         LinearLayout linearLayoutParent = (LinearLayout) view.getParent().getParent();
 
-        if(linearLayoutParent.getChildCount() > 2){
+        if (linearLayoutParent.getChildCount() > 2) {
             linearLayoutParent.removeView((LinearLayout) view.getParent());
         }
     }
 
-    private void createPetForView(View view, RealmResults<Animal> animals){
+    private void createPetForView(View view, RealmResults<Animal> animals) {
         LayoutInflater inflater = this.getLayoutInflater();
         LinearLayout linearLayoutChild = (LinearLayout) inflater.inflate(R.layout.box_animal, null);
 
@@ -326,13 +343,13 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         View btRemoveAnimal = linearLayoutChild.findViewById(R.id.bt_remove_animal);
         btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 callRemoveAnimal(view);
             }
         });
 
         float scale = getResources().getDisplayMetrics().density;
-        int margin = (int)(5 * scale + 0.5f);
+        int margin = (int) (5 * scale + 0.5f);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(margin, margin, margin, margin);
@@ -342,27 +359,23 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         linearLayoutParent.addView(linearLayoutChild, linearLayoutParent.getChildCount() - 2);
     }
 
-    private List<Animal> getAnimalsFromView(View view, RealmResults<Animal> animals){
-        List<Animal> list = new LinkedList<>();
+    private List<Animal> getAnimalsFromView(View view, RealmResults<Animal> animals) {
+        List<Animal> list = new ArrayList<Animal>();
         LinearLayout linearLayoutParent = (LinearLayout) view.getParent();
+        LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(9);
 
-        for(int i = 0; i < linearLayoutParent.getChildCount(); i++){
-            if(linearLayoutParent.getChildAt(i) instanceof ScrollView){
-                ScrollView scrollView = (ScrollView) linearLayoutParent.getChildAt(i);
-                LinearLayout linearLayoutChild = (LinearLayout) scrollView.getChildAt(0);
+        for (int i = 0; i < linearLayoutChild.getChildCount(); i++) {
+            if (linearLayoutChild.getChildAt(i) instanceof LinearLayout) {
+                LinearLayout linearLayoutNestedChild = (LinearLayout) linearLayoutChild.getChildAt(i);
+                Spinner spAnimal = (Spinner) linearLayoutNestedChild.getChildAt(0).findViewById(R.id.sp_animal);
 
-                for(int j = 0; j < linearLayoutChild.getChildCount(); j++){
-                    if(linearLayoutChild.getChildAt(j) instanceof LinearLayout){
-                        Spinner spAnimal = (Spinner) linearLayoutChild.getChildAt(j).findViewById(R.id.sp_animal);
-
-                        Animal animal = new Animal();
-                        animal.setId(animals.get(spAnimal.getSelectedItemPosition()).getId());
-                        animal.setName(animals.get(spAnimal.getSelectedItemPosition()).getName());
-                        list.add(animal);
-                    }
-                }
+                Animal animal = new Animal();
+                animal.setId(animals.get(spAnimal.getSelectedItemPosition()).getId());
+                animal.setName(animals.get(spAnimal.getSelectedItemPosition()).getName());
+                list.add(animal);
             }
         }
+
         return list;
     }
 }
