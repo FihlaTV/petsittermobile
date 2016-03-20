@@ -11,6 +11,8 @@ public interface ContactDetailsPresenter {
     String getContactDatePeriod();
     String getContactTimePeriod();
 
+    String[] getContactAnimals();
+
     double getContactOwnerLatitude();
     double getContactOwnerLongitude();
 }

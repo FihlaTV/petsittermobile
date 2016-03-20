@@ -1,6 +1,12 @@
 package zekisanmobile.petsitter.Sitter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import zekisanmobile.petsitter.DAO.ContactDAO;
+import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Util.Formatter;
 
@@ -48,6 +54,16 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     @Override
     public String getContactTimePeriod() {
         return this.contact.getTime_start() + " - " + this.contact.getTime_final();
+    }
+
+    @Override
+    public String[] getContactAnimals() {
+        RealmList<Animal> animals = this.contact.getAnimals();
+        String[] animalsNames = new String[animals.size()];
+        for(int i = 0; i < animals.size(); i++){
+            animalsNames[i] = animals.get(i).getName();
+        }
+        return animalsNames;
     }
 
     @Override

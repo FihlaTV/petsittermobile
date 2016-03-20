@@ -13,11 +13,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.DAO.OwnerDAO;
 import zekisanmobile.petsitter.DAO.SitterDAO;
+import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Sitter.SitterHomePresenter;
@@ -66,6 +69,17 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
                         Float.parseFloat(ownerObject.getString("latitude")),
                         Float.parseFloat(ownerObject.getString("longitude")));
 
+                JSONArray animalsArray = jsonObject.getJSONArray("animals");
+                List<Animal> animals = new ArrayList<>();
+
+                for(int j = 0; j < animals.size(); j++){
+                    JSONObject animalObject = animalsArray.getJSONObject(i);
+                    Animal animal = new Animal();
+                    animal.setId(animalObject.getLong("id"));
+                    animal.setName(animalObject.getString("name"));
+                    animals.add(animal);
+                }
+
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 try {
                     Date date_start = formatter.parse(jsonObject.getString("date_start"));
@@ -75,7 +89,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
                             date_start, date_final, jsonObject.getString("time_start"),
                             jsonObject.getString("time_final"),
                             jsonObject.getString("created_at").substring(0, 10),
-                            sitter, owner);
+                            sitter, owner, animals);
 
                 } catch (ParseException e) {
                     e.printStackTrace();

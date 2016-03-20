@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -32,6 +34,7 @@ public class ContactDetailsActivity extends AppCompatActivity
     @Bind(R.id.tv_contact_address) TextView tvContactAddress;
     @Bind(R.id.tv_contact_date_period) TextView tvContactDatePeriod;
     @Bind(R.id.tv_contact_time_period) TextView tvContactTimePeriod;
+    @Bind(R.id.lv_contact_pets) ListView lvContactPets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,10 @@ public class ContactDetailsActivity extends AppCompatActivity
         tvContactAddress.setText(presenter.getContactAddress());
         tvContactDatePeriod.setText(presenter.getContactDatePeriod());
         tvContactTimePeriod.setText(presenter.getContactTimePeriod());
+
+        ArrayAdapter<String> animalsAdapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, presenter.getContactAnimals());
+        lvContactPets.setAdapter(animalsAdapter);
     }
 
     private void configureToolbar() {

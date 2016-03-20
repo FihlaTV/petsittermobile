@@ -2,9 +2,11 @@ package zekisanmobile.petsitter.DAO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
@@ -22,7 +24,8 @@ public class ContactDAO {
     }
 
     public static Contact insertOrUpdateContact(long id, Date date_start, Date date_final, String time_start,
-                                               String time_final, String created_at, Sitter sitter, Owner owner){
+                                                String time_final, String created_at, Sitter sitter, Owner owner,
+                                                List<Animal> animals){
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         Contact newContact;
@@ -40,6 +43,7 @@ public class ContactDAO {
         newContact.setCreated_at(created_at);
         newContact.setSitter(sitter);
         newContact.setOwner(owner);
+        newContact.getAnimals().addAll(animals);
 
         realm.commitTransaction();
 
