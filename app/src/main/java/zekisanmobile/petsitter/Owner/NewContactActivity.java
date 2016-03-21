@@ -23,10 +23,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,6 +55,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     private Sitter sitter;
     private User loggedUser;
     private RealmResults<Animal> animals;
+    private int selectedAnimalsCount;
 
     @Bind(R.id.toolbar_new_contact)
     Toolbar toolbar;
@@ -66,6 +69,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     EditText tv_time_start;
     @Bind(R.id.tv_time_final)
     EditText tv_time_final;
+    @Bind(R.id.tv_total_value)
+    TextView tvTotalValue;
 
     private int year, month, day, hour, minute;
     private boolean date_start_setted;
@@ -296,8 +301,31 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             tv_time_start.setText(setTimeOnTextView());
         } else {
             tv_time_final.setText(setTimeOnTextView());
+            calculateTotalValue();
         }
         time_start_setted = true;
+    }
+
+    private void calculateTotalValue() {
+        updateSelectedAnimalsCount();
+        SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatterTime = new SimpleDateFormat("hh:mm");
+        try {
+            Date dateStart = formatterDate.parse(tv_date_start.getText().toString());
+            Date dateFinal = formatterDate.parse(tv_date_final.getText().toString());
+            long days = (dateFinal.getTime() - dateStart.getTime())/(24*60*60*1000);
+
+            Date convertedTimeStart = formatterTime.parse(tv_time_start.getText().toString().replace("h", ":"));
+            Date convertedTimeFinal = formatterTime.parse(tv_time_final.getText().toString().replace("h", ":"));
+            long minutes = (convertedTimeFinal.getTime() - (convertedTimeStart.getTime())) / 60000;
+
+            double minuteValue = sitter.getValue_hour() / 60;
+            double totalMinutesValue = minutes * minuteValue;
+            double totalValue = totalMinutesValue * days;
+            tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue * selectedAnimalsCount));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private String setDateOnTextView() {
@@ -330,6 +358,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
         if (linearLayoutParent.getChildCount() > 2) {
             linearLayoutParent.removeView((LinearLayout) view.getParent());
+            calculateTotalValue();
         }
     }
 
@@ -357,6 +386,15 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
         LinearLayout linearLayoutParent = (LinearLayout) view.getParent();
         linearLayoutParent.addView(linearLayoutChild, linearLayoutParent.getChildCount() - 2);
+
+        calculateTotalValue();
+    }
+
+    private void updateSelectedAnimalsCount(){
+        View btAddAnimal = findViewById(R.id.bt_add_animal);
+        LinearLayout linearLayoutParent = (LinearLayout) btAddAnimal.getParent().getParent();
+        LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(9);
+        selectedAnimalsCount = linearLayoutChild.getChildCount() - 1;
     }
 
     private List<Animal> getAnimalsFromView(View view, RealmResults<Animal> animals) {
