@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -69,6 +71,17 @@ public class ContactDetailsActivity extends AppCompatActivity
         ArrayAdapter<String> animalsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, presenter.getContactAnimals());
         lvContactPets.setAdapter(animalsAdapter);
+
+        int totalHeight = 0;
+        for (int i = 0; i < animalsAdapter.getCount(); i++) {
+            View listItem = animalsAdapter.getView(i, null, lvContactPets);
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams listViewParams = lvContactPets.getLayoutParams();
+        listViewParams.height = totalHeight + (lvContactPets.getDividerHeight() * (lvContactPets.getChildCount() - 1));
+        lvContactPets.requestLayout();
     }
 
     private void configureToolbar() {

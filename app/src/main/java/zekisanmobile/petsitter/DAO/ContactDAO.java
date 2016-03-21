@@ -43,6 +43,7 @@ public class ContactDAO {
         newContact.setCreated_at(created_at);
         newContact.setSitter(sitter);
         newContact.setOwner(owner);
+        if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
         newContact.getAnimals().addAll(animals);
 
         realm.commitTransaction();
