@@ -37,6 +37,7 @@ public class ContactDetailsActivity extends AppCompatActivity
     @Bind(R.id.tv_contact_date_period) TextView tvContactDatePeriod;
     @Bind(R.id.tv_contact_time_period) TextView tvContactTimePeriod;
     @Bind(R.id.lv_contact_pets) ListView lvContactPets;
+    @Bind(R.id.tv_total_value) TextView tvTotalValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class ContactDetailsActivity extends AppCompatActivity
         tvContactAddress.setText(presenter.getContactAddress());
         tvContactDatePeriod.setText(presenter.getContactDatePeriod());
         tvContactTimePeriod.setText(presenter.getContactTimePeriod());
+        tvTotalValue.setText(presenter.getContactTotalValue());
 
         ArrayAdapter<String> animalsAdapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, presenter.getContactAnimals());

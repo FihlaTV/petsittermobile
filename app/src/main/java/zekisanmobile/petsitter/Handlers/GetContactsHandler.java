@@ -89,7 +89,8 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
                             date_start, date_final, jsonObject.getString("time_start"),
                             jsonObject.getString("time_final"),
                             jsonObject.getString("created_at").substring(0, 10),
-                            sitter, owner, animals);
+                            sitter, owner, Double.parseDouble(jsonObject.getString("total_value")),
+                            animals);
 
                 } catch (ParseException e) {
                     e.printStackTrace();

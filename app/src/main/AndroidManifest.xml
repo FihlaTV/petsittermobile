@@ -46,7 +46,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Owner.NewContactActivity"
-            android:label="Novo Contato"
+            android:label="Solicitação de Pet Sitter"
             android:parentActivityName=".Owner.SitterProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />

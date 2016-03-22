@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter.Sitter;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     @Override
     public String getContactTimePeriod() {
         return this.contact.getTime_start() + " - " + this.contact.getTime_final();
+    }
+
+    @Override
+    public String getContactTotalValue() {
+        return NumberFormat.getCurrencyInstance().format(this.contact.getTotalValue());
     }
 
     @Override

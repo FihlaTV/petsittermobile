@@ -155,7 +155,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="20dp"
                     android:paddingRight="16dp"
-                    android:textColor="@color/colorTitleText"
+                    android:textColor="@color/colorAccent"
                     android:textSize="30sp"
                     android:singleLine="true"
                     android:textStyle="bold"/>

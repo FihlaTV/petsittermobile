@@ -73,9 +73,10 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     TextView tvTotalValue;
 
     private int year, month, day, hour, minute;
-    private boolean date_start_setted;
-    private boolean time_start_setted;
     private Calendar tDefault;
+    private final int FLAG_START = 0;
+    private final int FLAG_END = 1;
+    private int flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +155,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             jsonContact.put("date_final", tv_date_final.getText());
             jsonContact.put("time_start", tv_time_start.getText());
             jsonContact.put("time_final", tv_time_final.getText());
+            jsonContact.put("total_value", tvTotalValue.getText().toString()
+                    .replace("R$", "").replace(",", "."));
 
             List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
             for (Animal a : selectedAnimals) {
@@ -284,12 +287,15 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         month = monthOfYear;
         day = dayOfMonth;
 
-        if (!date_start_setted) {
-            tv_date_start.setText(setDateOnTextView());
-        } else {
-            tv_date_final.setText(setDateOnTextView());
+        switch (flag){
+            case FLAG_START:
+                tv_date_start.setText(setDateOnTextView());
+                break;
+            case FLAG_END:
+                tv_date_final.setText(setDateOnTextView());
+                break;
         }
-        date_start_setted = true;
+        calculateTotalValue();
     }
 
     @Override
@@ -297,35 +303,45 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         this.hour = hourOfDay;
         this.minute = minute;
 
-        if (!time_start_setted) {
-            tv_time_start.setText(setTimeOnTextView());
-        } else {
-            tv_time_final.setText(setTimeOnTextView());
-            calculateTotalValue();
+        switch (flag){
+            case FLAG_START:
+                tv_time_start.setText(setTimeOnTextView());
+                break;
+            case FLAG_END:
+                tv_time_final.setText(setTimeOnTextView());
+                break;
         }
-        time_start_setted = true;
+        calculateTotalValue();
     }
 
     private void calculateTotalValue() {
         updateSelectedAnimalsCount();
-        SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat formatterTime = new SimpleDateFormat("hh:mm");
-        try {
-            Date dateStart = formatterDate.parse(tv_date_start.getText().toString());
-            Date dateFinal = formatterDate.parse(tv_date_final.getText().toString());
-            long days = (dateFinal.getTime() - dateStart.getTime())/(24*60*60*1000);
+        if (canCalculateTotalValue() && selectedAnimalsCount > 0) {
+            SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatterTime = new SimpleDateFormat("hh:mm");
+            try {
+                Date dateStart = formatterDate.parse(tv_date_start.getText().toString());
+                Date dateFinal = formatterDate.parse(tv_date_final.getText().toString());
+                long days = (dateFinal.getTime() - dateStart.getTime()) / (24 * 60 * 60 * 1000);
 
-            Date convertedTimeStart = formatterTime.parse(tv_time_start.getText().toString().replace("h", ":"));
-            Date convertedTimeFinal = formatterTime.parse(tv_time_final.getText().toString().replace("h", ":"));
-            long minutes = (convertedTimeFinal.getTime() - (convertedTimeStart.getTime())) / 60000;
+                Date convertedTimeStart = formatterTime.parse(tv_time_start.getText().toString().replace("h", ":"));
+                Date convertedTimeFinal = formatterTime.parse(tv_time_final.getText().toString().replace("h", ":"));
+                long minutes = (convertedTimeFinal.getTime() - (convertedTimeStart.getTime())) / 60000;
 
-            double minuteValue = sitter.getValue_hour() / 60;
-            double totalMinutesValue = minutes * minuteValue;
-            double totalValue = totalMinutesValue * days;
-            tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue * selectedAnimalsCount));
-        } catch (ParseException e) {
-            e.printStackTrace();
+                double minuteValue = sitter.getValue_hour() / 60;
+                double totalMinutesValue = minutes * minuteValue;
+                double totalValue = totalMinutesValue * days;
+                tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue * selectedAnimalsCount));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    private boolean canCalculateTotalValue(){
+        if(tv_date_start.getText() != null && tv_date_final.getText() != null
+                && tv_time_start.getText() != null && tv_time_final.getText() != null) return true;
+        return false;
     }
 
     private String setDateOnTextView() {
@@ -343,13 +359,27 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         requestContact(view);
     }
 
-    @OnClick({R.id.tv_date_start, R.id.tv_date_final})
-    public void doScheduleDate() {
+    @OnClick(R.id.tv_date_start)
+    public void doScheduleDateStart() {
+        flag = FLAG_START;
         scheduleJobDate();
     }
 
-    @OnClick({R.id.tv_time_start, R.id.tv_time_final})
-    public void doScheduleTime() {
+    @OnClick(R.id.tv_date_final)
+    public void doScheduleDateFinal() {
+        flag = FLAG_END;
+        scheduleJobDate();
+    }
+
+    @OnClick(R.id.tv_time_start)
+    public void doScheduleTimeStart() {
+        flag = FLAG_START;
+        scheduleJobTime();
+    }
+
+    @OnClick(R.id.tv_time_final)
+    public void doScheduleTimeFinal() {
+        flag = FLAG_END;
         scheduleJobTime();
     }
 

@@ -10,6 +10,7 @@ public interface ContactDetailsPresenter {
     String getContactAddress();
     String getContactDatePeriod();
     String getContactTimePeriod();
+    String getContactTotalValue();
 
     String[] getContactAnimals();
 

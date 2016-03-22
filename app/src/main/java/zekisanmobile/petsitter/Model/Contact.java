@@ -18,12 +18,14 @@ public class Contact extends RealmObject {
     private String created_at;
     private Sitter sitter;
     private Owner owner;
+    private double totalValue;
     private RealmList<Animal> animals;
 
     public Contact(){}
 
     public Contact(long id, Date date_start, Date date_final, String time_start,
-                   String time_final, String created_at, Sitter sitter, Owner owner){
+                   String time_final, String created_at, Sitter sitter, Owner owner,
+                   double totalValue){
         this.id = id;
         this.date_start = date_start;
         this.date_final = date_final;
@@ -32,6 +34,7 @@ public class Contact extends RealmObject {
         this.created_at = created_at;
         this.sitter = sitter;
         this.owner = owner;
+        this.totalValue = totalValue;
     }
 
     public long getId() {
@@ -104,5 +107,13 @@ public class Contact extends RealmObject {
 
     public void setAnimals(RealmList<Animal> animals) {
         this.animals = animals;
+    }
+
+    public double getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(double totalValue) {
+        this.totalValue = totalValue;
     }
 }
