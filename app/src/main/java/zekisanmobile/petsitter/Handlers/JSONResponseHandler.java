@@ -21,10 +21,10 @@ import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
 
-public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
+public class JSONResponseHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> {
 
     private final String TAG = JSONResponseHandler.class.getSimpleName();
-    private ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
+    private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
     private SitterFragment sitterFragment;
     private OwnerHomeView view;
 
@@ -34,18 +34,14 @@ public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitte
     }
 
     @Override
-    protected void onPreExecute(){
-        if (sitterFragment.isAdded()) sitterFragment.showProgress(true);
-    }
-
-    @Override
-    protected ArrayList<Sitter> doInBackground(String... url) {
+    protected ArrayList<Sitter> doInBackground(Void... params) {
         OkHttpClient client = new OkHttpClient();
         client.networkInterceptors().add(new StethoInterceptor());
         Request request = new Request.Builder()
-                .url(url[0])
+                .url(API_SEARCH_URL)
                 .build();
         try {
+            ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
             Response response  = client.newCall(request).execute();
             String jsonData = response.body().string();
             JSONArray jsonArray = new JSONArray(jsonData);
@@ -90,8 +86,11 @@ public class JSONResponseHandler extends AsyncTask<String, Void, ArrayList<Sitte
 
     @Override
     protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
-        if (sitterFragment.isAdded()) sitterFragment.showProgress(false);
-        view.updateSitterList(returnedSitters);
+        if (sitterFragment.isAdded()) {
+            sitterFragment.showProgress(false);
+            sitterFragment.setRunningRequest(false);
+        }
+        if (receivedSitters != null && receivedSitters.size() > 0) view.updateSitterList(receivedSitters);
     }
 
     @Override

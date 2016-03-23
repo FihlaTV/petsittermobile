@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
+import zekisanmobile.petsitter.Handlers.JSONResponseHandler;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
@@ -35,13 +36,19 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
 
-    public SitterFragment() {}
+    private boolean isRunningRequest;
+
+    public SitterFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            sitters = (ArrayList<Sitter>)savedInstanceState.getSerializable("sittersList");
+            sitters = (ArrayList<Sitter>) savedInstanceState.getSerializable("sittersList");
+        } else {
+            isRunningRequest = true;
+            new JSONResponseHandler(this, (OwnerHomeActivity) this.getActivity()).execute();
         }
     }
 
@@ -58,12 +65,13 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
 
-        //showProgress(true);
+        showProgress(true);
+
         return view;
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 
         mBundleRecyclerViewState = new Bundle();
@@ -72,8 +80,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         if (mBundleRecyclerViewState != null) {
             Parcelable listState = mBundleRecyclerViewState.getParcelable(KEY_RECYCLER_STATE);
@@ -82,7 +89,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState){
+    public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putSerializable("sittersList", sitters);
     }
@@ -94,7 +101,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         startActivity(intent);
     }
 
-    public void updateSittersList(ArrayList<Sitter> mList){
+    public void updateSittersList(ArrayList<Sitter> mList) {
         this.sitters = mList;
         if (adapter == null) {
             adapter = new SitterAdapter(sitters, getContext());
@@ -104,7 +111,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    public void showProgress(final boolean show){
+    public void showProgress(final boolean show) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = 200;
 
@@ -119,5 +126,9 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         } else {
             progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         }
+    }
+
+    public void setRunningRequest(boolean runningRequest) {
+        isRunningRequest = runningRequest;
     }
 }

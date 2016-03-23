@@ -4,9 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -19,18 +16,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
-import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Handlers.JSONResponseHandler;
 import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
 
 public class OwnerHomeActivity extends AppCompatActivity
@@ -44,8 +38,6 @@ public class OwnerHomeActivity extends AppCompatActivity
     private SitterFragment sitterFragment;
     private MapsFragment mapsFragment;
     private TabLayout tabLayout;
-
-    private static final String API_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters";
 
     private OwnerHomePresenter presenter;
 
@@ -62,10 +54,6 @@ public class OwnerHomeActivity extends AppCompatActivity
         configureTabLayout();
         configureNavigationDrawer();
         configureNavigationView();
-
-        if (savedInstanceState == null) {
-            new JSONResponseHandler(sitterFragment, this).execute(API_SEARCH_URL);
-        }
     }
 
     private void configureNavigationDrawer() {
