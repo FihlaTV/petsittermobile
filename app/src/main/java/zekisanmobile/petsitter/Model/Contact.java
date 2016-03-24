@@ -19,6 +19,7 @@ public class Contact extends RealmObject {
     private Sitter sitter;
     private Owner owner;
     private double totalValue;
+    private int status;
     private RealmList<Animal> animals;
 
     public Contact(){}
@@ -115,5 +116,13 @@ public class Contact extends RealmObject {
 
     public void setTotalValue(double totalValue) {
         this.totalValue = totalValue;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
