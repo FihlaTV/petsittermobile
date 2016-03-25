@@ -1,12 +1,17 @@
 package zekisanmobile.petsitter.Sitter;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import zekisanmobile.petsitter.R;
 
 public class ContactDetailsActivity extends AppCompatActivity
@@ -29,15 +35,24 @@ public class ContactDetailsActivity extends AppCompatActivity
 
     private ContactDetailsPresenter presenter;
 
-    @Bind(R.id.toolbar_contact_details) Toolbar toolbar;
-    @Bind(R.id.iv_contact_owner) ImageView ivContactOwner;
-    @Bind(R.id.tv_contact_owner) TextView tvContactOwner;
-    @Bind(R.id.tv_contact_district) TextView tvContactDistrict;
-    @Bind(R.id.tv_contact_address) TextView tvContactAddress;
-    @Bind(R.id.tv_contact_date_period) TextView tvContactDatePeriod;
-    @Bind(R.id.tv_contact_time_period) TextView tvContactTimePeriod;
-    @Bind(R.id.lv_contact_pets) ListView lvContactPets;
-    @Bind(R.id.tv_total_value) TextView tvTotalValue;
+    @Bind(R.id.toolbar_contact_details)
+    Toolbar toolbar;
+    @Bind(R.id.iv_contact_owner)
+    ImageView ivContactOwner;
+    @Bind(R.id.tv_contact_owner)
+    TextView tvContactOwner;
+    @Bind(R.id.tv_contact_district)
+    TextView tvContactDistrict;
+    @Bind(R.id.tv_contact_address)
+    TextView tvContactAddress;
+    @Bind(R.id.tv_contact_date_period)
+    TextView tvContactDatePeriod;
+    @Bind(R.id.tv_contact_time_period)
+    TextView tvContactTimePeriod;
+    @Bind(R.id.lv_contact_pets)
+    ListView lvContactPets;
+    @Bind(R.id.tv_total_value)
+    TextView tvTotalValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,8 +109,8 @@ public class ContactDetailsActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
@@ -105,9 +120,58 @@ public class ContactDetailsActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng latLng =  new LatLng(presenter.getContactOwnerLatitude(), presenter.getContactOwnerLongitude());
+        LatLng latLng = new LatLng(presenter.getContactOwnerLatitude(), presenter.getContactOwnerLongitude());
         googleMap.addMarker(new MarkerOptions().position(latLng));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 16);
         googleMap.animateCamera(cameraUpdate);
+    }
+
+    @OnClick(R.id.bt_accept)
+    public void acceptContact(){
+        presenter.acceptContact();
+        showAcceptDialog();
+    }
+
+    @OnClick(R.id.bt_reject)
+    public void rejectContact() {
+        showRejectDialog();
+    }
+
+    private void showAcceptDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage("Parabéns! Seu novo trabalho iniciará dia "
+                        + presenter.getContactStartDate() + ".")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(ContactDetailsActivity.this, SitterHomeActivity.class);
+                        startActivity(intent);
+                    }
+                }).create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void showRejectDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .setMessage("Recusar Solicitação de Pet Sitter?")
+                .setPositiveButton("RECUSAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        presenter.deleteContact();
+                    }
+                })
+                .setNegativeButton("CANCELAR", null)
+                .create();
+        dialog.show();
+        keepDialog(dialog);
+    }
+
+    private void keepDialog(Dialog dialog){
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(dialog.getWindow().getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setAttributes(layoutParams);
     }
 }

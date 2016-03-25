@@ -25,7 +25,7 @@ import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Sitter.SitterHomePresenter;
 
-public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
+public class GetContactsHandler extends AsyncTask<String, Void, Void> {
 
     private final static String BASE_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters/";
     private final static String FINAL_SEARCH_URL = "/contacts";
@@ -37,7 +37,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(String... params) {
+    protected Void doInBackground(String... params) {
         Request request = new Request.Builder()
                 .url(BASE_SEARCH_URL + params[0] + FINAL_SEARCH_URL)
                 .build();
@@ -96,7 +96,6 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
                     e.printStackTrace();
                 }
             }
-            return jsonArray.length();
         }
         catch (IOException e) { e.printStackTrace(); }
         catch (JSONException e) { e.printStackTrace(); }
@@ -104,7 +103,7 @@ public class GetContactsHandler extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer receivedContactsLength) {
-        if (receivedContactsLength > 0) presenter.updateContacts();
+    protected void onPostExecute(Void v) {
+        presenter.updateContacts();
     }
 }

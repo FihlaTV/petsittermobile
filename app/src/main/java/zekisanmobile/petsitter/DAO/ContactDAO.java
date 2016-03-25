@@ -67,4 +67,17 @@ public class ContactDAO {
         Realm realm = Realm.getDefaultInstance();
         return realm.where(Contact.class).equalTo("id", id).findFirst();
     }
+
+    public static void deleteContact(long id){
+        Realm realm = Realm.getDefaultInstance();
+        realm.where(Contact.class).equalTo("id", id).findFirst().removeFromRealm();
+    }
+
+    public static void updateStatus(long id, int status) {
+        Realm realm = Realm.getDefaultInstance();
+        Contact contact = realm.where(Contact.class).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        contact.setStatus(status);
+        realm.commitTransaction();
+    }
 }

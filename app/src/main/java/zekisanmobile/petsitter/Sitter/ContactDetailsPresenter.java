@@ -8,6 +8,7 @@ public interface ContactDetailsPresenter {
     String getContactPhoto();
     String getContactDistrict();
     String getContactAddress();
+    String getContactStartDate();
     String getContactDatePeriod();
     String getContactTimePeriod();
     String getContactTotalValue();
@@ -16,4 +17,7 @@ public interface ContactDetailsPresenter {
 
     double getContactOwnerLatitude();
     double getContactOwnerLongitude();
+
+    void acceptContact();
+    void deleteContact();
 }

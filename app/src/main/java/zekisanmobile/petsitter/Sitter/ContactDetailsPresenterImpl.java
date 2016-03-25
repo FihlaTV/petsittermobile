@@ -1,12 +1,13 @@
 package zekisanmobile.petsitter.Sitter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.RealmList;
-import io.realm.RealmResults;
 import zekisanmobile.petsitter.DAO.ContactDAO;
+import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
 import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Util.Formatter;
@@ -46,6 +47,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     }
 
     @Override
+    public String getContactStartDate() {
+        return Formatter.formattedDate(this.contact.getDate_start());
+    }
+
+    @Override
     public String getContactDatePeriod() {
         return Formatter.formattedDate(this.contact.getDate_start())
                 + " - "
@@ -80,5 +86,29 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     @Override
     public double getContactOwnerLongitude() {
         return this.contact.getOwner().getLongitude();
+    }
+
+    @Override
+    public void acceptContact() {
+        ContactDAO.updateStatus(this.contact.getId(), 30);
+        sendStatusUpdate(30);
+    }
+
+    @Override
+    public void deleteContact() {
+        ContactDAO.deleteContact(this.contact.getId());
+        sendStatusUpdate(20);
+    }
+
+    private void sendStatusUpdate(int status) {
+        try {
+            JSONObject jsonContact = new JSONObject();
+            jsonContact.put("id", this.contact.getId());
+            jsonContact.put("status", status);
+            String[] params = { jsonContact.toString(), String.valueOf(this.contact.getId()) };
+            new SendContactStatusHandler().execute(params);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
