@@ -25,7 +25,7 @@ public class ContactDAO {
 
     public static Contact insertOrUpdateContact(long id, Date date_start, Date date_final, String time_start,
                                                 String time_final, String created_at, Sitter sitter, Owner owner,
-                                                double totalValue, List<Animal> animals){
+                                                double totalValue, int status, List<Animal> animals){
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         Contact newContact;
@@ -44,6 +44,7 @@ public class ContactDAO {
         newContact.setSitter(sitter);
         newContact.setOwner(owner);
         newContact.setTotalValue(totalValue);
+        newContact.setStatus(status);
         if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
         newContact.getAnimals().addAll(animals);
 
