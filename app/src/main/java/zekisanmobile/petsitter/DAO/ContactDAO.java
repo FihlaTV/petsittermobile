@@ -49,7 +49,7 @@ public class ContactDAO {
         newContact.getAnimals().addAll(animals);
 
         realm.commitTransaction();
-
+        realm.close();
         return newContact;
     }
 

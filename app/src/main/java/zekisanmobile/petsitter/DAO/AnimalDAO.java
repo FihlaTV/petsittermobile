@@ -28,4 +28,20 @@ public class AnimalDAO {
             return query.findAll();
     }
 
+    public static void createAnimal(String name){
+        Realm realm = Realm.getDefaultInstance();
+        int id;
+        try {
+            id = realm.where(Animal.class).findAll().size();
+        }catch (NullPointerException e){
+            id = 0;
+        }
+
+        realm.beginTransaction();
+        Animal animal = realm.createObject(Animal.class);
+        animal.setId(id + 1);
+        animal.setName(name);
+        realm.commitTransaction();
+        realm.close();
+    }
 }
