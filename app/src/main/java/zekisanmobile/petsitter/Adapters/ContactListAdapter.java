@@ -57,12 +57,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
     }
 
-    public void updateList(ArrayList<Contact> contacts) {
-        this.contacts = contacts;
-    }
-
     public Contact getContactAtPosition(int position) {
         return contacts.get(position);
+    }
+
+    public void updateContactsList(ArrayList<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

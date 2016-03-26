@@ -6,6 +6,6 @@ import zekisanmobile.petsitter.Model.Contact;
 
 public interface SitterHomeView {
 
-    void updateAdapter(ArrayList<Contact> contacts);
+    void updateAdapters(ArrayList<Contact> newContacts, ArrayList<Contact> currentContacts);
 
 }

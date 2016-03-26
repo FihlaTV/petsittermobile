@@ -1,6 +1,7 @@
 package zekisanmobile.petsitter.Sitter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.DAO.UserDAO;
@@ -32,8 +33,7 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     @Override
     public void updateContacts() {
         if (view != null){
-            ArrayList<Contact> contacts = ContactDAO.getAllContactsFromSitter(getLoggedUserSitterApiId());
-            view.updateAdapter(contacts);
+            view.updateAdapters(getNewContacts(), getCurrentContacts());
         }
     }
 
@@ -65,5 +65,15 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     @Override
     public Sitter getSitterFromUser() {
         return user.getSitter();
+    }
+
+    @Override
+    public ArrayList<Contact> getNewContacts() {
+        return ContactDAO.getNewContactsFromSitter(getLoggedUserSitterApiId());
+    }
+
+    @Override
+    public ArrayList<Contact> getCurrentContacts() {
+        return ContactDAO.getNewContactsFromSitter(getLoggedUserSitterApiId());
     }
 }

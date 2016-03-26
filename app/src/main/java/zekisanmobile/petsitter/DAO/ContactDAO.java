@@ -61,12 +61,22 @@ public class ContactDAO {
         return convertRealmResultsToList(contactsFromRealm);
     }
 
-    public static ArrayList<Contact> getNewContactsFromSItter(long apiId){
+    public static ArrayList<Contact> getNewContactsFromSitter(long apiId){
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Contact> contactsFromRealm = realm.where(Contact.class)
                 .equalTo("sitter.apiId", apiId)
                 .equalTo("status", 10)
-                .lessThanOrEqualTo("date_start", new Date())
+                .greaterThanOrEqualTo("date_start", new Date())
+                .findAll();
+        return convertRealmResultsToList(contactsFromRealm);
+    }
+
+    public static ArrayList<Contact> getCurrentContactsFromSitter(long apiId){
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Contact> contactsFromRealm = realm.where(Contact.class)
+                .equalTo("sitter.apiId", apiId)
+                .equalTo("status", 30)
+                .lessThanOrEqualTo("date_final", new Date())
                 .findAll();
         return convertRealmResultsToList(contactsFromRealm);
     }

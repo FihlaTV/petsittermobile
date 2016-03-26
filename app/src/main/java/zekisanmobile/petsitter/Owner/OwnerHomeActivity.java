@@ -34,10 +34,10 @@ public class OwnerHomeActivity extends AppCompatActivity
     @Bind(R.id.drawer_layout) DrawerLayout drawer;
     @Bind(R.id.nav_view) NavigationView navigationView;
     @Bind(R.id.viewpager) ViewPager viewPager;
+    @Bind(R.id.tabs) TabLayout tabLayout;
     private ViewPagerAdapter adapter;
     private SitterFragment sitterFragment;
     private MapsFragment mapsFragment;
-    private TabLayout tabLayout;
 
     private OwnerHomePresenter presenter;
 
@@ -81,8 +81,6 @@ public class OwnerHomeActivity extends AppCompatActivity
 
     private void configureTabLayout() {
         setupViewPager(viewPager);
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(1).select();
     }

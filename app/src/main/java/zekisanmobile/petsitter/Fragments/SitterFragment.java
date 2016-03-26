@@ -36,10 +36,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     private final String KEY_RECYCLER_STATE = "recycler_state";
     private static Bundle mBundleRecyclerViewState;
 
-    private boolean isRunningRequest;
-
-    public SitterFragment() {
-    }
+    public SitterFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,6 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         if (savedInstanceState != null) {
             sitters = (ArrayList<Sitter>) savedInstanceState.getSerializable("sittersList");
         } else {
-            isRunningRequest = true;
             new JSONResponseHandler(this, (OwnerHomeActivity) this.getActivity()).execute();
         }
     }
@@ -129,6 +125,5 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     }
 
     public void setRunningRequest(boolean runningRequest) {
-        isRunningRequest = runningRequest;
     }
 }
