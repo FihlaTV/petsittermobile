@@ -1,5 +1,7 @@
 package zekisanmobile.petsitter.DAO;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +58,21 @@ public class ContactDAO {
     public static ArrayList<Contact> getAllContactsFromSitter(long apiId) {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Contact> contactsFromRealm = realm.where(Contact.class).equalTo("sitter.apiId", apiId).findAll();
+        return convertRealmResultsToList(contactsFromRealm);
+    }
+
+    public static ArrayList<Contact> getNewContactsFromSItter(long apiId){
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Contact> contactsFromRealm = realm.where(Contact.class)
+                .equalTo("sitter.apiId", apiId)
+                .equalTo("status", 10)
+                .lessThanOrEqualTo("date_start", new Date())
+                .findAll();
+        return convertRealmResultsToList(contactsFromRealm);
+    }
+
+    @NonNull
+    private static ArrayList<Contact> convertRealmResultsToList(RealmResults<Contact> contactsFromRealm) {
         ArrayList<Contact> contacts = new ArrayList<Contact>();
         for(int i = 0; i < contactsFromRealm.size(); i++){
             contacts.add(contactsFromRealm.get(i));
