@@ -18,6 +18,10 @@ public interface ContactDetailsPresenter {
     double getContactOwnerLatitude();
     double getContactOwnerLongitude();
 
+    boolean isAccepted();
+    boolean isRejected();
+    boolean isAcceptedOrRejected();
+
     void acceptContact();
     void deleteContact();
 }

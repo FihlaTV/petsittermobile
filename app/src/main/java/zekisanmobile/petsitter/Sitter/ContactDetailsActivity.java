@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -53,6 +54,10 @@ public class ContactDetailsActivity extends AppCompatActivity
     ListView lvContactPets;
     @Bind(R.id.tv_total_value)
     TextView tvTotalValue;
+    @Bind(R.id.bt_accept)
+    Button btAccept;
+    @Bind(R.id.bt_reject)
+    Button btReject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,7 @@ public class ContactDetailsActivity extends AppCompatActivity
 
         configureToolbar();
         configureViews();
+        configureButtonsVisibility();
         configureMap();
     }
 
@@ -99,6 +105,13 @@ public class ContactDetailsActivity extends AppCompatActivity
         ViewGroup.LayoutParams listViewParams = lvContactPets.getLayoutParams();
         listViewParams.height = totalHeight + (lvContactPets.getDividerHeight() * (lvContactPets.getChildCount() - 1));
         lvContactPets.requestLayout();
+    }
+
+    private void configureButtonsVisibility(){
+        if (presenter.isAcceptedOrRejected()){
+            btAccept.setVisibility(View.INVISIBLE);
+            btReject.setVisibility(View.INVISIBLE);
+        }
     }
 
     private void configureToolbar() {

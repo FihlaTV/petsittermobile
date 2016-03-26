@@ -89,6 +89,21 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     }
 
     @Override
+    public boolean isAccepted() {
+        return this.contact.getStatus() == 30;
+    }
+
+    @Override
+    public boolean isRejected() {
+        return this.contact.getStatus() == 20;
+    }
+
+    @Override
+    public boolean isAcceptedOrRejected() {
+        return isAccepted() || isRejected();
+    }
+
+    @Override
     public void acceptContact() {
         ContactDAO.updateStatus(this.contact.getId(), 30);
         sendStatusUpdate(30);
