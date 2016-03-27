@@ -76,7 +76,7 @@ public class ContactDAO {
         RealmResults<Contact> contactsFromRealm = realm.where(Contact.class)
                 .equalTo("sitter.apiId", apiId)
                 .equalTo("status", 30)
-                .lessThanOrEqualTo("date_final", new Date())
+                .greaterThanOrEqualTo("date_final", new Date())
                 .findAll();
         return convertRealmResultsToList(contactsFromRealm);
     }

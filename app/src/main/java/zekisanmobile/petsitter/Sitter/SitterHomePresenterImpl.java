@@ -74,6 +74,6 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     @Override
     public ArrayList<Contact> getCurrentContacts() {
-        return ContactDAO.getNewContactsFromSitter(getLoggedUserSitterApiId());
+        return ContactDAO.getCurrentContactsFromSitter(getLoggedUserSitterApiId());
     }
 }
