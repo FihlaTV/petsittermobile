@@ -33,7 +33,7 @@ public class UserDAO {
         Owner owner = realm.createObject(Owner.class);
         owner.setId(1);
         owner.setApiId(1);
-        owner.setNome("Ezequiel Guilherme");
+        owner.setName("Ezequiel Guilherme");
         realm.commitTransaction();
 
         realm.beginTransaction();

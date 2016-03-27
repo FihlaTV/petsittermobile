@@ -28,7 +28,7 @@ public class OwnerDAO {
         }
 
         newOwner.setApiId(apiId);
-        newOwner.setNome(nome);
+        newOwner.setName(nome);
         newOwner.setAddress(address);
         newOwner.setDistrict(district);
         newOwner.setLatitude(latitude);

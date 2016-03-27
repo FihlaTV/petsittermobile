@@ -43,7 +43,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
             int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
             holder.iv_contact_owner.setImageResource(imageId);
-            holder.tv_contact_owner.setText(contact.getOwner().getNome());
+            holder.tv_contact_owner.setText(contact.getOwner().getName());
             holder.tv_contact_created_at.setText(Formatter.formattedDateFromString(contact.getCreated_at()));
         }
     }

@@ -28,7 +28,7 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public String getContactOwnerName() {
-        return this.contact.getOwner().getNome();
+        return this.contact.getOwner().getName();
     }
 
     @Override
