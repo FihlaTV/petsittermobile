@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "Ezequiel",
+    "email": "zekisan88@gmail.com",
+    "photo": "sitter2",
+    "logged": true,
+    "type": 1,
+    "owner": null,
+    "sitter": {
+      "id": 1,
+      "apiId": 2,
+      "name": "Ezequiel Guilherme",
+      "address": "R. Cel. Genuino, 149 - Centro Histórico, Porto Alegre - Rio Grande do Sul",
+      "district": "Centro Histórico'",
+      "photo": "sitter2",
+      "profile_background": "header_background_2",
+      "latitude": -30.035148,
+      "longitude": -51.2267789,
+      "value_hour": 15.0,
+      "value_shift": 60.0,
+      "value_day": 175.0,
+      "about_me": "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker."
+    }
+  },
+  {
+    "id": 2,
+    "name": "Ezequiel Guilherme",
+    "email": "zekisan88@gmail.com",
+    "photo": "me",
+    "logged": true,
+    "type": 1,
+    "owner": {
+      "id": 1,
+      "apiId": 1,
+      "name": "Ezequiel Guilherme",
+      "address": "R. Cel. Genuino, 149 - Centro Histórico, Porto Alegre - Rio Grande do Sul",
+      "district": "Centro Histórico'",
+      "latitude": -30.035148,
+      "longitude": -51.2267789
+    },
+    "sitter": null
+  }
+]

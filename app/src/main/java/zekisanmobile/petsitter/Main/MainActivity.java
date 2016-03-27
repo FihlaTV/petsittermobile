@@ -19,6 +19,9 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import zekisanmobile.petsitter.Model.Animal;
+import zekisanmobile.petsitter.Model.Owner;
+import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
@@ -64,10 +67,23 @@ public class MainActivity extends AppCompatActivity {
                 AssetManager assetManager = getAssets();
 
                 realm.beginTransaction();
-
                 InputStream inputStream = assetManager.open("animals.json");
                 realm.createOrUpdateAllFromJson(Animal.class, inputStream);
+                realm.commitTransaction();
 
+                realm.beginTransaction();
+                inputStream = assetManager.open("owners.json");
+                realm.createOrUpdateAllFromJson(Owner.class, inputStream);
+                realm.commitTransaction();
+
+                realm.beginTransaction();
+                inputStream = assetManager.open("sitters.json");
+                realm.createOrUpdateAllFromJson(Sitter.class, inputStream);
+                realm.commitTransaction();
+
+                realm.beginTransaction();
+                inputStream = assetManager.open("users.json");
+                realm.createOrUpdateAllFromJson(User.class, inputStream);
                 realm.commitTransaction();
             }catch (Exception e) {
                 e.printStackTrace();
@@ -77,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
             RealmResults<Animal> animals = realm.where(Animal.class).findAll();
             for(Animal a: animals){
                 Log.i("LOG", "Animal: { id: " + a.getId() + ", name: " + a.getName() + " }");
+            }
+            RealmResults<Owner> owners = realm.where(Owner.class).findAll();
+            for(Owner o: owners){
+                Log.i("LOG", "Owner: { id: " + o.getId() + ", name: " + o.getName() + " }");
+            }
+            RealmResults<Sitter> sitters = realm.where(Sitter.class).findAll();
+            for(Sitter s: sitters){
+                Log.i("LOG", "Sitter: { id: " + s.getId() + ", name: " + s.getName() + " }");
+            }
+            RealmResults<User> users = realm.where(User.class).findAll();
+            for(User u: users){
+                Log.i("LOG", "User: { id: " + u.getId() + ", name: " + u.getName() + " }");
             }
         }
     }
