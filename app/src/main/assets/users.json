@@ -29,7 +29,7 @@
     "email": "zekisan88@gmail.com",
     "photo": "me",
     "logged": true,
-    "type": 1,
+    "type": 0,
     "owner": {
       "id": 1,
       "apiId": 1,
