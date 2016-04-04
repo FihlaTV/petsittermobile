@@ -25,7 +25,7 @@ public class AnimalDAO {
             if (ids.length > 1) query = query.or();
             query = query.equalTo("id", id);
         }
-            return query.findAll();
+        return query.findAll();
     }
 
     public static void createAnimal(String name){
