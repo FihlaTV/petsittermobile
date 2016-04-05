@@ -52,14 +52,19 @@
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Sitter.SitterHomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Sitter.ContactDetailsActivity"
             android:label="Solicitação de Pet Sitter"
-            android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".Sitter.SitterHomeActivity"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Owner.MyPetSittersActivity"
+            android:label="Meus Pet Sitters"
+            android:parentActivityName=".Owner.OwnerHomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

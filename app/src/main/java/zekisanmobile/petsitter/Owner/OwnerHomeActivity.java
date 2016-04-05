@@ -1,6 +1,7 @@
 package zekisanmobile.petsitter.Owner;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -23,7 +24,6 @@ import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
-import zekisanmobile.petsitter.Handlers.JSONResponseHandler;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -121,6 +121,15 @@ public class OwnerHomeActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.contacts:
+                Intent intent = new Intent(OwnerHomeActivity.this, MyPetSittersActivity.class);
+                startActivity(intent);
+                break;
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
