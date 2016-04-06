@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
@@ -68,7 +70,7 @@ public class OwnerHomeActivity extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
         Context context = getApplicationContext();
-        ImageView ivUserImage = (ImageView) header.findViewById(R.id.ivUserImage);
+        CircleImageView ivUserImage = (CircleImageView) header.findViewById(R.id.ivUserImage);
         ivUserImage.setImageResource(context.getResources()
                 .getIdentifier(presenter.getLoggedUserPhoto(), "drawable", context.getPackageName()));
 

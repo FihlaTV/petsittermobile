@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.ContactsByStatusFragment;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
@@ -69,7 +71,7 @@ public class SitterHomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
 
-        ImageView ivUserImage = ButterKnife.findById(header, R.id.ivUserImage);
+        CircleImageView ivUserImage = ButterKnife.findById(header, R.id.ivUserImage);
         ivUserImage.setImageResource(getApplicationContext().getResources()
                 .getIdentifier(presenter.getLoggedUserPhoto(), "drawable", getApplicationContext().getPackageName()));
 

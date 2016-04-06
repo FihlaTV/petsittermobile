@@ -49,6 +49,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.0'
 
     compile 'com.wdullaer:materialdatetimepicker:2.2.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 
     compile 'com.jakewharton:butterknife:7.0.1'
 
