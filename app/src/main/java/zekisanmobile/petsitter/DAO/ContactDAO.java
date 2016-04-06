@@ -107,4 +107,10 @@ public class ContactDAO {
         contact.setStatus(status);
         realm.commitTransaction();
     }
+
+    public static ArrayList<Contact> getAllContactsFromOwner(long apiId) {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Contact> contactsFromRealm = realm.where(Contact.class).equalTo("owner.apiId", apiId).findAll();
+        return convertRealmResultsToList(contactsFromRealm);
+    }
 }

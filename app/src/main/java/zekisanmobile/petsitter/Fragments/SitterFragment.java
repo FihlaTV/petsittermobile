@@ -53,6 +53,14 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         View view = inflater.inflate(R.layout.fragment_sitter, container, false);
         ButterKnife.bind(this, view);
 
+        configureRecyclerView();
+
+        showProgress(true);
+
+        return view;
+    }
+
+    private void configureRecyclerView() {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(llm);
@@ -60,10 +68,6 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         adapter = new SitterAdapter(new ArrayList<Sitter>(), getContext());
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
-
-        showProgress(true);
-
-        return view;
     }
 
     @Override

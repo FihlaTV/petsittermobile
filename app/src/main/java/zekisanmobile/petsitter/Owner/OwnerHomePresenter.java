@@ -7,5 +7,6 @@ public interface OwnerHomePresenter {
     String getLoggedUserName();
     String getLoggedUserEmail();
     String getLoggedUserPhoto();
+    String getStringOwnerApiId();
 
 }

@@ -25,14 +25,14 @@ import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Sitter.SitterHomePresenter;
 
-public class GetContactsHandler extends AsyncTask<String, Void, Void> {
+public class GetSitterContactsHandler extends AsyncTask<String, Void, Void> {
 
     private final static String BASE_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/sitters/";
     private final static String FINAL_SEARCH_URL = "/contacts";
     private OkHttpClient client = new OkHttpClient();
     private SitterHomePresenter presenter;
 
-    public GetContactsHandler(SitterHomePresenter presenter) {
+    public GetSitterContactsHandler(SitterHomePresenter presenter) {
         this.presenter = presenter;
     }
 
