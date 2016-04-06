@@ -32,7 +32,6 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_owner_contact, parent, false);
         return new ViewHolder(view);
@@ -53,7 +52,7 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
 
     @Override
     public int getItemCount() {
-        return 0;
+        return contacts.size();
     }
 
     public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack){
@@ -66,7 +65,8 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
         ImageView iv_contact_sitter;
         @Bind(R.id.tv_contact_sitter)
         TextView tv_contact_sitter;
-        @Bind(R.id.tv_contact_status) TextView tv_contact_status;
+        @Bind(R.id.tv_contact_status)
+        TextView tv_contact_status;
 
         public ViewHolder(View view){
             super(view);

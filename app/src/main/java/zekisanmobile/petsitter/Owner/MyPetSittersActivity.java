@@ -54,6 +54,7 @@ public class MyPetSittersActivity extends AppCompatActivity implements MyPetSitt
         mRecyclerView.setLayoutManager(llm);
 
         adapter = new OwnerContactListAdapter(presenter.getContacts(), this);
+        adapter.notifyDataSetChanged();
         adapter.setRecyclerViewOnClickListenerHack(this);
         mRecyclerView.setAdapter(adapter);
     }
