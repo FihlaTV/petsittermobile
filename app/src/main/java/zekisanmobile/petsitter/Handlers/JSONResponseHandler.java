@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Animal;
@@ -36,6 +37,8 @@ public class JSONResponseHandler extends AsyncTask<Void, Void, ArrayList<Sitter>
     @Override
     protected ArrayList<Sitter> doInBackground(Void... params) {
         OkHttpClient client = new OkHttpClient();
+        client.setConnectTimeout(10, TimeUnit.SECONDS);
+        client.setRetryOnConnectionFailure(true);
         client.networkInterceptors().add(new StethoInterceptor());
         Request request = new Request.Builder()
                 .url(API_SEARCH_URL)
