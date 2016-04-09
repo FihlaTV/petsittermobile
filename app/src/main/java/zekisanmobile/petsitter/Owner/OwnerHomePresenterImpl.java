@@ -1,6 +1,5 @@
 package zekisanmobile.petsitter.Owner;
 
-import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Handlers.GetOwnerContactsHandler;
 import zekisanmobile.petsitter.Model.User;
 

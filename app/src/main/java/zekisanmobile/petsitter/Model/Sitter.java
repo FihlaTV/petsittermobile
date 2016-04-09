@@ -1,162 +1,102 @@
 package zekisanmobile.petsitter.Model;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
+import zekisanmobile.petsitter.Util.Formatter;
 
 @SuppressWarnings("serial")
-public class Sitter extends RealmObject implements Serializable{
+@Table(name = "Sitter")
+public class Sitter extends Model implements Serializable{
 
-    @PrimaryKey
-    private long id;
-    private long apiId;
-    private String name;
-    private String address;
-    private String district;
-    private String photo;
-    private String profile_background;
-    private float latitude;
-    private float longitude;
-    private double value_hour;
-    private double value_shift;
-    private double value_day;
-    private String about_me;
-    @Ignore
-    private List<Animal> animals;
+    @Column(name = "api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public long apiId;
+    @Column(name = "name")
+    public String name;
+    @Column(name = "address")
+    public String address;
+    @Column(name = "district")
+    public String district;
+    @Column(name = "photo")
+    public String photo;
+    @Column(name = "profile_background")
+    public String profileBackground;
+    @Column(name = "latitude")
+    public float latitude;
+    @Column(name = "longitude")
+    public float longitude;
+    @Column(name = "value_hour")
+    public double value_hour;
+    @Column(name = "value_shift")
+    public double value_shift;
+    @Column(name = "value_day")
+    public double value_day;
+    @Column(name = "about_me")
+    public String about_me;
 
-    public Sitter(){}
-
-    public Sitter(long apiId, String name, String address, String photo, String profile_background, float latitude, float longitude,
-                  String district, double value_hour, double value_shift, double value_day, String about_me,
-                  List<Animal> animals){
-        this.apiId = apiId;
-        this.name = name;
-        this.address = address;
-        this.photo = photo;
-        this.profile_background = profile_background;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.district = district;
-        this.value_hour = value_hour;
-        this.value_shift = value_shift;
-        this.value_day = value_day;
-        this.about_me = about_me;
-        this.animals = animals;
+    public Sitter(){
+        super();
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getApiId() {
-        return apiId;
-    }
-
-    public void setApiId(long apiId) {
-        this.apiId = apiId;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getProfile_background() {
-        return profile_background;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setProfile_background(String profile_background) {
-        this.profile_background = profile_background;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public double getValue_hour() {
-        return value_hour;
-    }
-
-    public void setValue_hour(double value_hour) {
-        this.value_hour = value_hour;
-    }
-
-    public double getValue_shift() {
-        return value_shift;
-    }
-
-    public void setValue_shift(double value_shift) {
-        this.value_shift = value_shift;
-    }
-
-    public double getValue_day() {
-        return value_day;
-    }
-
-    public void setValue_day(double value_day) {
-        this.value_day = value_day;
-    }
-
-    public String getAbout_me() {
-        return about_me;
-    }
-
-    public void setAbout_me(String about_me) {
-        this.about_me = about_me;
+    public static List<Sitter> all(){
+        return new Select().from(Sitter.class).execute();
     }
 
     public List<Animal> getAnimals() {
-        return animals;
+        return getMany(Animal.class, "AnimalSitter");
     }
 
-    public void setAnimals(List<Animal> animals) {
-        this.animals = animals;
+    public List<Contact> getContacts() {
+        return getMany(Contact.class, "sitter");
+    }
+
+    public static List<Contact> getNewContacts(long id){
+        return new Select()
+                .from(Contact.class)
+                .where("sitter = ?", id)
+                .where("status = ?", 10)
+                .execute();
+    }
+
+    public static List<Contact> getCurrentContacts(long id){
+        return new Select()
+                .from(Contact.class)
+                .where("sitter = ?", id)
+                .where("status = ?", 30)
+                .where("date_final >= ", Formatter.formattedDateToSQL(new Date()))
+                .execute();
+    }
+
+    public static Sitter insertOrUpdateSitter(long apiId, String name, String address, String photo,
+                                              String profile_background, float latitude, float longitude,
+                                              String district, double value_hour, double value_shift,
+                                              double value_day, String about_me){
+        Sitter newSitter;
+
+        if((newSitter = new Select().from(Sitter.class).where("api_id = ?", apiId).executeSingle()) == null) {
+            newSitter = new Sitter();
+        }
+
+        newSitter.apiId = apiId;
+        newSitter.name = name;
+        newSitter.address = address;
+        newSitter.photo = photo;
+        newSitter.profileBackground = profile_background;
+        newSitter.latitude = latitude;
+        newSitter.longitude = longitude;
+        newSitter.district = district;
+        newSitter.value_hour = value_hour;
+        newSitter.value_shift = value_shift;
+        newSitter.value_day = value_day;
+        newSitter.about_me = about_me;
+        newSitter.save();
+
+        return newSitter;
     }
 }

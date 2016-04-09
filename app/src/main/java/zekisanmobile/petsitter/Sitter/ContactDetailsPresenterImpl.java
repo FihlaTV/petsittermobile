@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import java.text.NumberFormat;
 
 import io.realm.RealmList;
-import zekisanmobile.petsitter.DAO.ContactDAO;
 import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
 import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Contact;

@@ -1,81 +1,56 @@
 package zekisanmobile.petsitter.Model;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
-public class Owner extends RealmObject {
+import java.util.List;
 
-    @PrimaryKey
-    private long id;
-    private long apiId;
-    private String name;
-    private String address;
-    private String district;
-    private float latitude;
-    private float longitude;
+@Table(name = "Owner")
+public class Owner extends Model {
 
-    public Owner(){}
+    @Column(name = "api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public long apiId;
+    @Column(name = "name")
+    public String name;
+    @Column(name = "address")
+    public String address;
+    @Column(name = "district")
+    public String district;
+    @Column(name = "latitude")
+    public float latitude;
+    @Column(name = "longitude")
+    public float longitude;
 
-    public Owner(String name, String address, String district, float latitude, float longitude){
-        this.name = name;
-        this.address = address;
-        this.district = district;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public Owner(){
+        super();
+    }
+    
+    public List<Contact> getContacts() {
+        return getMany(Contact.class, "owner");
     }
 
-    public long getId() {
-        return id;
+    public static List<Owner> all(){
+        return new Select().from(Owner.class).execute();
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public static Owner insertOrUpdate(long apiId, String name, String address, String district,
+                                            float latitude, float longitude){
+        Owner newOwner;
 
-    public long getApiId() {
-        return apiId;
-    }
+        if((newOwner = new Select().from(Owner.class).where("api_id = ?", apiId).executeSingle()) == null) {
+            newOwner = new Owner();
+        }
 
-    public void setApiId(long apiId) {
-        this.apiId = apiId;
-    }
+        newOwner.apiId = apiId;
+        newOwner.name = name;
+        newOwner.address = address;
+        newOwner.district = district;
+        newOwner.latitude = latitude ;
+        newOwner.longitude = longitude;
+        newOwner.save();
 
-    public String getName() {
-        return name;
-    }
-    public void setName(String nome) {
-        this.name = nome;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getDistrict() {
-        return district;
-    }
-
-    public void setDistrict(String district) {
-        this.district = district;
-    }
-
-    public float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(float latitude) {
-        this.latitude = latitude;
-    }
-
-    public float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(float longitude) {
-        this.longitude = longitude;
+        return newOwner;
     }
 }

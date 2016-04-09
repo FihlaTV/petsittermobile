@@ -2,8 +2,6 @@ package zekisanmobile.petsitter.Sitter;
 
 import java.util.ArrayList;
 
-import zekisanmobile.petsitter.DAO.ContactDAO;
-import zekisanmobile.petsitter.DAO.UserDAO;
 import zekisanmobile.petsitter.Handlers.GetSitterContactsHandler;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Sitter;

@@ -1,14 +1,12 @@
 package zekisanmobile.petsitter.Application;
 
-import android.app.Application;
-
 import com.facebook.stetho.Stetho;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import zekisanmobile.petsitter.Model.MigrationData;
 
-public class CustomApplication extends Application {
+public class CustomApplication extends com.activeandroid.app.Application {
 
     @Override
     public void onCreate() {

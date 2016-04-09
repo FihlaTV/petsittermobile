@@ -17,9 +17,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import zekisanmobile.petsitter.DAO.ContactDAO;
-import zekisanmobile.petsitter.DAO.OwnerDAO;
-import zekisanmobile.petsitter.DAO.SitterDAO;
 import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;

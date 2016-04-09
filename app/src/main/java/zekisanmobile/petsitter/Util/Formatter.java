@@ -22,4 +22,9 @@ public class Formatter {
         SimpleDateFormat output = new SimpleDateFormat("dd/MM/yyyy");
         return output.format(date);
     }
+
+    public static String formattedDateToSQL(Date date) {
+        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return output.format(date);
+    }
 }

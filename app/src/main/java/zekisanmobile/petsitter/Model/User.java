@@ -1,81 +1,33 @@
 package zekisanmobile.petsitter.Model;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
-public class User extends RealmObject {
+@Table(name = "User")
+public class User extends Model {
 
-    @PrimaryKey
-    private long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "email")
     private String email;
+    @Column(name = "photo")
     private String photo;
+    @Column(name = "logged")
     private boolean logged;
+    @Column(name = "type")
     private int type; // 0 - Owner, 1 - PetSitter
+    @Column(name = "owner")
     private Owner owner;
+    @Column(name = "sitter")
     private Sitter sitter;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isLogged() {
-        return logged;
-    }
-
-    public void setLogged(boolean logged) {
-        this.logged = logged;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public Sitter getSitter() {
-        return sitter;
-    }
-
-    public void setSitter(Sitter sitter) {
-        this.sitter = sitter;
+    public static User getLoggedUser(int userType){
+        return new Select()
+                .from(User.class)
+                .where("type = ?", userType)
+                .where("logged = ?", true)
+                .executeSingle();
     }
 }

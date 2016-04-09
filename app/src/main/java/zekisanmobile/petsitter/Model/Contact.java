@@ -1,128 +1,86 @@
 package zekisanmobile.petsitter.Model;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
+
 import java.util.Date;
+import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
+@Table(name = "Contact")
+public class Contact extends Model {
 
-public class Contact extends RealmObject {
+    @Column(name = "api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public long apiId;
+    @Column(name = "dateStart")
+    public Date dateStart;
+    @Column(name = "dateFinal")
+    public Date dateFinal;
+    @Column(name = "timeStart")
+    public String timeStart;
+    @Column(name = "time_final")
+    public String timeFinal;
+    @Column(name = "createdAt")
+    public String createdAt;
+    @Column(name = "sitter")
+    public Sitter sitter;
+    @Column(name = "owner")
+    public Owner owner;
+    @Column(name = "totalValue")
+    public double totalValue;
+    @Column(name = "status")
+    public int status;
 
-    @PrimaryKey
-    private long id;
-
-    private Date date_start;
-    private Date date_final;
-    private String time_start;
-    private String time_final;
-    private String created_at;
-    private Sitter sitter;
-    private Owner owner;
-    private double totalValue;
-    private int status;
-    private RealmList<Animal> animals;
-
-    public Contact(){}
-
-    public Contact(long id, Date date_start, Date date_final, String time_start,
-                   String time_final, String created_at, Sitter sitter, Owner owner,
-                   double totalValue){
-        this.id = id;
-        this.date_start = date_start;
-        this.date_final = date_final;
-        this.time_start = time_start;
-        this.time_final = time_final;
-        this.created_at = created_at;
-        this.sitter = sitter;
-        this.owner = owner;
-        this.totalValue = totalValue;
+    public Contact(){
+        super();
     }
 
-    public long getId() {
-        return id;
+    public List<Animal> getAnimals() {
+        return getMany(Animal.class, "AnimalContact");
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public static List<Contact> all(){
+        return new Select()
+                .from(Contact.class)
+                .execute();
     }
 
-    public Date getDate_start() {
-        return date_start;
+    public static Contact insertOrUpdate(long apiId, Date date_start, Date date_final,
+                                                String time_start, String time_final, String created_at,
+                                                Sitter sitter, Owner owner,
+                                                double totalValue, int status, List<Animal> animals) {
+        Contact newContact;
+
+        if ((newContact = new Select().from(Contact.class).where("api_id = ?", apiId).executeSingle()) == null) {
+            newContact = new Contact();
+        }
+
+        newContact.apiId = apiId;
+        newContact.dateStart = date_start;
+        newContact.dateFinal = date_final;
+        newContact.timeStart = time_start;
+        newContact.timeFinal = time_final;
+        newContact.createdAt = created_at;
+        newContact.sitter = sitter;
+        newContact.owner = owner;
+        newContact.totalValue = totalValue;
+        newContact.status = status;
+        if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
+        newContact.getAnimals().addAll(animals);
+        newContact.save();
+
+        return newContact;
     }
 
-    public void setDate_start(Date date_start) {
-        this.date_start = date_start;
+    public static void delete(long id){
+        new Delete().from(Contact.class).where("id = ?", id).execute();
     }
 
-    public Date getDate_final() {
-        return date_final;
-    }
-
-    public void setDate_final(Date date_final) {
-        this.date_final = date_final;
-    }
-
-    public String getTime_start() {
-        return time_start;
-    }
-
-    public void setTime_start(String time_start) {
-        this.time_start = time_start;
-    }
-
-    public String getTime_final() {
-        return time_final;
-    }
-
-    public void setTime_final(String time_final) {
-        this.time_final = time_final;
-    }
-
-    public Sitter getSitter() {
-        return sitter;
-    }
-
-    public void setSitter(Sitter sitter) {
-        this.sitter = sitter;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public RealmList<Animal> getAnimals() {
-        return animals;
-    }
-
-    public void setAnimals(RealmList<Animal> animals) {
-        this.animals = animals;
-    }
-
-    public double getTotalValue() {
-        return totalValue;
-    }
-
-    public void setTotalValue(double totalValue) {
-        this.totalValue = totalValue;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
+    public static void updateStatus(long id, int status) {
+        Contact contact = new Select().from(Contact.class).where("id = ?", id).executeSingle();
+        contact.status = status;
+        contact.save();
     }
 }
