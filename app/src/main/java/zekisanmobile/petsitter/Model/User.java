@@ -9,19 +9,19 @@ import com.activeandroid.query.Select;
 public class User extends Model {
 
     @Column(name = "name")
-    private String name;
+    public String name;
     @Column(name = "email")
-    private String email;
+    public String email;
     @Column(name = "photo")
-    private String photo;
+    public String photo;
     @Column(name = "logged")
-    private boolean logged;
+    public boolean logged;
     @Column(name = "type")
-    private int type; // 0 - Owner, 1 - PetSitter
+    public int type; // 0 - Owner, 1 - PetSitter
     @Column(name = "owner")
-    private Owner owner;
+    public Owner owner;
     @Column(name = "sitter")
-    private Sitter sitter;
+    public Sitter sitter;
 
     public static User getLoggedUser(int userType){
         return new Select()
