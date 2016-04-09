@@ -184,7 +184,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         Contact contact = realm.createObject(Contact.class);
-        contact.setId(ContactDAO.getAllContacts().size() + 1);
+        contact.setId(ContactDAO.getAllContacts().last().getId() + 1);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try {
             contact.setDate_start(formatter.parse(tv_date_start.getText().toString()));

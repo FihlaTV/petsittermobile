@@ -34,7 +34,8 @@ public class ContactDAO {
 
         if((newContact = findContact(id)) == null) {
             newContact = realm.createObject(Contact.class);
-            newContact.setId(getAllContacts().size() + 1);
+            long newiD = getAllContacts().last().getId();
+            newContact.setId(newiD + 1);
         }
 
         newContact.setId(id);
