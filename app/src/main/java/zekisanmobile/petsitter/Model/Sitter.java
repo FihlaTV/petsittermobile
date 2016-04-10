@@ -65,7 +65,7 @@ public class Sitter extends Model implements Serializable{
                 .from(Contact.class)
                 .where("sitter = ?", id)
                 .where("status = ?", 10)
-                .where("dateStart>= ", Formatter.formattedDateToSQL(new Date()))
+                .where("dateStart>= ?", Formatter.formattedDateToSQL(new Date()))
                 .execute();
     }
 
@@ -74,7 +74,7 @@ public class Sitter extends Model implements Serializable{
                 .from(Contact.class)
                 .where("sitter = ?", id)
                 .where("status = ?", 30)
-                .where("dateFinal >= ", Formatter.formattedDateToSQL(new Date()))
+                .where("dateFinal >= ?", Formatter.formattedDateToSQL(new Date()))
                 .execute();
     }
 

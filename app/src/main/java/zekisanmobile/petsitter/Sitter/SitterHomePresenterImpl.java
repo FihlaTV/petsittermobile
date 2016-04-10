@@ -67,11 +67,11 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     @Override
     public List<Contact> getNewContacts() {
-        return new ArrayList<Contact>(Sitter.getNewContacts(getLoggedUserSitterApiId()));
+        return new ArrayList<Contact>(Sitter.getNewContacts(getSitterFromUser().getId()));
     }
 
     @Override
     public List<Contact> getCurrentContacts() {
-        return new ArrayList<Contact>(Sitter.getCurrentContacts(getLoggedUserSitterApiId()));
+        return new ArrayList<Contact>(Sitter.getCurrentContacts(getSitterFromUser().getId()));
     }
 }
