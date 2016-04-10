@@ -16,9 +16,9 @@ public class Contact extends Model {
     @Column(name = "api_id")
     public long apiId;
     @Column(name = "dateStart")
-    public Date dateStart;
+    public String dateStart;
     @Column(name = "dateFinal")
-    public Date dateFinal;
+    public String dateFinal;
     @Column(name = "timeStart")
     public String timeStart;
     @Column(name = "time_final")
@@ -48,7 +48,7 @@ public class Contact extends Model {
                 .execute();
     }
 
-    public static Contact insertOrUpdate(long apiId, Date date_start, Date date_final,
+    public static Contact insertOrUpdate(long apiId, String date_start, String date_final,
                                                 String time_start, String time_final, String created_at,
                                                 Sitter sitter, Owner owner,
                                                 double totalValue, int status, List<Animal> animals) {

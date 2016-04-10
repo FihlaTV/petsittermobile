@@ -138,13 +138,12 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact(View view) {
-        //createContact(view);
         JSONObject jsonContact = new JSONObject();
         JSONArray jsonAnimals = new JSONArray();
         try {
             jsonContact.put("sitter_id", sitter.apiId);
-            jsonContact.put("date_start", tv_date_start.getText());
-            jsonContact.put("date_final", tv_date_final.getText());
+            jsonContact.put("date_start", Formatter.formattedDateForAPI(tv_date_start.getText().toString()));
+            jsonContact.put("date_final", Formatter.formattedDateForAPI(tv_date_final.getText().toString()));
             jsonContact.put("time_start", tv_time_start.getText());
             jsonContact.put("time_final", tv_time_final.getText());
             jsonContact.put("total_value", tvTotalValue.getText().toString()
@@ -167,42 +166,6 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    private Contact createContact(View view) {
-        Sitter persitedSitter = Sitter.insertOrUpdate(sitter.apiId, sitter.name,
-                sitter.address, sitter.photo,
-                sitter.profileBackground, sitter.latitude, sitter.longitude, sitter.district,
-                sitter.value_hour, sitter.value_shift, sitter.value_day, sitter.about_me);
-
-        Contact contact = new Contact();
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            contact.dateStart = formatter.parse(tv_date_start.getText().toString());
-            contact.dateFinal = formatter.parse(tv_date_final.getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        contact.apiId = 0;
-        contact.timeStart = tv_time_start.getText().toString();
-        contact.timeFinal = tv_time_final.getText().toString();
-        contact.owner = loggedUser.owner;
-        contact.sitter = persitedSitter;
-        contact.totalValue = Double.parseDouble(tvTotalValue.getText().toString().replace("R$", "").replace(",", "."));
-        contact.save();
-        ActiveAndroid.beginTransaction();
-        try {
-            for(Animal animal: getAnimalsFromView(view, animals)){
-                Animal animalDB = new Select().from(Animal.class).where("name = ?", animal.getName()).executeSingle();
-                AnimalContact animalContact = new AnimalContact(animalDB, contact);
-                animalContact.save();
-            }
-            ActiveAndroid.setTransactionSuccessful();
-        }
-        finally {
-            ActiveAndroid.endTransaction();
-        }
-        return contact;
     }
 
     private void scheduleJobDate() {
