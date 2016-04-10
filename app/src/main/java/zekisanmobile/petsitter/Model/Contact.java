@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter.Model;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -55,6 +56,8 @@ public class Contact extends Model {
 
         if ((newContact = new Select().from(Contact.class).where("api_id = ?", apiId).executeSingle()) == null) {
             newContact = new Contact();
+        }else{
+            new Delete().from(AnimalContact.class).where("contact = ?", newContact.getId()).execute();
         }
 
         newContact.apiId = apiId;
@@ -67,10 +70,19 @@ public class Contact extends Model {
         newContact.owner = owner;
         newContact.totalValue = totalValue;
         newContact.status = status;
-        if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
-        newContact.getAnimals().addAll(animals);
         newContact.save();
 
+        ActiveAndroid.beginTransaction();
+        try {
+            for (Animal animal : animals) {
+                AnimalContact animalContact = new AnimalContact(animal, newContact);
+                animalContact.save();
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally {
+            ActiveAndroid.endTransaction();
+        }
         return newContact;
     }
 

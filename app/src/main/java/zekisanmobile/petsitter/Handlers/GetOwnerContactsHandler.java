@@ -70,8 +70,7 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
 
                 for(int j = 0; j < animalsArray.length(); j++){
                     JSONObject animalObject = animalsArray.getJSONObject(j);
-                    Animal animal = new Animal();
-                    animal.name = animalObject.getString("name");
+                    Animal animal = Animal.load(Animal.class, animalObject.getLong("id"));
                     animals.add(animal);
                 }
 
