@@ -4,32 +4,28 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.util.List;
+
 @Table(name = "AnimalSitter")
 public class AnimalSitter extends Model{
 
     @Column(name = "Animal")
-    private Animal animal;
+    public Animal animal;
 
     @Column(name = "Sitter")
-    private Sitter sitter;
+    public Sitter sitter;
 
-    public AnimalSitter(){
+    public AnimalSitter(Animal animal, Sitter sitter){
         super();
-    }
-
-    public Animal getAnimal() {
-        return animal;
-    }
-
-    public void setAnimal(Animal animal) {
         this.animal = animal;
-    }
-
-    public Sitter getSitter() {
-        return sitter;
-    }
-
-    public void setSitter(Sitter sitter) {
         this.sitter = sitter;
+    }
+
+    public List<Animal> animals(){
+        return getMany(Animal.class, "AnimalSitter");
+    }
+
+    public List<Sitter> sitters(){
+        return getMany(Sitter.class, "AnimalSitter");
     }
 }

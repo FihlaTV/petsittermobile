@@ -37,15 +37,13 @@ public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
     @Override
     protected ArrayList<Sitter> doInBackground(String... params) {
 
-        RequestBody body = RequestBody.create(JSON, params[0]);
-        Request request = new Request.Builder()
-                .url(BASE_SEARCH_URL + params[1] + FINAL_SEARCH_URL)
-                .post(body)
-                .build();
-
-        Response response = null;
         try {
-            response = client.newCall(request).execute();
+            RequestBody body = RequestBody.create(JSON, params[0]);
+            Request request = new Request.Builder()
+                    .url(BASE_SEARCH_URL + params[1] + FINAL_SEARCH_URL)
+                    .post(body)
+                    .build();
+            Response response = client.newCall(request).execute();
             String jsonData = response.body().string();
 
             return MyJSONConverter.convertSitters(new JSONArray(jsonData));

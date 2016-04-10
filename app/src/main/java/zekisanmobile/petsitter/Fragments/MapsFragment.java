@@ -257,7 +257,7 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
     @Override
     public void onInfoWindowClick(Marker marker) {
         Intent intent = new Intent(getActivity(), SitterProfileActivity.class);
-        intent.putExtra("SITTER", markerSitterMarkerHashMap.get(marker).getSitter());
+        intent.putExtra("sitter_id", markerSitterMarkerHashMap.get(marker).getSitter().getId());
         startActivity(intent);
     }
 

@@ -40,8 +40,6 @@ public class Sitter extends Model implements Serializable{
     @Column(name = "about_me")
     public String about_me;
 
-    public List<Animal> animals;
-
     public Sitter(){
         super();
     }
@@ -51,7 +49,11 @@ public class Sitter extends Model implements Serializable{
     }
 
     public List<Animal> getAnimals() {
-        return getMany(Animal.class, "AnimalSitter");
+        return new Select()
+                .from(Animal.class)
+                .innerJoin(AnimalSitter.class).on("Animal.id = AnimalSitter.animal")
+                .where("AnimalSitter.sitter = ?", getId())
+                .execute();
     }
 
     public List<Contact> getContacts() {

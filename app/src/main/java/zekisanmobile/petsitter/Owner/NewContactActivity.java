@@ -81,7 +81,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        sitter = (Sitter) intent.getSerializableExtra("sitter");
+        long sitter_id = intent.getLongExtra("sitter_id", 0);
+        sitter = Sitter.load(Sitter.class, sitter_id);
         tv_name.setText(sitter.name);
 
         loggedUser = User.getLoggedUser(0);

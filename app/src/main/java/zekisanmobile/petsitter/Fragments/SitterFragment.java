@@ -97,7 +97,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     @Override
     public void onClickListener(View view, int position) {
         Intent intent = new Intent(getActivity(), SitterProfileActivity.class);
-        intent.putExtra("SITTER", sitters.get(position));
+        intent.putExtra("sitter_id", sitters.get(position).getId());
         startActivity(intent);
     }
 

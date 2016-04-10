@@ -42,7 +42,8 @@ public class SitterProfileActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        sitter = (Sitter) intent.getSerializableExtra("SITTER");
+        long sitter_id = intent.getLongExtra("sitter_id", 0);
+        sitter = Sitter.load(Sitter.class, sitter_id);
 
         configureToolbar();
         prepareSitterData();
@@ -51,7 +52,7 @@ public class SitterProfileActivity extends AppCompatActivity
     @OnClick(R.id.fab_new_contact)
     public void onClick(){
         Intent intent = new Intent(SitterProfileActivity.this, NewContactActivity.class);
-        intent.putExtra("sitter", sitter);
+        intent.putExtra("sitter_id", sitter.getId());
         startActivity(intent);
     }
 
