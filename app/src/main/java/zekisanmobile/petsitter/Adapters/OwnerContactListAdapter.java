@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,11 +22,11 @@ import zekisanmobile.petsitter.Util.ContactStatusString;
 
 public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactListAdapter.ViewHolder> {
 
-    private ArrayList<Contact> contacts;
+    private List<Contact> contacts;
     private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
     private Context parentContext;
 
-    public OwnerContactListAdapter(ArrayList<Contact> contacts, Context parentContext){
+    public OwnerContactListAdapter(List<Contact> contacts, Context parentContext){
         this.contacts = contacts;
         this.parentContext = parentContext;
     }
@@ -42,11 +43,11 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
         if (contacts != null || contacts.size() == 0) {
             Contact contact = contacts.get(position);
 
-            int imageId = parentContext.getResources().getIdentifier(contact.getSitter().getPhoto(), "drawable", parentContext.getPackageName());
+            int imageId = parentContext.getResources().getIdentifier(contact.sitter.photo, "drawable", parentContext.getPackageName());
             holder.iv_contact_sitter.setImageResource(imageId);
-            holder.tv_contact_sitter.setText(contact.getSitter().getName());
-            holder.tv_contact_status.setText(ContactStatusString.getStatusName(contact.getStatus(),
-                    contact.getDate_start(), contact.getDate_final()));
+            holder.tv_contact_sitter.setText(contact.sitter.name);
+            holder.tv_contact_status.setText(ContactStatusString.getStatusName(contact.status,
+                    contact.dateStart, contact.dateFinal));
         }
     }
 

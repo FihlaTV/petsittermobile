@@ -1,6 +1,7 @@
 package zekisanmobile.petsitter.Sitter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import zekisanmobile.petsitter.Handlers.GetSitterContactsHandler;
 import zekisanmobile.petsitter.Model.Contact;
@@ -14,7 +15,7 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     public SitterHomePresenterImpl(SitterHomeView view){
         this.view = view;
-        this.user = UserDAO.getLoggedUser(1);
+        this.user = User.getLoggedUser(1);
     }
 
     @Override
@@ -36,17 +37,17 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     @Override
     public String getLoggedUserName() {
-        return user.getName();
+        return user.name;
     }
 
     @Override
     public String getLoggedUserPhoto() {
-        return user.getPhoto();
+        return user.photo;
     }
 
     @Override
     public String getLoggedUserEmail() {
-        return user.getEmail();
+        return user.email;
     }
 
     @Override
@@ -56,21 +57,21 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     @Override
     public long getLoggedUserSitterApiId() {
-        return getSitterFromUser().getApiId();
+        return getSitterFromUser().apiId;
     }
 
     @Override
     public Sitter getSitterFromUser() {
-        return user.getSitter();
+        return user.sitter;
     }
 
     @Override
-    public ArrayList<Contact> getNewContacts() {
-        return ContactDAO.getNewContactsFromSitter(getLoggedUserSitterApiId());
+    public List<Contact> getNewContacts() {
+        return new ArrayList<Contact>(Sitter.getNewContacts(getLoggedUserSitterApiId()));
     }
 
     @Override
-    public ArrayList<Contact> getCurrentContacts() {
-        return ContactDAO.getCurrentContactsFromSitter(getLoggedUserSitterApiId());
+    public List<Contact> getCurrentContacts() {
+        return new ArrayList<Contact>(Sitter.getCurrentContacts(getLoggedUserSitterApiId()));
     }
 }

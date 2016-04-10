@@ -66,9 +66,9 @@ public class SitterProfileActivity extends AppCompatActivity
     }
 
     private void configureToolbar() {
-        collapsingToolbarLayout.setTitle(sitter.getName());
+        collapsingToolbarLayout.setTitle(sitter.name);
 
-        int imageId = getResources().getIdentifier(sitter.getProfile_background(), "drawable", getPackageName());
+        int imageId = getResources().getIdentifier(sitter.profileBackground, "drawable", getPackageName());
         image_sitter_profile.setImageResource(imageId);
 
         setSupportActionBar(toolbar);
@@ -77,12 +77,12 @@ public class SitterProfileActivity extends AppCompatActivity
     }
 
     private void prepareSitterData() {
-        txtPetSitterDistrictValue.setText(sitter.getDistrict());
+        txtPetSitterDistrictValue.setText(sitter.district);
         txtTitleValues.setText("Valores");
-        txtTitleHourValue.setText(NumberFormat.getCurrencyInstance().format(sitter.getValue_hour()));
-        txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance().format(sitter.getValue_shift()));
-        txtTitleDayValue.setText(NumberFormat.getCurrencyInstance().format(sitter.getValue_day()));
-        txtAboutMeText.setText(sitter.getAbout_me());
+        txtTitleHourValue.setText(NumberFormat.getCurrencyInstance().format(sitter.value_hour));
+        txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance().format(sitter.value_shift));
+        txtTitleDayValue.setText(NumberFormat.getCurrencyInstance().format(sitter.value_day));
+        txtAboutMeText.setText(sitter.about_me);
     }
 
     @Override

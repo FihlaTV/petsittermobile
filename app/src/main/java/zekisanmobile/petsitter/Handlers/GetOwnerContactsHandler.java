@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import zekisanmobile.petsitter.Model.Animal;
+import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.Sitter;
 
@@ -46,7 +47,7 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 JSONObject sitterObject = jsonObject.getJSONObject("sitter");
 
-                Sitter sitter = SitterDAO.insertOrUpdateSitter(
+                Sitter sitter = Sitter.insertOrUpdate(
                         sitterObject.getLong("id"), sitterObject.getString("name"), sitterObject.getString("address"),
                         sitterObject.getString("photo"), sitterObject.getString("header_background"),
                         Float.parseFloat(sitterObject.getString("latitude")),
@@ -57,7 +58,7 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
                 );
 
                 JSONObject ownerObject = jsonObject.getJSONObject("pet_owner");
-                Owner owner = OwnerDAO.insertOrUpdateOwner(ownerObject.getLong("id"),
+                Owner owner = Owner.insertOrUpdate(ownerObject.getLong("id"),
                         ownerObject.getString("name"),
                         ownerObject.getString("address"),
                         ownerObject.getString("district"),
@@ -70,8 +71,7 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
                 for(int j = 0; j < animalsArray.length(); j++){
                     JSONObject animalObject = animalsArray.getJSONObject(j);
                     Animal animal = new Animal();
-                    animal.setId(animalObject.getLong("id"));
-                    animal.setName(animalObject.getString("name"));
+                    animal.name = animalObject.getString("name");
                     animals.add(animal);
                 }
 
@@ -80,7 +80,7 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
                     Date date_start = formatter.parse(jsonObject.getString("date_start"));
                     Date date_final = formatter.parse(jsonObject.getString("date_final"));
 
-                    ContactDAO.insertOrUpdateContact(jsonObject.getLong("id"),
+                    Contact.insertOrUpdate(jsonObject.getLong("id"),
                             date_start, date_final, jsonObject.getString("time_start"),
                             jsonObject.getString("time_final"),
                             jsonObject.getString("created_at").substring(0, 10),

@@ -1,8 +1,10 @@
 package zekisanmobile.petsitter.Owner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import zekisanmobile.petsitter.Model.Contact;
+import zekisanmobile.petsitter.Model.Owner;
 import zekisanmobile.petsitter.Model.User;
 
 public class MyPetSittersPresenterImpl implements MyPetSittersPresenter {
@@ -12,7 +14,7 @@ public class MyPetSittersPresenterImpl implements MyPetSittersPresenter {
 
     public MyPetSittersPresenterImpl(MyPetSittersView view){
         this.view = view;
-        this.user = UserDAO.getLoggedUser(0);
+        this.user = User.getLoggedUser(0);
     }
 
     @Override
@@ -21,7 +23,7 @@ public class MyPetSittersPresenterImpl implements MyPetSittersPresenter {
     }
 
     @Override
-    public ArrayList<Contact> getContacts() {
-        return ContactDAO.getAllContactsFromOwner(this.user.getOwner().getApiId());
+    public List<Contact> getContacts() {
+        return getLoggedUser().owner.getContacts();
     }
 }

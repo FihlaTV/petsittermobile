@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -35,8 +36,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmResults;
 import zekisanmobile.petsitter.Adapters.AnimalSpinnerAdapter;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
 import zekisanmobile.petsitter.Model.Animal;
@@ -50,7 +49,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
     private Sitter sitter;
     private User loggedUser;
-    private RealmResults<Animal> animals;
+    private List<Animal> animals;
     private int selectedAnimalsCount;
 
     @Bind(R.id.toolbar_new_contact)
@@ -83,10 +82,10 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
         Intent intent = getIntent();
         sitter = (Sitter) intent.getSerializableExtra("sitter");
-        tv_name.setText(sitter.getName());
+        tv_name.setText(sitter.name);
 
-        loggedUser = UserDAO.getLoggedUser(0);
-        animals = AnimalDAO.getAnimalsFromSitter(sitter);
+        loggedUser = User.getLoggedUser(0);
+        animals = sitter.getAnimals();
 
         configureToolbar();
 
@@ -146,7 +145,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         JSONObject jsonContact = new JSONObject();
         JSONArray jsonAnimals = new JSONArray();
         try {
-            jsonContact.put("sitter_id", sitter.getApiId());
+            jsonContact.put("sitter_id", sitter.apiId);
             jsonContact.put("date_start", tv_date_start.getText());
             jsonContact.put("date_final", tv_date_final.getText());
             jsonContact.put("time_start", tv_time_start.getText());
@@ -162,7 +161,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             }
 
             jsonContact.put("animal_contacts", jsonAnimals);
-            String[] params = {jsonContact.toString(), String.valueOf(loggedUser.getOwner().getApiId())};
+            String[] params = {jsonContact.toString(), String.valueOf(loggedUser.owner.apiId)};
 
             new SendRequestContactHandler().execute(params);
             Intent intent = new Intent(this, OwnerHomeActivity.class);
@@ -173,27 +172,25 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private Contact createContact(View view) {
-        Sitter persitedSitter = SitterDAO.insertOrUpdateSitter(sitter.getApiId(), sitter.getName(),
-                sitter.getAddress(), sitter.getPhoto(),
-                sitter.getProfile_background(), sitter.getLatitude(), sitter.getLongitude(), sitter.getDistrict(),
-                sitter.getValue_hour(), sitter.getValue_shift(), sitter.getValue_day(), sitter.getAbout_me());
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        Contact contact = realm.createObject(Contact.class);
-        contact.setId(ContactDAO.getAllContacts().last().getId() + 1);
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Sitter persitedSitter = Sitter.insertOrUpdate(sitter.apiId, sitter.name,
+                sitter.address, sitter.photo,
+                sitter.profileBackground, sitter.latitude, sitter.longitude, sitter.district,
+                sitter.value_hour, sitter.value_shift, sitter.value_day, sitter.about_me);
+
+        Contact contact = new Contact();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            contact.setDate_start(formatter.parse(tv_date_start.getText().toString()));
-            contact.setDate_final(formatter.parse(tv_date_final.getText().toString()));
+            contact.dateStart = formatter.parse(tv_date_start.getText().toString());
+            contact.dateFinal = formatter.parse(tv_date_final.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        contact.setTime_start(tv_time_start.getText().toString());
-        contact.setTime_final(tv_time_final.getText().toString());
-        contact.setOwner(loggedUser.getOwner());
-        contact.setSitter(persitedSitter);
+        contact.timeStart = tv_time_start.getText().toString();
+        contact.timeFinal = tv_time_final.getText().toString();
+        contact.owner = loggedUser.owner;
+        contact.sitter = persitedSitter;
         contact.getAnimals().addAll(getAnimalsFromView(view, animals));
-        realm.commitTransaction();
+        contact.save();
         return contact;
     }
 
@@ -324,7 +321,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 Date convertedTimeFinal = formatterTime.parse(tv_time_final.getText().toString().replace("h", ":"));
                 long minutes = (convertedTimeFinal.getTime() - (convertedTimeStart.getTime())) / 60000;
 
-                double minuteValue = sitter.getValue_hour() / 60;
+                double minuteValue = sitter.value_hour / 60;
                 double totalMinutesValue = minutes * minuteValue;
                 double totalValue = totalMinutesValue * days;
                 tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue * selectedAnimalsCount));
@@ -388,7 +385,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         }
     }
 
-    private void createPetForView(View view, RealmResults<Animal> animals) {
+    private void createPetForView(View view, List<Animal> animals) {
         LayoutInflater inflater = this.getLayoutInflater();
         LinearLayout linearLayoutChild = (LinearLayout) inflater.inflate(R.layout.box_animal, null);
 
@@ -423,7 +420,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         selectedAnimalsCount = linearLayoutChild.getChildCount() - 1;
     }
 
-    private List<Animal> getAnimalsFromView(View view, RealmResults<Animal> animals) {
+    private List<Animal> getAnimalsFromView(View view, List<Animal> animals) {
         List<Animal> list = new ArrayList<Animal>();
         LinearLayout linearLayoutParent = (LinearLayout) view.getParent();
         LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(9);
@@ -434,8 +431,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 Spinner spAnimal = (Spinner) linearLayoutNestedChild.getChildAt(0).findViewById(R.id.sp_animal);
 
                 Animal animal = new Animal();
-                animal.setId(animals.get(spAnimal.getSelectedItemPosition()).getId());
-                animal.setName(animals.get(spAnimal.getSelectedItemPosition()).getName());
+                animal.name = animals.get(spAnimal.getSelectedItemPosition()).getName();
                 list.add(animal);
             }
         }

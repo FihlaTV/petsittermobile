@@ -15,27 +15,27 @@ public class OwnerHomePresenterImpl implements OwnerHomePresenter{
 
     @Override
     public void getLoggedUser() {
-        this.loggedUser = UserDAO.getLoggedUser(0);
+        this.loggedUser = User.getLoggedUser(0);
         new GetOwnerContactsHandler().execute(getStringOwnerApiId());
     }
 
     @Override
     public String getStringOwnerApiId() {
-        return String.valueOf(this.loggedUser.getOwner().getApiId());
+        return String.valueOf(this.loggedUser.owner.apiId);
     }
 
     @Override
     public String getLoggedUserName() {
-        return loggedUser.getName();
+        return loggedUser.name;
     }
 
     @Override
     public String getLoggedUserEmail() {
-        return loggedUser.getEmail();
+        return loggedUser.name;
     }
 
     @Override
     public String getLoggedUserPhoto() {
-        return loggedUser.getPhoto();
+        return loggedUser.photo;
     }
 }

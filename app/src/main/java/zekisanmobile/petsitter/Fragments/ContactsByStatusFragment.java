@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +25,7 @@ public class ContactsByStatusFragment extends Fragment implements RecyclerViewOn
     @Bind(R.id.rv_list_received_contacts)
     RecyclerView rvListReceivedContacts;
 
-    private ArrayList<Contact> contacts;
+    private List<Contact> contacts;
     private ContactListAdapter adapter;
 
     @Override
@@ -59,7 +60,7 @@ public class ContactsByStatusFragment extends Fragment implements RecyclerViewOn
         startActivity(intent);
     }
 
-    public void updateContactsList(ArrayList<Contact> contacts) {
+    public void updateContactsList(List<Contact> contacts) {
         this.contacts = contacts;
         if (adapter == null) {
             adapter = new ContactListAdapter(contacts, getContext());

@@ -4,8 +4,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
+import java.util.List;
 
-import io.realm.RealmList;
 import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
 import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Contact;
@@ -22,12 +22,12 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void getContactFromDb(long id) {
-        this.contact = ContactDAO.getContact(id);
+        this.contact = Contact.load(Contact.class, id);
     }
 
     @Override
     public String getContactOwnerName() {
-        return this.contact.getOwner().getName();
+        return this.contact.owner.name;
     }
 
     @Override
@@ -37,39 +37,39 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public String getContactDistrict() {
-        return this.contact.getOwner().getDistrict();
+        return this.contact.owner.district;
     }
 
     @Override
     public String getContactAddress() {
-        return this.contact.getOwner().getAddress();
+        return this.contact.owner.address;
     }
 
     @Override
     public String getContactStartDate() {
-        return Formatter.formattedDate(this.contact.getDate_start());
+        return Formatter.formattedDate(this.contact.dateStart);
     }
 
     @Override
     public String getContactDatePeriod() {
-        return Formatter.formattedDate(this.contact.getDate_start())
+        return Formatter.formattedDate(this.contact.dateStart)
                 + " - "
-                + Formatter.formattedDate(this.contact.getDate_final());
+                + Formatter.formattedDate(this.contact.dateFinal);
     }
 
     @Override
     public String getContactTimePeriod() {
-        return this.contact.getTime_start() + " - " + this.contact.getTime_final();
+        return this.contact.dateStart + " - " + this.contact.dateFinal;
     }
 
     @Override
     public String getContactTotalValue() {
-        return NumberFormat.getCurrencyInstance().format(this.contact.getTotalValue());
+        return NumberFormat.getCurrencyInstance().format(this.contact.totalValue);
     }
 
     @Override
     public String[] getContactAnimals() {
-        RealmList<Animal> animals = this.contact.getAnimals();
+        List<Animal> animals = this.contact.getAnimals();
         String[] animalsNames = new String[animals.size()];
         for(int i = 0; i < animals.size(); i++){
             animalsNames[i] = animals.get(i).getName();
@@ -79,22 +79,22 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public double getContactOwnerLatitude() {
-        return this.contact.getOwner().getLatitude();
+        return this.contact.owner.latitude;
     }
 
     @Override
     public double getContactOwnerLongitude() {
-        return this.contact.getOwner().getLongitude();
+        return this.contact.owner.longitude;
     }
 
     @Override
     public boolean isAccepted() {
-        return this.contact.getStatus() == 30;
+        return this.contact.status == 30;
     }
 
     @Override
     public boolean isRejected() {
-        return this.contact.getStatus() == 20;
+        return this.contact.status == 20;
     }
 
     @Override
@@ -104,13 +104,13 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void acceptContact() {
-        ContactDAO.updateStatus(this.contact.getId(), 30);
+        Contact.updateStatus(this.contact.getId(), 30);
         sendStatusUpdate(30);
     }
 
     @Override
     public void deleteContact() {
-        ContactDAO.deleteContact(this.contact.getId());
+        Contact.delete(this.contact.getId());
         sendStatusUpdate(20);
     }
 

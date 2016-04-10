@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -115,7 +116,7 @@ public class SitterHomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void updateAdapters(ArrayList<Contact> newContacts, ArrayList<Contact> currentContacts) {
+    public void updateAdapters(List<Contact> newContacts, List<Contact> currentContacts) {
         newContactsFragment.updateContactsList(newContacts);
         currentContactsFragment.updateContactsList(currentContacts);
     }

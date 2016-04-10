@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,11 +20,11 @@ import zekisanmobile.petsitter.Util.Formatter;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
-    private ArrayList<Contact> contacts;
+    private List<Contact> contacts;
     private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
     private Context parentContext;
 
-    public ContactListAdapter(ArrayList<Contact> contacts, Context parentContext){
+    public ContactListAdapter(List<Contact> contacts, Context parentContext){
         this.contacts = contacts;
         this.parentContext = parentContext;
     }
@@ -43,8 +44,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
             int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
             holder.iv_contact_owner.setImageResource(imageId);
-            holder.tv_contact_owner.setText(contact.getOwner().getName());
-            holder.tv_contact_created_at.setText(Formatter.formattedDateFromString(contact.getCreated_at()));
+            holder.tv_contact_owner.setText(contact.owner.name);
+            holder.tv_contact_created_at.setText(Formatter.formattedDateFromString(contact.createdAt));
         }
     }
 
@@ -61,7 +62,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         return contacts.get(position);
     }
 
-    public void updateContactsList(ArrayList<Contact> contacts) {
+    public void updateContactsList(List<Contact> contacts) {
         this.contacts = contacts;
     }
 

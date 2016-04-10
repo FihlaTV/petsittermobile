@@ -23,24 +23,24 @@ public class MyJSONConverter {
                 for (int j = 0; j < animalsArray.length(); j++) {
                     JSONObject animalObject = animalsArray.getJSONObject(j);
                     Animal animal = new Animal();
-                    animal.setId(animalObject.getLong("id"));
-                    animal.setName(animalObject.getString("name"));
+                    animal.name = animalObject.getString("name");
                     animals.add(animal);
                 }
 
-                Sitter sitter = new Sitter(jsonObject.getLong("id"),
-                        jsonObject.getString("name"),
-                        jsonObject.getString("address"),
-                        jsonObject.getString("photo"),
-                        jsonObject.getString("header_background"),
-                        Float.parseFloat(jsonObject.getString("latitude")),
-                        Float.parseFloat(jsonObject.getString("longitude")),
-                        jsonObject.getString("district"),
-                        Double.valueOf(jsonObject.getString("value_hour")),
-                        Double.valueOf(jsonObject.getString("value_shift")),
-                        Double.valueOf(jsonObject.getString("value_day")),
-                        jsonObject.getString("about_me"),
-                        animals);
+                Sitter sitter = new Sitter();
+                sitter.apiId = jsonObject.getLong("id");
+                sitter.name = jsonObject.getString("name");
+                sitter.address = jsonObject.getString("address");
+                sitter.photo = jsonObject.getString("photo");
+                sitter.profileBackground = jsonObject.getString("header_background");
+                sitter.latitude = Float.parseFloat(jsonObject.getString("latitude"));
+                sitter.longitude = Float.parseFloat(jsonObject.getString("longitude"));
+                sitter.district = jsonObject.getString("district");
+                sitter.value_hour = Double.valueOf(jsonObject.getString("value_hour"));
+                sitter.value_shift = Double.valueOf(jsonObject.getString("value_shift"));
+                sitter.value_day = Double.valueOf(jsonObject.getString("value_day"));
+                sitter.about_me = jsonObject.getString("about_me");
+                sitter.animals = animals;
                 returnedSitters.add(sitter);
             } catch (JSONException e) {
                 e.printStackTrace();

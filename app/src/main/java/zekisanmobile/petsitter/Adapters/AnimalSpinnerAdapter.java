@@ -1,44 +1,37 @@
 package zekisanmobile.petsitter.Adapters;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
+import android.widget.ArrayAdapter;
 import android.content.Context;
 import android.widget.TextView;
 
-import io.realm.RealmBaseAdapter;
-import io.realm.RealmResults;
+import java.util.List;
+
 import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.R;
 
-public class AnimalSpinnerAdapter extends RealmBaseAdapter<Animal> implements ListAdapter{
+public class AnimalSpinnerAdapter extends ArrayAdapter<Animal> {
 
-    public AnimalSpinnerAdapter(Context context, RealmResults<Animal> animals){
-        super(context, animals, false);
+    List<Animal> animals;
+
+    public AnimalSpinnerAdapter(Context context, List<Animal> animals){
+        super(context, 0, animals);
+        this.animals = animals;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        CustomViewHolder holder;
+        Animal animal = getItem(position);
 
         if(convertView == null){
-            convertView = inflater.inflate(R.layout.item_animal_spinner, parent, false);
-            holder = new CustomViewHolder();
-            convertView.setTag(holder);
-
-            holder.tvName = (TextView) convertView.findViewById(R.id.tv_name);
-        }else {
-            holder = (CustomViewHolder) convertView.getTag();
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_animal_spinner, parent, false);
         }
 
-
-        final Animal animal = realmResults.get(position);
-        holder.tvName.setText(animal.getName());
+        TextView tvName = (TextView) convertView.findViewById(R.id.tv_name);
+        tvName.setText(animal.getName());
 
         return convertView;
-    }
-
-    private static class CustomViewHolder {
-        TextView tvName;
     }
 }

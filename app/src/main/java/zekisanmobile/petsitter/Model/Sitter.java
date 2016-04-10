@@ -40,6 +40,8 @@ public class Sitter extends Model implements Serializable{
     @Column(name = "about_me")
     public String about_me;
 
+    public List<Animal> animals;
+
     public Sitter(){
         super();
     }
@@ -73,7 +75,7 @@ public class Sitter extends Model implements Serializable{
                 .execute();
     }
 
-    public static Sitter insertOrUpdateSitter(long apiId, String name, String address, String photo,
+    public static Sitter insertOrUpdate(long apiId, String name, String address, String photo,
                                               String profile_background, float latitude, float longitude,
                                               String district, double value_hour, double value_shift,
                                               double value_day, String about_me){

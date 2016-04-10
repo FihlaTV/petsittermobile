@@ -12,7 +12,7 @@ import java.util.List;
 public class Animal extends Model implements Serializable{
 
     @Column(name = "Name")
-    private String name;
+    public String name;
 
     public Animal(){
         super();
@@ -22,13 +22,9 @@ public class Animal extends Model implements Serializable{
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public static void create(String name){
         Animal animal = new Animal();
-        animal.setName(name);
+        animal.name = name;
         animal.save();
     }
 

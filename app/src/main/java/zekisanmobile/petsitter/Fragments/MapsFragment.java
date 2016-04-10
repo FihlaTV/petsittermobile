@@ -210,12 +210,12 @@ public class MapsFragment extends Fragment implements GoogleApiClient.Connection
                 for(int i = 0; i < sitters.size(); i++) {
                     map.setInfoWindowAdapter(new CustomInfoWindowAdapter());
                     Marker marker = map.addMarker(new MarkerOptions()
-                            .position(new LatLng(sitters.get(i).getLatitude(), sitters.get(i).getLongitude()))
-                            .title(sitters.get(i).getName())
+                            .position(new LatLng(sitters.get(i).latitude, sitters.get(i).longitude))
+                            .title(sitters.get(i).name)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.pet_marker))
-                            .snippet(sitters.get(i).getAddress()));
-                    int imageId = getResources().getIdentifier(sitters.get(i).getPhoto(), "drawable", getActivity().getPackageName());
-                    markerSitterMarkerHashMap.put(marker, new SitterMarker(sitters.get(i).getName(), sitters.get(i).getAddress(), imageId, sitters.get(i)));
+                            .snippet(sitters.get(i).address));
+                    int imageId = getResources().getIdentifier(sitters.get(i).photo, "drawable", getActivity().getPackageName());
+                    markerSitterMarkerHashMap.put(marker, new SitterMarker(sitters.get(i).name, sitters.get(i).address, imageId, sitters.get(i)));
                 }
 
             }catch (Exception e){
