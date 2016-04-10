@@ -26,6 +26,7 @@ import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
+import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -124,10 +125,14 @@ public class OwnerHomeActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        Intent intent;
         switch (id){
             case R.id.contacts:
-                Intent intent = new Intent(OwnerHomeActivity.this, MyPetSittersActivity.class);
+                intent = new Intent(OwnerHomeActivity.this, MyPetSittersActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.logOut:
+                intent = new Intent(OwnerHomeActivity.this, MainActivity.class);
                 startActivity(intent);
                 break;
         }

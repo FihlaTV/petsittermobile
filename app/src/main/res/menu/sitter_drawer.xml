@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="Início" />
+    </group>
+
+    <group android:id="@+id/contacts_group" android:checkableBehavior="single">
+        <item android:title="Meus Trabalhos">
+            <menu>
+                <item
+                    android:id="@+id/nextContacts"
+                    android:title="Próximos" />
+                <item
+                    android:id="@+id/finishedContacts"
+                    android:title="Finalizados" />
+            </menu>
+        </item>
+    </group>
+
+    <group android:id="@+id/logout_group" android:checkableBehavior="single">
+        <item
+            android:id="@+id/logOut"
+            android:title="Sair" />
+    </group>
+</menu>

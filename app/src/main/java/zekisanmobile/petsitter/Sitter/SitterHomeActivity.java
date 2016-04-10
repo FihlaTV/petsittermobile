@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter.Sitter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -11,11 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -23,9 +21,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.ContactsByStatusFragment;
-import zekisanmobile.petsitter.Fragments.MapsFragment;
-import zekisanmobile.petsitter.Fragments.SearchFragment;
-import zekisanmobile.petsitter.Fragments.SitterFragment;
+import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.R;
 
@@ -111,6 +107,14 @@ public class SitterHomeActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        Intent intent;
+        switch (itemId) {
+            case R.id.logOut:
+                intent = new Intent(SitterHomeActivity.this, MainActivity.class);
+                startActivity(intent);
+                break;
+        }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
