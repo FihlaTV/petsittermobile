@@ -172,6 +172,8 @@ public class ContactDetailsActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.deleteContact();
+                        Intent intent = new Intent(ContactDetailsActivity.this, SitterHomeActivity.class);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton("CANCELAR", null)

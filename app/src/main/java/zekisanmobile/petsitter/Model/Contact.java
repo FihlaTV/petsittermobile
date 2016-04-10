@@ -39,7 +39,11 @@ public class Contact extends Model {
     }
 
     public List<Animal> getAnimals() {
-        return getMany(Animal.class, "AnimalContact");
+        return new Select()
+                .from(Animal.class)
+                .join(AnimalContact.class).on("Animal.id = AnimalContact.animal")
+                .where("AnimalContact.contact = ?", getId())
+                .execute();
     }
 
     public static List<Contact> all(){
@@ -87,11 +91,12 @@ public class Contact extends Model {
     }
 
     public static void delete(long id){
+        new Delete().from(AnimalContact.class).where("contact = ?", id).execute();
         new Delete().from(Contact.class).where("id = ?", id).execute();
     }
 
     public static void updateStatus(long id, int status) {
-        Contact contact = new Select().from(Contact.class).where("id = ?", id).executeSingle();
+        Contact contact = new Select().from(Contact.class).where("api_id = ?", id).executeSingle();
         contact.status = status;
         contact.save();
     }

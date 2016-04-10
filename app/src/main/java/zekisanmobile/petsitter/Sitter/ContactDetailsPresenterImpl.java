@@ -47,19 +47,19 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public String getContactStartDate() {
-        return Formatter.formattedDateForAPI(this.contact.dateStart);
+        return Formatter.formattedDateFromString(this.contact.dateStart);
     }
 
     @Override
     public String getContactDatePeriod() {
-        return Formatter.formattedDateForAPI(this.contact.dateStart)
+        return Formatter.formattedDateFromString(this.contact.dateStart)
                 + " - "
-                + Formatter.formattedDateForAPI(this.contact.dateFinal);
+                + Formatter.formattedDateFromString(this.contact.dateFinal);
     }
 
     @Override
     public String getContactTimePeriod() {
-        return this.contact.dateStart + " - " + this.contact.dateFinal;
+        return this.contact.timeStart + " - " + this.contact.timeFinal;
     }
 
     @Override
@@ -104,22 +104,22 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void acceptContact() {
-        Contact.updateStatus(this.contact.getId(), 30);
-        sendStatusUpdate(30);
+        sendStatusUpdate(this.contact.apiId, 30);
+        Contact.updateStatus(this.contact.apiId, 30);
     }
 
     @Override
     public void deleteContact() {
+        sendStatusUpdate(this.contact.apiId, 20);
         Contact.delete(this.contact.getId());
-        sendStatusUpdate(20);
     }
 
-    private void sendStatusUpdate(int status) {
+    private void sendStatusUpdate(long contact_id, int status) {
         try {
             JSONObject jsonContact = new JSONObject();
-            jsonContact.put("id", this.contact.getId());
+            jsonContact.put("id", contact_id);
             jsonContact.put("status", status);
-            String[] params = { jsonContact.toString(), String.valueOf(this.contact.getId()) };
+            String[] params = { jsonContact.toString(), String.valueOf(contact_id) };
             new SendContactStatusHandler().execute(params);
         } catch (JSONException e) {
             e.printStackTrace();
