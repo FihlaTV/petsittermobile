@@ -28,10 +28,6 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
     private final static String FINAL_SEARCH_URL = "/contacts";
     private OkHttpClient client = new OkHttpClient();
 
-    public GetOwnerContactsHandler() {
-
-    }
-
     @Override
     protected Void doInBackground(String... params) {
         Request request = new Request.Builder()
@@ -94,10 +90,5 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
         catch (IOException e) { e.printStackTrace(); }
         catch (JSONException e) { e.printStackTrace(); }
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void v) {
-
     }
 }

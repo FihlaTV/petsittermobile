@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name = "Contact")
 public class Contact extends Model {
 
-    @Column(name = "api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    @Column(name = "api_id")
     public long apiId;
     @Column(name = "dateStart")
     public Date dateStart;

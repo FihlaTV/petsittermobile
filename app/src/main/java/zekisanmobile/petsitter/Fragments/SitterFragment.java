@@ -127,7 +127,4 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
             progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
-
-    public void setRunningRequest(boolean runningRequest) {
-    }
 }

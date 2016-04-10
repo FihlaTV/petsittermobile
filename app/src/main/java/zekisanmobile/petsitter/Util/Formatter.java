@@ -24,6 +24,11 @@ public class Formatter {
     }
 
     public static String formattedDateToSQL(Date date) {
+        SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd");
+        return output.format(date);
+    }
+
+    public static String formattedDateTimeToSQL(Date date) {
         SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return output.format(date);
     }

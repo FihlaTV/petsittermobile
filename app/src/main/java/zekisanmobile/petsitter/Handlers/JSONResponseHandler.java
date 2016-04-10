@@ -58,7 +58,6 @@ public class JSONResponseHandler extends AsyncTask<Void, Void, ArrayList<Sitter>
     protected void onPostExecute(ArrayList<Sitter> receivedSitters) {
         if (sitterFragment.isAdded()) {
             sitterFragment.showProgress(false);
-            sitterFragment.setRunningRequest(false);
         }
         if (receivedSitters != null && receivedSitters.size() > 0) view.updateSitterList(receivedSitters);
     }

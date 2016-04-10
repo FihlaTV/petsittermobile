@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Select;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -36,13 +38,14 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zekisanmobile.petsitter.Adapters.AnimalSpinnerAdapter;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
 import zekisanmobile.petsitter.Model.Animal;
+import zekisanmobile.petsitter.Model.AnimalContact;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.Util.Formatter;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
@@ -91,7 +94,10 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         configureToolbar();
 
         Spinner spAnimal = (Spinner) findViewById(R.id.sp_animal);
-        spAnimal.setAdapter(new AnimalSpinnerAdapter(this, animals));
+        ArrayAdapter<Animal> animalArrayAdapter = new ArrayAdapter<Animal>(
+                this, android.R.layout.simple_spinner_item, animals
+        );
+        spAnimal.setAdapter(animalArrayAdapter);
         View btRemoveAnimal = findViewById(R.id.bt_remove_animal);
         btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,15 +105,6 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 callRemoveAnimal(v);
             }
         });
-
-        //createPetForView(findViewById(R.id.bt_add_animal), animals);
-
-        /*if (savedInstanceState != null){
-            tv_date_start.setText(savedInstanceState.getString("date_start"));
-            tv_date_final.setText(savedInstanceState.getString("date_final"));
-            tv_time_start.setText(savedInstanceState.getString("time_start"));
-            tv_time_final.setText(savedInstanceState.getString("time_final"));
-        }*/
     }
 
     public void callAddAnimal(View view) {
@@ -134,7 +131,6 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void configureToolbar() {
-        // TOOLBAR
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -142,7 +138,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact(View view) {
-        createContact(view);
+        //createContact(view);
         JSONObject jsonContact = new JSONObject();
         JSONArray jsonAnimals = new JSONArray();
         try {
@@ -157,7 +153,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
             for (Animal a : selectedAnimals) {
                 JSONObject jsonAnimal = new JSONObject();
-                jsonAnimal.put("animal_id", a.getId());
+                Animal animalFromDB = new Select().from(Animal.class).where("name = ?", a.getName()).executeSingle();
+                jsonAnimal.put("animal_id", animalFromDB.getId());
                 jsonAnimals.put(jsonAnimal);
             }
 
@@ -179,19 +176,32 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 sitter.value_hour, sitter.value_shift, sitter.value_day, sitter.about_me);
 
         Contact contact = new Contact();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try {
             contact.dateStart = formatter.parse(tv_date_start.getText().toString());
             contact.dateFinal = formatter.parse(tv_date_final.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        contact.apiId = 0;
         contact.timeStart = tv_time_start.getText().toString();
         contact.timeFinal = tv_time_final.getText().toString();
         contact.owner = loggedUser.owner;
         contact.sitter = persitedSitter;
-        contact.getAnimals().addAll(getAnimalsFromView(view, animals));
+        contact.totalValue = Double.parseDouble(tvTotalValue.getText().toString().replace("R$", "").replace(",", "."));
         contact.save();
+        ActiveAndroid.beginTransaction();
+        try {
+            for(Animal animal: getAnimalsFromView(view, animals)){
+                Animal animalDB = new Select().from(Animal.class).where("name = ?", animal.getName()).executeSingle();
+                AnimalContact animalContact = new AnimalContact(animalDB, contact);
+                animalContact.save();
+            }
+            ActiveAndroid.setTransactionSuccessful();
+        }
+        finally {
+            ActiveAndroid.endTransaction();
+        }
         return contact;
     }
 
@@ -391,7 +401,10 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         LinearLayout linearLayoutChild = (LinearLayout) inflater.inflate(R.layout.box_animal, null);
 
         Spinner spAnimal = (Spinner) linearLayoutChild.findViewById(R.id.sp_animal);
-        spAnimal.setAdapter(new AnimalSpinnerAdapter(this, animals));
+        ArrayAdapter<Animal> animalArrayAdapter = new ArrayAdapter<Animal>(
+                this, android.R.layout.simple_spinner_item, animals
+        );
+        spAnimal.setAdapter(animalArrayAdapter);
 
         View btRemoveAnimal = linearLayoutChild.findViewById(R.id.bt_remove_animal);
         btRemoveAnimal.setOnClickListener(new View.OnClickListener() {

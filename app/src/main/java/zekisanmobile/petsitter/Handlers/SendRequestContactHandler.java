@@ -15,16 +15,16 @@ public class SendRequestContactHandler extends AsyncTask<String, Void, Void>{
     private final static String BASE_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/pet_owners/";
     private final static String FINAL_SEARCH_URL = "/request_contact";
     private OkHttpClient client = new OkHttpClient();
+    private String sitter_api_id;
 
     @Override
     protected Void doInBackground(String... params) {
-
+        this.sitter_api_id = params[1];
         RequestBody body = RequestBody.create(JSON, params[0]);
         Request request = new Request.Builder()
                 .url(BASE_SEARCH_URL + params[1] + FINAL_SEARCH_URL)
                 .post(body)
                 .build();
-
         try {
             client.newCall(request).execute();
         }catch (IOException e){
@@ -32,5 +32,10 @@ public class SendRequestContactHandler extends AsyncTask<String, Void, Void>{
         }
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void v) {
+        new GetOwnerContactsHandler().execute(sitter_api_id);
     }
 }

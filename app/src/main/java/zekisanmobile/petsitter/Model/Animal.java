@@ -34,4 +34,8 @@ public class Animal extends Model implements Serializable{
                 .orderBy("Name ASC")
                 .execute();
     }
+
+    public String toString(){
+        return name;
+    }
 }
