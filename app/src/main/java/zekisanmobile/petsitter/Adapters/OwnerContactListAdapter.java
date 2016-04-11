@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +50,7 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
             holder.tv_contact_sitter.setText(contact.sitter.name);
             holder.tv_contact_status.setText(ContactStatusString.getStatusName(contact.status,
                     contact.dateStart, contact.dateFinal));
+            holder.tv_contact_period.setText(ContactStatusString.contatPeriod(contact.dateStart, contact.dateFinal));
         }
     }
 
@@ -68,6 +71,8 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
         TextView tv_contact_sitter;
         @Bind(R.id.tv_contact_status)
         TextView tv_contact_status;
+        @Bind(R.id.tv_contact_period)
+        TextView tv_contact_period;
 
         public ViewHolder(View view){
             super(view);

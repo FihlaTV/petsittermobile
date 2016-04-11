@@ -24,4 +24,9 @@ public class ContactStatusString {
         }
     }
 
+    public static String contatPeriod(String dateStart, String dateFinal){
+        return Formatter.formattedDateFromString(dateStart)
+                + " - "
+                + Formatter.formattedDateFromString(dateFinal);
+    }
 }
