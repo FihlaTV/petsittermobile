@@ -72,9 +72,12 @@
         <activity
             android:name=".Sitter.OtherContactsActivity"
             android:parentActivityName=".Owner.OwnerHomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Owner.EvaluationActivity"
+            android:parentActivityName=".Owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -90,7 +93,6 @@
         <meta-data
             android:name="AA_MODELS"
             android:value="zekisanmobile.petsitter.Model.Animal,                             zekisanmobile.petsitter.Model.AnimalContact,                             zekisanmobile.petsitter.Model.AnimalSitter,                             zekisanmobile.petsitter.Model.Contact,                             zekisanmobile.petsitter.Model.Owner,                             zekisanmobile.petsitter.Model.Sitter,                             zekisanmobile.petsitter.Model.User" />
-
     </application>
 
 </manifest>
