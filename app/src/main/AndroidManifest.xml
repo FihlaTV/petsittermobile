@@ -60,6 +60,11 @@
             android:parentActivityName=".Sitter.SitterHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".Owner.ContactDetailsActivity"
+            android:label="Pet Sitter"
+            android:parentActivityName=".Owner.MyPetSittersActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".Owner.MyPetSittersActivity"
             android:label="Meus Pet Sitters"
             android:parentActivityName=".Owner.OwnerHomeActivity"

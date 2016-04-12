@@ -1,20 +1,17 @@
 package zekisanmobile.petsitter.Owner;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import java.util.ArrayList;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.OwnerContactListAdapter;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.Model.Contact;
-import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class MyPetSittersActivity extends AppCompatActivity implements MyPetSittersView,
@@ -61,6 +58,8 @@ public class MyPetSittersActivity extends AppCompatActivity implements MyPetSitt
 
     @Override
     public void onClickListener(View view, int position) {
-
+        Intent intent = new Intent(MyPetSittersActivity.this, ContactDetailsActivity.class);
+        intent.putExtra("contactId", adapter.getContactAtPosition(position).getId());
+        startActivity(intent);
     }
 }

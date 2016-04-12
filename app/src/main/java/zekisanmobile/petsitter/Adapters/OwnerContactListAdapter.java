@@ -59,6 +59,10 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
         return contacts.size();
     }
 
+    public Contact getContactAtPosition(int position){
+        return contacts.get(position);
+    }
+
     public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack){
         this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
     }

@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -40,8 +39,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
 import zekisanmobile.petsitter.Model.Animal;
-import zekisanmobile.petsitter.Model.AnimalContact;
-import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
@@ -289,7 +286,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             try {
                 Date dateStart = formatterDate.parse(tv_date_start.getText().toString());
                 Date dateFinal = formatterDate.parse(tv_date_final.getText().toString());
-                long days = (dateFinal.getTime() - dateStart.getTime()) / (24 * 60 * 60 * 1000);
+                long days = ((dateFinal.getTime() - dateStart.getTime()) / (24 * 60 * 60 * 1000)) + 1;
 
                 Date convertedTimeStart = formatterTime.parse(tv_time_start.getText().toString().replace("h", ":"));
                 Date convertedTimeFinal = formatterTime.parse(tv_time_final.getText().toString().replace("h", ":"));
