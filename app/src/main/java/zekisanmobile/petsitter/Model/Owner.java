@@ -5,7 +5,10 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import java.util.Date;
 import java.util.List;
+
+import zekisanmobile.petsitter.Util.Formatter;
 
 @Table(name = "Owner")
 public class Owner extends Model {
@@ -29,6 +32,53 @@ public class Owner extends Model {
     
     public List<Contact> getContacts() {
         return getMany(Contact.class, "owner");
+    }
+
+    public static List<Contact> getNewContacts(long id){
+        return new Select()
+                .from(Contact.class)
+                .where("owner = ?", id)
+                .where("status = ?", 10)
+                .where("dateStart>= ?", Formatter.formattedDateToSQL(new Date()))
+                .orderBy("dateStart DESC")
+                .execute();
+    }
+
+    public static List<Contact> getCurrentContacts(long id){
+        return new Select()
+                .from(Contact.class)
+                .where("owner = ?", id)
+                .where("status = ?", 30)
+                .where("dateFinal >= ?", Formatter.formattedDateToSQL(new Date()))
+                .orderBy("dateStart DESC")
+                .execute();
+    }
+
+    public List<Contact> getNextContacts(long id) {
+        return new Select()
+                .from(Contact.class)
+                .where("owner = ?", id)
+                .where("status = ?", 30)
+                .where("dateStart < ?", Formatter.formattedDateTimeToSQL(new Date()))
+                .execute();
+    }
+
+    public List<Contact> getFinishedContacts(long id) {
+        return new Select()
+                .from(Contact.class)
+                .where("owner = ?", id)
+                .where("status = ?", 40)
+                .orderBy("dateFinal DESC")
+                .execute();
+    }
+
+    public List<Contact> getRejectContacts(long id) {
+        return new Select()
+                .from(Contact.class)
+                .where("owner = ?", id)
+                .where("status = ?", 20)
+                .orderBy("dateFinal DESC")
+                .execute();
     }
 
     public static List<Owner> all(){

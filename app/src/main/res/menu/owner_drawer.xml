@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/contacts"
-            android:title="Solicitações de Pet Sitters" />
+            android:title="Meus Pet Sitters" />
     </group>
 
     <!--<group android:id="@+id/contacts_group" android:checkableBehavior="single">

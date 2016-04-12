@@ -19,9 +19,9 @@ public class OtherContactsPresenterImpl implements OtherContactsPresenter {
     public List<Contact> getContacts(String type) {
         switch (type){
             case "next":
-                return sitter.getNextContacts();
+                return sitter.getNextContacts(sitter.getId());
             case "finished":
-                return sitter.getFinishedContacts();
+                return sitter.getFinishedContacts(sitter.getId());
         }
         return null;
     }

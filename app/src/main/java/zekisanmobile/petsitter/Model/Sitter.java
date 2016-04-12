@@ -78,17 +78,19 @@ public class Sitter extends Model implements Serializable{
                 .execute();
     }
 
-    public List<Contact> getNextContacts() {
+    public List<Contact> getNextContacts(long id) {
         return new Select()
                 .from(Contact.class)
+                .where("sitter = ?", id)
                 .where("status = ?", 30)
                 .where("dateStart < ?", Formatter.formattedDateTimeToSQL(new Date()))
                 .execute();
     }
 
-    public List<Contact> getFinishedContacts() {
+    public List<Contact> getFinishedContacts(long id) {
         return new Select()
                 .from(Contact.class)
+                .where("sitter = ?", id)
                 .where("status = ?", 40)
                 .execute();
     }

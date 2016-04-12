@@ -1,6 +1,5 @@
 package zekisanmobile.petsitter.Owner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Model.Contact;
