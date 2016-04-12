@@ -7,7 +7,7 @@
             android:title="Solicitações de Pet Sitters" />
     </group>
 
-    <group android:id="@+id/contacts_group" android:checkableBehavior="single">
+    <!--<group android:id="@+id/contacts_group" android:checkableBehavior="single">
         <item android:title="Communicate">
             <menu>
                 <item
@@ -18,7 +18,7 @@
                     android:title="Send" />
             </menu>
         </item>
-    </group>
+    </group>-->
 
     <group android:id="@+id/logout_group" android:checkableBehavior="single">
         <item

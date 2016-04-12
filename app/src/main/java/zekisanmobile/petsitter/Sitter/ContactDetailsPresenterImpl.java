@@ -93,13 +93,18 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     }
 
     @Override
+    public boolean isFinished() {
+        return this.contact.status == 40;
+    }
+
+    @Override
     public boolean isRejected() {
         return this.contact.status == 20;
     }
 
     @Override
-    public boolean isAcceptedOrRejected() {
-        return isAccepted() || isRejected();
+    public boolean isAcceptedOrRejectedOrFinished() {
+        return isAccepted() || isRejected() || isFinished();
     }
 
     @Override

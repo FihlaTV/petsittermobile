@@ -78,6 +78,21 @@ public class Sitter extends Model implements Serializable{
                 .execute();
     }
 
+    public List<Contact> getNextContacts() {
+        return new Select()
+                .from(Contact.class)
+                .where("status = ?", 30)
+                .where("dateStart < ?", Formatter.formattedDateTimeToSQL(new Date()))
+                .execute();
+    }
+
+    public List<Contact> getFinishedContacts() {
+        return new Select()
+                .from(Contact.class)
+                .where("status = ?", 40)
+                .execute();
+    }
+
     public static Sitter insertOrUpdate(long apiId, String name, String address, String photo,
                                               String profile_background, float latitude, float longitude,
                                               String district, double value_hour, double value_shift,

@@ -19,24 +19,28 @@
         android:textColor="@color/colorPrimarytext"
         android:textSize="16sp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:text="oi" />
 
     <TextView
         android:id="@+id/tv_contact_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:paddingRight="16dp"
         android:textSize="12sp"
-        android:layout_marginTop="15dp" />
+        android:text="ter"
+        android:layout_alignTop="@+id/tv_contact_sitter"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/tv_contact_period"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/iv_contact_sitter"
-        android:layout_below="@+id/tv_contact_sitter"
         android:paddingRight="16dp"
         android:textSize="12sp"
-        android:layout_marginTop="15dp" />
+        android:text="oioi"
+        android:layout_alignBottom="@+id/iv_contact_sitter"
+        android:layout_alignLeft="@+id/tv_contact_sitter"
+        android:layout_alignStart="@+id/tv_contact_sitter" />
 </RelativeLayout>

@@ -20,7 +20,8 @@ public interface ContactDetailsPresenter {
 
     boolean isAccepted();
     boolean isRejected();
-    boolean isAcceptedOrRejected();
+    boolean isFinished();
+    boolean isAcceptedOrRejectedOrFinished();
 
     void acceptContact();
     void deleteContact();

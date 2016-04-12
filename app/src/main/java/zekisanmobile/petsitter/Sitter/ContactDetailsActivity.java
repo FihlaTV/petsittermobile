@@ -108,7 +108,7 @@ public class ContactDetailsActivity extends AppCompatActivity
     }
 
     private void configureButtonsVisibility(){
-        if (presenter.isAcceptedOrRejected()){
+        if (presenter.isAcceptedOrRejectedOrFinished()){
             ((ViewGroup) btAccept.getParent()).removeView(btAccept);
             ((ViewGroup) btReject.getParent()).removeView(btReject);
         }

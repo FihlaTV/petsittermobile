@@ -17,6 +17,7 @@ public interface SitterHomePresenter {
     String getStringLoggedUserSitterApiId();
 
     long getLoggedUserSitterApiId();
+    long getLoggedUserSitterId();
 
     Sitter getSitterFromUser();
 

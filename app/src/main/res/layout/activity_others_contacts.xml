@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/bright_foreground_inverse_material_light"
-    android:id="@+id/drawer_my_pet_sitters">
+    android:id="@+id/drawer_other_contacts">
 
     <include
-        layout="@layout/app_bar_main_my_pet_sitters"
+        layout="@layout/app_bar_main_other_contacts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

@@ -61,6 +61,11 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     }
 
     @Override
+    public long getLoggedUserSitterId() {
+        return this.user.sitter.getId();
+    }
+
+    @Override
     public Sitter getSitterFromUser() {
         return user.sitter;
     }

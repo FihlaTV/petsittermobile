@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -16,7 +15,7 @@ import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.Util.Formatter;
+import zekisanmobile.petsitter.Util.ContactStatusString;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
@@ -45,7 +44,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
             holder.iv_contact_owner.setImageResource(imageId);
             holder.tv_contact_owner.setText(contact.owner.name);
-            holder.tv_contact_created_at.setText(Formatter.formattedDateFromString(contact.createdAt));
+            holder.tv_contact_period.setText(ContactStatusString.contatPeriod(contact.dateStart, contact.dateFinal));
         }
     }
 
@@ -70,7 +69,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
         @Bind(R.id.iv_contact_owner) ImageView iv_contact_owner;
         @Bind(R.id.tv_contact_owner) TextView tv_contact_owner;
-        @Bind(R.id.tv_contact_created_at) TextView tv_contact_created_at;
+        @Bind(R.id.tv_contact_period) TextView tv_contact_period;
 
         public ViewHolder(View view){
             super(view);

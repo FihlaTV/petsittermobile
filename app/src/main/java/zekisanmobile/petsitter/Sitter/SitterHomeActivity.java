@@ -110,6 +110,22 @@ public class SitterHomeActivity extends AppCompatActivity
         int itemId = item.getItemId();
         Intent intent;
         switch (itemId) {
+            case R.id.home:
+                intent = new Intent(SitterHomeActivity.this, SitterHomeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nextContacts:
+                intent = new Intent(SitterHomeActivity.this, OtherContactsActivity.class);
+                intent.putExtra("contacts_type", "next");
+                intent.putExtra("sitter_id", presenter.getLoggedUserSitterId());
+                startActivity(intent);
+                break;
+            case R.id.finishedContacts:
+                intent = new Intent(SitterHomeActivity.this, OtherContactsActivity.class);
+                intent.putExtra("contacts_type", "finished");
+                intent.putExtra("sitter_id", presenter.getLoggedUserSitterId());
+                startActivity(intent);
+                break;
             case R.id.logOut:
                 intent = new Intent(SitterHomeActivity.this, MainActivity.class);
                 startActivity(intent);
