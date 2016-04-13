@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Util;
+package zekisanmobile.petsitter.util;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;

@@ -8,7 +8,7 @@ import com.activeandroid.query.Select;
 import java.util.Date;
 import java.util.List;
 
-import zekisanmobile.petsitter.Util.Formatter;
+import zekisanmobile.petsitter.util.Formatter;
 
 @Table(name = "Owner")
 public class Owner extends Model {

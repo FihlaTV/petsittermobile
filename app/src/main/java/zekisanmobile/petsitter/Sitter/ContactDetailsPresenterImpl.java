@@ -9,7 +9,7 @@ import java.util.List;
 import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
 import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Contact;
-import zekisanmobile.petsitter.Util.Formatter;
+import zekisanmobile.petsitter.util.Formatter;
 
 public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 

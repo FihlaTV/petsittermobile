@@ -39,7 +39,7 @@ import java.util.List;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.SitterProfileActivity;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.Util.SitterMarker;
+import zekisanmobile.petsitter.util.SitterMarker;
 
 public class MapsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,

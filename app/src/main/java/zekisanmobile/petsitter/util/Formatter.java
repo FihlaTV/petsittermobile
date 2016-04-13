@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Util;
+package zekisanmobile.petsitter.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

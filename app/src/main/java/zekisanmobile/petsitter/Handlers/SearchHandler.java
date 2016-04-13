@@ -11,16 +11,13 @@ import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
-import zekisanmobile.petsitter.Util.MyJSONConverter;
+import zekisanmobile.petsitter.util.MyJSONConverter;
 
 public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
 

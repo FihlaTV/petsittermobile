@@ -11,7 +11,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 
-import zekisanmobile.petsitter.Util.MyJSONConverter;
+import zekisanmobile.petsitter.util.MyJSONConverter;
 
 public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
 

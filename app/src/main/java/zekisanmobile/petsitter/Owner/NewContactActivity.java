@@ -42,7 +42,7 @@ import zekisanmobile.petsitter.Model.Animal;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Model.User;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.Util.Formatter;
+import zekisanmobile.petsitter.util.Formatter;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {

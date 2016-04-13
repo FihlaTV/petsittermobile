@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.Model.Contact;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.Util.ContactStatusString;
+import zekisanmobile.petsitter.util.ContactStatusString;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 

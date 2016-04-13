@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Util;
+package zekisanmobile.petsitter.util;
 
 public class HandlersUtil {
 

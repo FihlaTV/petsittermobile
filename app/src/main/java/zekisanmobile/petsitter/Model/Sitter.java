@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import zekisanmobile.petsitter.Util.Formatter;
+import zekisanmobile.petsitter.util.Formatter;
 
 @SuppressWarnings("serial")
 @Table(name = "Sitter")

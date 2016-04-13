@@ -12,7 +12,7 @@ import org.json.JSONException;
 import java.io.IOException;
 
 import zekisanmobile.petsitter.Sitter.SitterHomePresenter;
-import zekisanmobile.petsitter.Util.MyJSONConverter;
+import zekisanmobile.petsitter.util.MyJSONConverter;
 
 public class GetSitterContactsHandler extends AsyncTask<String, Void, Void> {
 

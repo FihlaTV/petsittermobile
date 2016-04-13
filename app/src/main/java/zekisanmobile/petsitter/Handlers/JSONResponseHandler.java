@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
-import zekisanmobile.petsitter.Util.HandlersUtil;
-import zekisanmobile.petsitter.Util.MyJSONConverter;
+import zekisanmobile.petsitter.util.HandlersUtil;
+import zekisanmobile.petsitter.util.MyJSONConverter;
 
 public class JSONResponseHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> {
 
