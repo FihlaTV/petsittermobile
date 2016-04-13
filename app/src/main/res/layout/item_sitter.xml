@@ -31,7 +31,8 @@
         android:layout_height="15dp"
         android:layout_alignLeft="@+id/tv_name"
         android:layout_below="@+id/tv_name"
-        android:src="@drawable/like_" />
+        android:src="@drawable/like_"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/tv_like_percent"
@@ -42,7 +43,8 @@
         android:layout_marginLeft="10dp"
         android:paddingRight="16dp"
         android:textColor="@color/colorPrimarytext"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="invisible"/>
 
     <ImageView
         android:id="@+id/iv_negative"
@@ -50,7 +52,8 @@
         android:layout_height="15dp"
         android:layout_below="@+id/tv_name"
         android:layout_toRightOf="@+id/tv_like_percent"
-        android:src="@drawable/dislike_" />
+        android:src="@drawable/dislike_"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/tv_dislike_percent"
@@ -61,7 +64,8 @@
         android:layout_marginLeft="10dp"
         android:paddingRight="16dp"
         android:textColor="@color/colorPrimarytext"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="invisible"/>
 
     <View
         android:id="@+id/vw_divider"
