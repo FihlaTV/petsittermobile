@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Model;
+package zekisanmobile.petsitter.model;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Model;
@@ -7,7 +7,6 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import java.util.Date;
 import java.util.List;
 
 @Table(name = "Contact")

@@ -2,7 +2,7 @@ package zekisanmobile.petsitter.Sitter;
 
 import java.util.List;
 
-import zekisanmobile.petsitter.Model.Contact;
+import zekisanmobile.petsitter.model.Contact;
 
 public interface OtherContactsPresenter {
 

@@ -15,10 +15,10 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zekisanmobile.petsitter.Model.Animal;
-import zekisanmobile.petsitter.Model.Owner;
-import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.model.Animal;
+import zekisanmobile.petsitter.model.Owner;
+import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.model.User;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Sitter.SitterHomeActivity;

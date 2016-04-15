@@ -2,7 +2,7 @@ package zekisanmobile.petsitter.Owner;
 
 import java.util.ArrayList;
 
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 
 public interface OwnerHomeView {
 

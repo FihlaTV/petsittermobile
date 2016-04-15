@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder> {

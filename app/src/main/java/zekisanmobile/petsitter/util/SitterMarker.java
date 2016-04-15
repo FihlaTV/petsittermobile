@@ -2,7 +2,7 @@ package zekisanmobile.petsitter.util;
 
 import java.io.Serializable;
 
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 
 public class SitterMarker implements Serializable{
 

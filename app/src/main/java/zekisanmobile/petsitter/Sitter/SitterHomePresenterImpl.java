@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import zekisanmobile.petsitter.Handlers.GetSitterContactsHandler;
-import zekisanmobile.petsitter.Model.Contact;
-import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.model.Contact;
+import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.model.User;
 
 public class SitterHomePresenterImpl implements SitterHomePresenter{
 

@@ -13,8 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Main.MainActivity;
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class OwnerHomeActivity extends AppCompatActivity

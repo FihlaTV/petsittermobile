@@ -36,7 +36,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.List;
 
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.Owner.SitterProfileActivity;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.util.SitterMarker;

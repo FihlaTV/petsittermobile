@@ -7,8 +7,8 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
-import zekisanmobile.petsitter.Model.Animal;
-import zekisanmobile.petsitter.Model.Contact;
+import zekisanmobile.petsitter.model.Animal;
+import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.Sitter.ContactDetailsView;
 import zekisanmobile.petsitter.util.Formatter;
 

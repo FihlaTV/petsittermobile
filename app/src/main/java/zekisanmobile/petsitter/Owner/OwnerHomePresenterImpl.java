@@ -1,7 +1,7 @@
 package zekisanmobile.petsitter.Owner;
 
 import zekisanmobile.petsitter.Handlers.GetOwnerContactsHandler;
-import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.model.User;
 
 public class OwnerHomePresenterImpl implements OwnerHomePresenter{
 

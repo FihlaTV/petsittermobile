@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.Model.Contact;
+import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.util.ContactStatusString;
 

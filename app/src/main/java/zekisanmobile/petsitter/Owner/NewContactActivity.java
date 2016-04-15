@@ -38,9 +38,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
-import zekisanmobile.petsitter.Model.Animal;
-import zekisanmobile.petsitter.Model.Sitter;
-import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.model.Animal;
+import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.model.User;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.util.Formatter;
 

@@ -16,7 +16,7 @@ import java.text.NumberFormat;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class SitterProfileActivity extends AppCompatActivity

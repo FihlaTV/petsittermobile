@@ -22,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.ContactsByStatusFragment;
 import zekisanmobile.petsitter.Main.MainActivity;
-import zekisanmobile.petsitter.Model.Contact;
+import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.R;
 
 public class SitterHomeActivity extends AppCompatActivity

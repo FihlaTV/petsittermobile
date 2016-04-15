@@ -2,8 +2,8 @@ package zekisanmobile.petsitter.Owner;
 
 import java.util.List;
 
-import zekisanmobile.petsitter.Model.Contact;
-import zekisanmobile.petsitter.Model.User;
+import zekisanmobile.petsitter.model.Contact;
+import zekisanmobile.petsitter.model.User;
 
 public class MyPetSittersPresenterImpl implements MyPetSittersPresenter {
 

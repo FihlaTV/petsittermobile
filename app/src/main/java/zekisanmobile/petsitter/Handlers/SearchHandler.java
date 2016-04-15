@@ -15,7 +15,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.util.MyJSONConverter;
 

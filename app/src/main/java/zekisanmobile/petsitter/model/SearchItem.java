@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Model;
+package zekisanmobile.petsitter.model;
 
 public class SearchItem {
 

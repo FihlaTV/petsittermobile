@@ -10,11 +10,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import zekisanmobile.petsitter.Model.Animal;
-import zekisanmobile.petsitter.Model.AnimalSitter;
-import zekisanmobile.petsitter.Model.Contact;
-import zekisanmobile.petsitter.Model.Owner;
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Animal;
+import zekisanmobile.petsitter.model.AnimalSitter;
+import zekisanmobile.petsitter.model.Contact;
+import zekisanmobile.petsitter.model.Owner;
+import zekisanmobile.petsitter.model.Sitter;
 
 public class MyJSONConverter {
 

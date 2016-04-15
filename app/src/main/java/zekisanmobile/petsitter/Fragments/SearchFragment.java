@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.Adapters.SearchAdapter;
 import zekisanmobile.petsitter.Handlers.SearchHandler;
-import zekisanmobile.petsitter.Model.SearchItem;
+import zekisanmobile.petsitter.model.SearchItem;
 import zekisanmobile.petsitter.R;
 
 public class SearchFragment extends Fragment {

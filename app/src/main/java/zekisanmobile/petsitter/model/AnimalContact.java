@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Model;
+package zekisanmobile.petsitter.model;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;

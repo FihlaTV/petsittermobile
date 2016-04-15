@@ -16,7 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.ContactListAdapter;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.Model.Contact;
+import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Sitter.ContactDetailsActivity;
 

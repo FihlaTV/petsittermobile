@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import zekisanmobile.petsitter.Fragments.SitterFragment;
-import zekisanmobile.petsitter.Model.Sitter;
+import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
 import zekisanmobile.petsitter.util.HandlersUtil;
 import zekisanmobile.petsitter.util.MyJSONConverter;
