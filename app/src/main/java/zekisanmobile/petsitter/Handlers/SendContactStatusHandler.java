@@ -2,12 +2,12 @@ package zekisanmobile.petsitter.Handlers;
 
 import android.os.AsyncTask;
 
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-
 import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
 public class SendContactStatusHandler extends AsyncTask<String, Void, Void>{
 

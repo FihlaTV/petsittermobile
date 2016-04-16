@@ -25,6 +25,7 @@ import zekisanmobile.petsitter.Fragments.MapsFragment;
 import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Main.MainActivity;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -118,6 +119,11 @@ public class OwnerHomeActivity extends AppCompatActivity
         mapsFragment.clearAllMarkers();
         mapsFragment.updateMapMarkers();
         tabLayout.getTabAt(1).select();
+    }
+
+    @Override
+    public PetSitterApp getPetSitterApp() {
+        return (PetSitterApp) getApplication();
     }
 
     @Override

@@ -8,34 +8,33 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.api.ApiService;
 import zekisanmobile.petsitter.config.PetSitterConfig;
 import zekisanmobile.petsitter.model.Sitter;
 
-public class JSONResponseHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> {
+public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> {
 
     private SitterFragment sitterFragment;
     private OwnerHomeView view;
     List<Sitter> sitters;
+    @Inject Retrofit retrofit;
 
-    public JSONResponseHandler(SitterFragment sitterFragment, OwnerHomeView view){
+    public GetSittersHandler(SitterFragment sitterFragment, OwnerHomeView view){
+        view.getPetSitterApp().getNetComponent().inject(this);
         this.view = view;
         this.sitterFragment = sitterFragment;
     }
 
     @Override
     protected ArrayList<Sitter> doInBackground(Void... params) {
-        ObjectMapper mapper = new ObjectMapper();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(PetSitterConfig.getBaseUrl())
-                .addConverterFactory(JacksonConverterFactory.create(mapper))
-                .build();
-
         ApiService service = retrofit.create(ApiService.class);
         Call<List<Sitter>> call = service.listSitters();
         try {

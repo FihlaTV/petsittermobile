@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
-import zekisanmobile.petsitter.Handlers.JSONResponseHandler;
+import zekisanmobile.petsitter.Handlers.GetSittersHandler;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
@@ -44,7 +44,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
         if (savedInstanceState != null) {
             sitters = (ArrayList<Sitter>) savedInstanceState.getSerializable("sittersList");
         } else {
-            new JSONResponseHandler(this, (OwnerHomeActivity) this.getActivity()).execute();
+            new GetSittersHandler(this, (OwnerHomeActivity) this.getActivity()).execute();
         }
     }
 
