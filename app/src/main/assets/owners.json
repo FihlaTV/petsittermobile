@@ -6,6 +6,14 @@
     "address": "R. Cel. Genuino, 149 - Centro Histórico, Porto Alegre - Rio Grande do Sul",
     "district": "Centro Histórico'",
     "latitude": -30.035148,
-    "longitude": -51.2267789
+    "longitude": -51.2267789,
+    "user": {
+      "id": 2,
+      "name": "Ezequiel Guilherme",
+      "email": "zekisan88@gmail.com",
+      "photo": "me",
+      "logged": true,
+      "type": 0
+    }
   }
 ]

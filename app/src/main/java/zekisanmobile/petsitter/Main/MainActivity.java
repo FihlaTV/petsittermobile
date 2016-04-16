@@ -57,59 +57,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.loginOwner)
-    public void onLoginOwnerClick(){
+    public void onLoginOwnerClick() {
         Intent intent = new Intent(MainActivity.this, OwnerHomeActivity.class);
         startActivity(intent);
     }
 
     @OnClick(R.id.loginPetsitter)
-    public void onLoginPetsitterClick(){
+    public void onLoginPetsitterClick() {
         Intent intent = new Intent(MainActivity.this, SitterHomeActivity.class);
         startActivity(intent);
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
     }
 
-    private void init(){
+    private void init() {
         SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 
-        if(sharedPreferences.getInt("flag", 0) == 0){
+        if (sharedPreferences.getInt("flag", 0) == 0) {
             Log.i("LOG", "init()");
             sharedPreferences.edit().putInt("flag", 1).apply();
 
-            try{
+            try {
+                createUsers();
                 createAnimals();
                 createOwners();
                 createSitters();
-                createUsers();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } else {
             List<Animal> animals = animalModel.all();
-            for(Animal a: animals){
+            for (Animal a : animals) {
                 Log.i("LOG", "Animal: { id: " + a.getId() + ", name: " + a.getName() + " }");
             }
             List<Owner> owners = ownerModel.all();
-            for(Owner o: owners){
+            for (Owner o : owners) {
                 Log.i("LOG", "Owner: { id: " + o.getId() + ", name: " + o.getName() + " }");
             }
             List<Sitter> sitters = sitterModel.all();
-            for(Sitter s: sitters){
+            for (Sitter s : sitters) {
                 Log.i("LOG", "Sitter: { id: " + s.getId() + ", name: " + s.getName() + " }");
             }
             List<User> users = userModel.all();
-            for(User u: users){
+            for (User u : users) {
                 Log.i("LOG", "User: { id: " + u.getId() + ", name: " + u.getName() + " }");
             }
         }
     }
 
     private void createUsers() {
-        try{
+        try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("users.json");
             int size = inputStream.available();
@@ -128,17 +128,15 @@ public class MainActivity extends AppCompatActivity {
                 user.setLogged(userObject.getBoolean("logged"));
                 user.setType(userObject.getInt("type"));
                 users.add(user);
-                //Owner.load(Owner.class, 1),
-                //Sitter.load(Sitter.class, 1)
             }
             userModel.saveAll(users);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void createAnimals() {
-        try{
+        try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("animals.json");
             int size = inputStream.available();
@@ -155,13 +153,13 @@ public class MainActivity extends AppCompatActivity {
                 animals.add(animal);
             }
             animalModel.saveAll(animals);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void createOwners() {
-        try{
+        try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("owners.json");
             int size = inputStream.available();
@@ -174,22 +172,23 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject ownerObject = jsonArray.getJSONObject(i);
                 Owner owner = new Owner();
-                owner.setApiId(Long.parseLong(ownerObject.getString("apiId")));
+                owner.setApiId(ownerObject.getLong("apiId"));
                 owner.setName(ownerObject.getString("name"));
                 owner.setAddress(ownerObject.getString("address"));
                 owner.setDistrict(ownerObject.getString("district"));
                 owner.setLatitude(Float.parseFloat(ownerObject.getString("latitude")));
                 owner.setLongitude(Float.parseFloat(ownerObject.getString("longitude")));
+                owner.setUser(userModel.find(ownerObject.getJSONObject("user").getLong("id")));
                 owners.add(owner);
             }
             ownerModel.saveAll(owners);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void createSitters() {
-        try{
+        try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("sitters.json");
             int size = inputStream.available();
@@ -214,10 +213,11 @@ public class MainActivity extends AppCompatActivity {
                 sitter.setValue_shift(sitterObject.getDouble("value_shift"));
                 sitter.setValue_day(sitterObject.getDouble("value_day"));
                 sitter.setAbout_me(sitterObject.getString("about_me"));
+                sitter.setUser(userModel.find(sitterObject.getJSONObject("user").getLong("id")));
                 sitters.add(sitter);
             }
             sitterModel.saveAll(sitters);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.raizlabs.android.dbflow.StringUtils;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -70,6 +71,11 @@ public class Sitter extends BaseModel implements Validation {
     @JsonProperty("about_me")
     @Column
     String about_me;
+
+    @JsonIgnore
+    @Column
+    @ForeignKey(saveForeignKeyModel = false)
+    User user;
 
     @JsonProperty("animals")
     @ColumnIgnore
@@ -191,6 +197,14 @@ public class Sitter extends BaseModel implements Validation {
 
     public void setAbout_me(String about_me) {
         this.about_me = about_me;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     //endregion
 

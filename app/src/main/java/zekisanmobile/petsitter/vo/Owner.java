@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.raizlabs.android.dbflow.StringUtils;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -44,6 +45,11 @@ public class Owner extends BaseModel implements Validation {
     @JsonProperty("longitude")
     @Column
     float longitude;
+
+    @JsonIgnore
+    @Column
+    @ForeignKey(saveForeignKeyModel = false)
+    User user;
 
     @ColumnIgnore
     @JsonIgnore
@@ -109,6 +115,14 @@ public class Owner extends BaseModel implements Validation {
 
     public void setLongitude(float longitude) {
         this.longitude = longitude;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     //endregion
 
