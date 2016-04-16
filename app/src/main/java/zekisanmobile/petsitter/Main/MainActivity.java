@@ -11,24 +11,46 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zekisanmobile.petsitter.model.Animal;
-import zekisanmobile.petsitter.model.Owner;
-import zekisanmobile.petsitter.model.Sitter;
-import zekisanmobile.petsitter.model.User;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
+import zekisanmobile.petsitter.model.AnimalModel;
+import zekisanmobile.petsitter.model.OwnerModel;
+import zekisanmobile.petsitter.model.SitterModel;
+import zekisanmobile.petsitter.model.UserModel;
+import zekisanmobile.petsitter.vo.Animal;
+import zekisanmobile.petsitter.vo.Owner;
+import zekisanmobile.petsitter.vo.Sitter;
+import zekisanmobile.petsitter.vo.User;
 
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+    UserModel userModel;
+
+    @Inject
+    AnimalModel animalModel;
+
+    @Inject
+    OwnerModel ownerModel;
+
+    @Inject
+    SitterModel sitterModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
         init();
@@ -67,21 +89,21 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else {
-            List<Animal> animals = Animal.all();
+            List<Animal> animals = animalModel.all();
             for(Animal a: animals){
-                Log.i("LOG", "Animal: { id: " + a.getId() + ", name: " + a.name + " }");
+                Log.i("LOG", "Animal: { id: " + a.getId() + ", name: " + a.getName() + " }");
             }
-            List<Owner> owners = Owner.all();
+            List<Owner> owners = ownerModel.all();
             for(Owner o: owners){
-                Log.i("LOG", "Owner: { id: " + o.getId() + ", name: " + o.name + " }");
+                Log.i("LOG", "Owner: { id: " + o.getId() + ", name: " + o.getName() + " }");
             }
-            List<Sitter> sitters = Sitter.all();
+            List<Sitter> sitters = sitterModel.all();
             for(Sitter s: sitters){
-                Log.i("LOG", "Sitter: { id: " + s.getId() + ", name: " + s.name + " }");
+                Log.i("LOG", "Sitter: { id: " + s.getId() + ", name: " + s.getName() + " }");
             }
-            List<User> users = User.all();
+            List<User> users = userModel.all();
             for(User u: users){
-                Log.i("LOG", "User: { id: " + u.getId() + ", name: " + u.name + " }");
+                Log.i("LOG", "User: { id: " + u.getId() + ", name: " + u.getName() + " }");
             }
         }
     }
@@ -96,18 +118,20 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
             String json = new String(buffer, "UTF-8");
             JSONArray jsonArray = new JSONArray(json);
+            List<User> users = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject userObject = jsonArray.getJSONObject(i);
-                User.create(
-                        userObject.getString("name"),
-                        userObject.getString("email"),
-                        userObject.getString("photo"),
-                        userObject.getBoolean("logged"),
-                        userObject.getInt("type"),
-                        Owner.load(Owner.class, 1),
-                        Sitter.load(Sitter.class, 1)
-                        );
+                User user = new User();
+                user.setName(userObject.getString("name"));
+                user.setEmail(userObject.getString("email"));
+                user.setPhoto(userObject.getString("photo"));
+                user.setLogged(userObject.getBoolean("logged"));
+                user.setType(userObject.getInt("type"));
+                users.add(user);
+                //Owner.load(Owner.class, 1),
+                //Sitter.load(Sitter.class, 1)
             }
+            userModel.saveAll(users);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,10 +147,14 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
             String json = new String(buffer, "UTF-8");
             JSONArray jsonArray = new JSONArray(json);
+            List<Animal> animals = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject animalObject = jsonArray.getJSONObject(i);
-                Animal.create(animalObject.getString("name"));
+                Animal animal = new Animal();
+                animal.setName(animalObject.getString("name"));
+                animals.add(animal);
             }
+            animalModel.saveAll(animals);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,17 +170,19 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
             String json = new String(buffer, "UTF-8");
             JSONArray jsonArray = new JSONArray(json);
+            List<Owner> owners = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject ownerObject = jsonArray.getJSONObject(i);
-                Owner.insertOrUpdate(
-                        Long.parseLong(ownerObject.getString("apiId")),
-                        ownerObject.getString("name"),
-                        ownerObject.getString("address"),
-                        ownerObject.getString("district"),
-                        Float.parseFloat(ownerObject.getString("latitude")),
-                        Float.parseFloat(ownerObject.getString("longitude"))
-                );
+                Owner owner = new Owner();
+                owner.setApiId(Long.parseLong(ownerObject.getString("apiId")));
+                owner.setName(ownerObject.getString("name"));
+                owner.setAddress(ownerObject.getString("address"));
+                owner.setDistrict(ownerObject.getString("district"));
+                owner.setLatitude(Float.parseFloat(ownerObject.getString("latitude")));
+                owner.setLongitude(Float.parseFloat(ownerObject.getString("longitude")));
+                owners.add(owner);
             }
+            ownerModel.saveAll(owners);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,23 +198,25 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
             String json = new String(buffer, "UTF-8");
             JSONArray jsonArray = new JSONArray(json);
+            List<Sitter> sitters = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject sitterObject = jsonArray.getJSONObject(i);
-                Sitter.insertOrUpdate(
-                        Long.parseLong(sitterObject.getString("apiId")),
-                        sitterObject.getString("name"),
-                        sitterObject.getString("address"),
-                        sitterObject.getString("photo"),
-                        sitterObject.getString("profile_background"),
-                        Float.parseFloat(sitterObject.getString("latitude")),
-                        Float.parseFloat(sitterObject.getString("longitude")),
-                        sitterObject.getString("district"),
-                        sitterObject.getDouble("value_hour"),
-                        sitterObject.getDouble("value_shift"),
-                        sitterObject.getDouble("value_day"),
-                        sitterObject.getString("about_me")
-                );
+                Sitter sitter = new Sitter();
+                sitter.setApiId(sitterObject.getLong("apiId"));
+                sitter.setName(sitterObject.getString("name"));
+                sitter.setAddress(sitterObject.getString("address"));
+                sitter.setPhoto(sitterObject.getString("photo"));
+                sitter.setProfileBackground(sitterObject.getString("profile_background"));
+                sitter.setLatitude(Float.parseFloat(sitterObject.getString("latitude")));
+                sitter.setLongitude(Float.parseFloat(sitterObject.getString("longitude")));
+                sitter.setDistrict(sitterObject.getString("district"));
+                sitter.setValue_hour(sitterObject.getDouble("value_hour"));
+                sitter.setValue_shift(sitterObject.getDouble("value_shift"));
+                sitter.setValue_day(sitterObject.getDouble("value_day"));
+                sitter.setAbout_me(sitterObject.getString("about_me"));
+                sitters.add(sitter);
             }
+            sitterModel.saveAll(sitters);
         }catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,17 +1,19 @@
 package zekisanmobile.petsitter;
 
+import android.app.Application;
+
 import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import zekisanmobile.petsitter.config.PetSitterConfig;
-import zekisanmobile.petsitter.di.component.DaggerNetComponent;
-import zekisanmobile.petsitter.di.component.NetComponent;
+import zekisanmobile.petsitter.di.component.AppComponent;
+import zekisanmobile.petsitter.di.component.DaggerAppComponent;
 import zekisanmobile.petsitter.di.module.ApplicationModule;
 import zekisanmobile.petsitter.di.module.NetModule;
 
-public class PetSitterApp extends com.activeandroid.app.Application {
+public class PetSitterApp extends Application {
 
-    private NetComponent netComponent;
+    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
@@ -19,7 +21,7 @@ public class PetSitterApp extends com.activeandroid.app.Application {
 
         FlowManager.init(this);
 
-        netComponent = DaggerNetComponent.builder()
+        appComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .netModule(new NetModule(PetSitterConfig.getBaseUrl()))
                 .build();
@@ -31,7 +33,7 @@ public class PetSitterApp extends com.activeandroid.app.Application {
         Stetho.initialize(initializer);
     }
 
-    public NetComponent getNetComponent(){
-        return netComponent;
+    public AppComponent getAppComponent(){
+        return appComponent;
     }
 }
