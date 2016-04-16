@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import zekisanmobile.petsitter.Handlers.GetSittersHandler;
 import zekisanmobile.petsitter.Handlers.SearchHandler;
+import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
 import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.di.module.ApplicationModule;
 import zekisanmobile.petsitter.di.module.NetModule;
@@ -16,6 +17,8 @@ public interface AppComponent {
     void inject(GetSittersHandler getSittersHandler);
 
     void inject(SearchHandler searchHandler);
+
+    void inject(SendContactStatusHandler sendContactStatusHandler);
 
     void inject(MainActivity mainActivity);
 

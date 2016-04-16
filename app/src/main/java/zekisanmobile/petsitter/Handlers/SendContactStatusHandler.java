@@ -4,33 +4,31 @@ import android.os.AsyncTask;
 
 import java.io.IOException;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import zekisanmobile.petsitter.PetSitterApp;
+import zekisanmobile.petsitter.api.ApiService;
 
 public class SendContactStatusHandler extends AsyncTask<String, Void, Void>{
 
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private final static String BASE_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/contacts/";
-    private final static String FINAL_SEARCH_URL = "/update_status";
-    private OkHttpClient client = new OkHttpClient();
+    @Inject
+    Retrofit retrofit;
+
+    public SendContactStatusHandler(PetSitterApp app){
+        app.getAppComponent().inject(this);
+    }
 
     @Override
     protected Void doInBackground(String... params) {
-
-        RequestBody body = RequestBody.create(JSON, params[0]);
-        Request request = new Request.Builder()
-                .url(BASE_SEARCH_URL + params[1] + FINAL_SEARCH_URL)
-                .post(body)
-                .build();
-
+        ApiService service = retrofit.create(ApiService.class);
+        Call call = service.sendContactStatusUpdate(params[1], params[0]);
         try {
-            client.newCall(request).execute();
-        }catch (IOException e){
+            call.execute();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }

@@ -125,7 +125,7 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
             jsonContact.put("id", contact_id);
             jsonContact.put("status", status);
             String[] params = { jsonContact.toString(), String.valueOf(contact_id) };
-            new SendContactStatusHandler().execute(params);
+            new SendContactStatusHandler(view.getPetSitterApp()).execute(params);
         } catch (JSONException e) {
             e.printStackTrace();
         }

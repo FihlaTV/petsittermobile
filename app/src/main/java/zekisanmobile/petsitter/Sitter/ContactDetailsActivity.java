@@ -29,6 +29,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
 
 public class ContactDetailsActivity extends AppCompatActivity
@@ -188,5 +189,10 @@ public class ContactDetailsActivity extends AppCompatActivity
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(layoutParams);
+    }
+
+    @Override
+    public PetSitterApp getPetSitterApp() {
+        return (PetSitterApp) getApplication();
     }
 }

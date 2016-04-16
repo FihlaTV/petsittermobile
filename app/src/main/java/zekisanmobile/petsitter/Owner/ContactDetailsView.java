@@ -1,4 +1,4 @@
-package zekisanmobile.petsitter.Sitter;
+package zekisanmobile.petsitter.Owner;
 
 import zekisanmobile.petsitter.PetSitterApp;
 

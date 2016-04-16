@@ -30,6 +30,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Sitter.ContactDetailsView;
 import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
@@ -165,5 +166,10 @@ public class ContactDetailsActivity extends AppCompatActivity
         layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setAttributes(layoutParams);
+    }
+
+    @Override
+    public PetSitterApp getPetSitterApp() {
+        return (PetSitterApp) getApplication();
     }
 }
