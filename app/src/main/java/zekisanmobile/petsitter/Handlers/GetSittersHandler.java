@@ -34,7 +34,6 @@ public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> 
         Call<List<Sitter>> call = service.listSitters();
         try {
             sitters = call.execute().body();
-            sitters.size();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,7 +49,9 @@ public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> 
         if (sitterFragment.isAdded()) {
             sitterFragment.showProgress(false);
         }
-        if (receivedSitters != null && receivedSitters.size() > 0) view.updateSitterList(receivedSitters);
+        if (receivedSitters != null && receivedSitters.size() > 0) {
+            view.updateSitterList(receivedSitters);
+        }
     }
 
     @Override

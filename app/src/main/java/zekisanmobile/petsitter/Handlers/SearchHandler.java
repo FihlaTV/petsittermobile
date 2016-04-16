@@ -1,59 +1,50 @@
 package zekisanmobile.petsitter.Handlers;
 
-import android.content.Context;
 import android.os.AsyncTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import zekisanmobile.petsitter.Owner.OwnerHomeView;
+import zekisanmobile.petsitter.api.ApiService;
 import zekisanmobile.petsitter.model.Sitter;
-import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
-import zekisanmobile.petsitter.util.MyJSONConverter;
 
 public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
 
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-    private final static String BASE_SEARCH_URL = "https://petsitterapi.herokuapp.com/api/v1/pet_owners/";
-    private final static String FINAL_SEARCH_URL = "/search_sitters";
-    private OkHttpClient client = new OkHttpClient();
-    private Context context;
+    private List<Sitter> sitters;
+    private OwnerHomeView view;
+    @Inject
+    Retrofit retrofit;
 
-    public SearchHandler(Context context) {
-        this.context = context;
+    public SearchHandler(OwnerHomeView view) {
+        view.getPetSitterApp().getAppComponent().inject(this);
+        this.view = view;
     }
 
     @Override
     protected ArrayList<Sitter> doInBackground(String... params) {
-
+        ApiService service = retrofit.create(ApiService.class);
+        Call<List<Sitter>> call = service.searchSitters(params[1], params[0]);
         try {
-            RequestBody body = RequestBody.create(JSON, params[0]);
-            Request request = new Request.Builder()
-                    .url(BASE_SEARCH_URL + params[1] + FINAL_SEARCH_URL)
-                    .post(body)
-                    .build();
-            Response response = client.newCall(request).execute();
-            String jsonData = response.body().string();
-
-            return MyJSONConverter.convertSitters(new JSONArray(jsonData));
-        } catch (JSONException e) {
-            e.printStackTrace();
+            sitters = call.execute().body();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        if (sitters != null){
+            return new ArrayList<Sitter>(sitters);
+        }
         return null;
     }
 
     @Override
     protected void onPostExecute(ArrayList<Sitter> sitters) {
-        ((OwnerHomeActivity) context).updateSitterList(sitters);
+        if (sitters != null && sitters.size() > 0) {
+            view.updateSitterList(sitters);
+        }
     }
 }
