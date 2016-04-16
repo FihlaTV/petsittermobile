@@ -1,12 +1,15 @@
-package zekisanmobile.petsitter.Application;
+package zekisanmobile.petsitter;
 
 import com.facebook.stetho.Stetho;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
-public class CustomApplication extends com.activeandroid.app.Application {
+public class PetSitterApp extends com.activeandroid.app.Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+
+        FlowManager.init(this);
 
         Stetho.InitializerBuilder initializerBuilder = Stetho.newInitializerBuilder(this);
         initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this));

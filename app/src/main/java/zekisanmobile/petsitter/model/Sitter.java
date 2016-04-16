@@ -4,6 +4,8 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,30 +17,59 @@ import zekisanmobile.petsitter.util.Formatter;
 @Table(name = "Sitter")
 public class Sitter extends Model implements Serializable{
 
+    @JsonProperty("id")
     @Column(name = "api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     public long apiId;
+
+    @JsonProperty("name")
     @Column(name = "name")
     public String name;
+
+    @JsonProperty("address")
     @Column(name = "address")
     public String address;
+
+    @JsonProperty("district")
     @Column(name = "district")
     public String district;
+
+    @JsonProperty("photo")
     @Column(name = "photo")
     public String photo;
+
+    @JsonProperty("header_background")
     @Column(name = "profile_background")
     public String profileBackground;
+
+    @JsonProperty("latitude")
     @Column(name = "latitude")
     public float latitude;
+
+    @JsonProperty("longitude")
     @Column(name = "longitude")
     public float longitude;
+
+    @JsonProperty("value_hour")
     @Column(name = "value_hour")
     public double value_hour;
+
+    @JsonProperty("value_shift")
     @Column(name = "value_shift")
     public double value_shift;
+
+    @JsonProperty("value_day")
     @Column(name = "value_day")
     public double value_day;
+
+    @JsonProperty("about_me")
     @Column(name = "about_me")
     public String about_me;
+
+    @JsonProperty("animals")
+    public List<Animal> animals;
+
+    @JsonIgnore
+    public List<String> cares;
 
     public Sitter(){
         super();
@@ -48,7 +79,7 @@ public class Sitter extends Model implements Serializable{
         return new Select().from(Sitter.class).execute();
     }
 
-    public List<Animal> getAnimals() {
+    public List<Animal> pegaAnimals() {
         return new Select()
                 .from(Animal.class)
                 .innerJoin(AnimalSitter.class).on("Animal.id = AnimalSitter.animal")
@@ -56,9 +87,9 @@ public class Sitter extends Model implements Serializable{
                 .execute();
     }
 
-    public List<Contact> getContacts() {
+    /*public List<Contact> getContacts() {
         return getMany(Contact.class, "sitter");
-    }
+    }*/
 
     public static List<Contact> getNewContacts(long id){
         return new Select()

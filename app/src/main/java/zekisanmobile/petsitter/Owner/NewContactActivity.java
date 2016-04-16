@@ -86,7 +86,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         tv_name.setText(sitter.name);
 
         loggedUser = User.getLoggedUser(0);
-        animals = sitter.getAnimals();
+        animals = sitter.pegaAnimals();
 
         configureToolbar();
 

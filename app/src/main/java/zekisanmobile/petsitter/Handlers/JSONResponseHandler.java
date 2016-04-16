@@ -1,31 +1,27 @@
 package zekisanmobile.petsitter.Handlers;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.facebook.stetho.okhttp.StethoInterceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
-import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
-import zekisanmobile.petsitter.util.HandlersUtil;
-import zekisanmobile.petsitter.util.MyJSONConverter;
+import zekisanmobile.petsitter.api.ApiService;
+import zekisanmobile.petsitter.config.PetSitterConfig;
+import zekisanmobile.petsitter.model.Sitter;
 
 public class JSONResponseHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> {
 
-    private final String TAG = JSONResponseHandler.class.getSimpleName();
     private SitterFragment sitterFragment;
     private OwnerHomeView view;
+    List<Sitter> sitters;
 
     public JSONResponseHandler(SitterFragment sitterFragment, OwnerHomeView view){
         this.view = view;
@@ -34,23 +30,24 @@ public class JSONResponseHandler extends AsyncTask<Void, Void, ArrayList<Sitter>
 
     @Override
     protected ArrayList<Sitter> doInBackground(Void... params) {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(10, TimeUnit.SECONDS);
-        client.setRetryOnConnectionFailure(true);
-        client.networkInterceptors().add(new StethoInterceptor());
-        Request request = new Request.Builder()
-                .url(HandlersUtil.getAllSittersURL())
+        ObjectMapper mapper = new ObjectMapper();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PetSitterConfig.getBaseUrl())
+                .addConverterFactory(JacksonConverterFactory.create(mapper))
                 .build();
+
+        ApiService service = retrofit.create(ApiService.class);
+        Call<List<Sitter>> call = service.listSitters();
         try {
-            Response response  = client.newCall(request).execute();
-            String jsonData = response.body().string();
-            return MyJSONConverter.convertSitters(new JSONArray(jsonData));
+            sitters = call.execute().body();
+            sitters.size();
         } catch (IOException e) {
-            Log.d(TAG, e.getMessage());
-        } catch (JSONException e) {
-            Log.d(TAG, e.getMessage());
+            e.printStackTrace();
         }
 
+        if (sitters != null){
+            return new ArrayList<Sitter>(sitters);
+        }
         return null;
     }
 
