@@ -1,15 +1,11 @@
 package zekisanmobile.petsitter.Owner;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.NumberFormat;
 import java.util.List;
 
-import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
+import zekisanmobile.petsitter.Sitter.ContactDetailsView;
 import zekisanmobile.petsitter.model.Animal;
 import zekisanmobile.petsitter.model.Contact;
-import zekisanmobile.petsitter.Sitter.ContactDetailsView;
 import zekisanmobile.petsitter.util.Formatter;
 
 public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
@@ -106,17 +102,5 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     @Override
     public boolean isAcceptedOrRejectedOrFinished() {
         return isAccepted() || isRejected() || isFinished();
-    }
-
-    private void sendStatusUpdate(long contact_id, int status) {
-        try {
-            JSONObject jsonContact = new JSONObject();
-            jsonContact.put("id", contact_id);
-            jsonContact.put("status", status);
-            String[] params = { jsonContact.toString(), String.valueOf(contact_id) };
-            new SendContactStatusHandler(view.getPetSitterApp()).execute(params);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }

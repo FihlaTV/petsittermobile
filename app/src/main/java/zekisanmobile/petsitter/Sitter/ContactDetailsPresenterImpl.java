@@ -1,12 +1,8 @@
 package zekisanmobile.petsitter.Sitter;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.NumberFormat;
 import java.util.List;
 
-import zekisanmobile.petsitter.Handlers.SendContactStatusHandler;
 import zekisanmobile.petsitter.model.Animal;
 import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.util.Formatter;
@@ -23,6 +19,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     @Override
     public void getContactFromDb(long id) {
         this.contact = Contact.load(Contact.class, id);
+    }
+
+    @Override
+    public long getContactApiId() {
+        return this.contact.apiId;
     }
 
     @Override
@@ -109,25 +110,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void acceptContact() {
-        sendStatusUpdate(this.contact.apiId, 30);
         Contact.updateStatus(this.contact.apiId, 30);
     }
 
     @Override
     public void deleteContact() {
-        sendStatusUpdate(this.contact.apiId, 20);
         Contact.delete(this.contact.getId());
-    }
-
-    private void sendStatusUpdate(long contact_id, int status) {
-        try {
-            JSONObject jsonContact = new JSONObject();
-            jsonContact.put("id", contact_id);
-            jsonContact.put("status", status);
-            String[] params = { jsonContact.toString(), String.valueOf(contact_id) };
-            new SendContactStatusHandler(view.getPetSitterApp()).execute(params);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }

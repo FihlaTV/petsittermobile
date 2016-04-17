@@ -26,16 +26,22 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.controller.ContactController;
 
 public class ContactDetailsActivity extends AppCompatActivity
         implements ContactDetailsView, OnMapReadyCallback {
 
     private ContactDetailsPresenter presenter;
+
+    @Inject
+    ContactController controller;
 
     @Bind(R.id.toolbar_contact_details)
     Toolbar toolbar;
@@ -64,6 +70,8 @@ public class ContactDetailsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_details);
+
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
 
@@ -143,6 +151,7 @@ public class ContactDetailsActivity extends AppCompatActivity
     @OnClick(R.id.bt_accept)
     public void acceptContact(){
         presenter.acceptContact();
+        controller.sendContactAsync(true, presenter.getContactApiId(), 30);
         showAcceptDialog();
     }
 
@@ -173,6 +182,7 @@ public class ContactDetailsActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.deleteContact();
+                        controller.sendContactAsync(true, presenter.getContactApiId(), 20);
                         Intent intent = new Intent(ContactDetailsActivity.this, SitterHomeActivity.class);
                         startActivity(intent);
                     }

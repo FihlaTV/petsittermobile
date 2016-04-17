@@ -69,6 +69,10 @@ dependencies {
 
     compile 'com.google.dagger:dagger:2.2'
 
+    compile 'com.birbit:android-priority-jobqueue:2.0.0-alpha2'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
     apt 'com.google.dagger:dagger-compiler:2.2'
     apt 'com.github.Raizlabs.DBFlow:dbflow-processor:3.0.0-beta5'
 }

@@ -4,6 +4,8 @@ public interface ContactDetailsPresenter {
 
     void getContactFromDb(long id);
 
+    long getContactApiId();
+
     String getContactOwnerName();
     String getContactPhoto();
     String getContactDistrict();
