@@ -7,7 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.vo.Contact;
 
 public interface ApiService {
@@ -27,6 +27,7 @@ public interface ApiService {
     @POST("contacts/{contact}/update_status")
     Call sendContactStatusUpdate(@Path("contact") String contact_id, @Body String body);
 
-
+    @POST("pet_owners/{owner}/request_contact")
+    Call sendContactRequest(@Path("owner") String owner_id, @Body String body);
 
 }

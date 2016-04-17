@@ -39,4 +39,11 @@ public class AnimalModel {
                 .from(Animal.class)
                 .queryList();
     }
+
+    public Animal findByName(String name) {
+        return new SQLite().select()
+                .from(Animal.class)
+                .where(Animal_Table.name.eq(name))
+                .querySingle();
+    }
 }

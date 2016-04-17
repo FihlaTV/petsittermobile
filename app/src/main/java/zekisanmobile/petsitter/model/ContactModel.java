@@ -1,9 +1,13 @@
 package zekisanmobile.petsitter.model;
 
+import com.raizlabs.android.dbflow.runtime.DBTransactionInfo;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
+import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
+import com.raizlabs.android.dbflow.runtime.transaction.QueryTransaction;
 import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
 import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.language.Where;
 
 import java.util.List;
 
@@ -40,4 +44,17 @@ public class ContactModel {
                 .queryList();
     }
 
+    public void updateStatus(long apiId, int status) {
+        Where<Contact> update = SQLite.update(Contact.class)
+                .set(Contact_Table.status.eq(status))
+                .where(Contact_Table.apiId.eq(apiId));
+        TransactionManager.getInstance().addTransaction(new QueryTransaction(
+                DBTransactionInfo.create(BaseTransaction.PRIORITY_UI), update));
+    }
+
+    public void delete(long id) {
+        SQLite.delete(Contact.class)
+                .where(Contact_Table.id.is(id))
+                .query();
+    }
 }

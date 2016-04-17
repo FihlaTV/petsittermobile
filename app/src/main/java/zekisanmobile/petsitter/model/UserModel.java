@@ -1,6 +1,5 @@
 package zekisanmobile.petsitter.model;
 
-import com.activeandroid.query.Select;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
 import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;

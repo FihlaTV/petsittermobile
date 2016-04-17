@@ -16,9 +16,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.ContactListAdapter;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Sitter.ContactDetailsActivity;
+import zekisanmobile.petsitter.vo.Contact;
 
 public class ContactsByStatusFragment extends Fragment implements RecyclerViewOnClickListenerHack {
 

@@ -13,7 +13,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.model.Contact;
+import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.util.ContactStatusString;
 
@@ -41,10 +41,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         if (contacts != null || contacts.size() == 0) {
             Contact contact = contacts.get(position);
 
-            int imageId = parentContext.getResources().getIdentifier("me", "drawable", parentContext.getPackageName());
+            int imageId = parentContext.getResources().getIdentifier("me", "drawable",
+                    parentContext.getPackageName());
             holder.iv_contact_owner.setImageResource(imageId);
-            holder.tv_contact_owner.setText(contact.owner.name);
-            holder.tv_contact_period.setText(ContactStatusString.contatPeriod(contact.dateStart, contact.dateFinal));
+            holder.tv_contact_owner.setText(contact.getOwner().getName());
+            holder.tv_contact_period.setText(ContactStatusString.contatPeriod(
+                    contact.getDateStart(), contact.getDateFinal()));
         }
     }
 
@@ -53,7 +55,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         return contacts.size();
     }
 
-    public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack){
+    public void setRecyclerViewOnClickListenerHack(
+            RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack){
         this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
     }
 

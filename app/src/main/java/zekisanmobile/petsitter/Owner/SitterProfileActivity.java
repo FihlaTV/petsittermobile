@@ -13,10 +13,13 @@ import android.widget.TextView;
 
 import java.text.NumberFormat;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.model.SitterModel;
+import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class SitterProfileActivity extends AppCompatActivity
@@ -34,6 +37,9 @@ public class SitterProfileActivity extends AppCompatActivity
 
     private Sitter sitter;
 
+    @Inject
+    SitterModel sitterModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +49,7 @@ public class SitterProfileActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         long sitter_id = intent.getLongExtra("sitter_id", 0);
-        sitter = Sitter.load(Sitter.class, sitter_id);
+        sitter = sitterModel.find(sitter_id);
 
         configureToolbar();
         prepareSitterData();
@@ -67,9 +73,10 @@ public class SitterProfileActivity extends AppCompatActivity
     }
 
     private void configureToolbar() {
-        collapsingToolbarLayout.setTitle(sitter.name);
+        collapsingToolbarLayout.setTitle(sitter.getName());
 
-        int imageId = getResources().getIdentifier(sitter.profileBackground, "drawable", getPackageName());
+        int imageId = getResources().getIdentifier(sitter.getProfileBackground(),
+                "drawable", getPackageName());
         image_sitter_profile.setImageResource(imageId);
 
         setSupportActionBar(toolbar);
@@ -78,12 +85,14 @@ public class SitterProfileActivity extends AppCompatActivity
     }
 
     private void prepareSitterData() {
-        txtPetSitterDistrictValue.setText(sitter.district);
+        txtPetSitterDistrictValue.setText(sitter.getDistrict());
         txtTitleValues.setText("Valores");
-        txtTitleHourValue.setText(NumberFormat.getCurrencyInstance().format(sitter.value_hour));
-        txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance().format(sitter.value_shift));
-        txtTitleDayValue.setText(NumberFormat.getCurrencyInstance().format(sitter.value_day));
-        txtAboutMeText.setText(sitter.about_me);
+        txtTitleHourValue.setText(NumberFormat.getCurrencyInstance()
+                .format(sitter.getValue_hour()));
+        txtTitleShiftValue.setText(NumberFormat.getCurrencyInstance()
+                .format(sitter.getValue_shift()));
+        txtTitleDayValue.setText(NumberFormat.getCurrencyInstance().format(sitter.getValue_day()));
+        txtAboutMeText.setText(sitter.getAbout_me());
     }
 
     @Override

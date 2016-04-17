@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.activeandroid.query.Select;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -34,22 +33,27 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
 import zekisanmobile.petsitter.PetSitterApp;
-import zekisanmobile.petsitter.model.Animal;
-import zekisanmobile.petsitter.model.Sitter;
-import zekisanmobile.petsitter.model.User;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.model.AnimalModel;
+import zekisanmobile.petsitter.model.OwnerModel;
+import zekisanmobile.petsitter.model.SitterModel;
 import zekisanmobile.petsitter.util.Formatter;
+import zekisanmobile.petsitter.vo.Animal;
+import zekisanmobile.petsitter.vo.Owner;
+import zekisanmobile.petsitter.vo.Sitter;
 
 public class NewContactActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
         TimePickerDialog.OnTimeSetListener, DialogInterface.OnCancelListener {
 
     private Sitter sitter;
-    private User loggedUser;
+    private Owner owner;
     private List<Animal> animals;
     private int selectedAnimalsCount;
 
@@ -74,20 +78,31 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     private final int FLAG_END = 1;
     private int flag;
 
+    @Inject
+    SitterModel sitterModel;
+
+    @Inject
+    OwnerModel ownerModel;
+
+    @Inject
+    AnimalModel animalModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_contact);
 
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
         long sitter_id = intent.getLongExtra("sitter_id", 0);
-        sitter = Sitter.load(Sitter.class, sitter_id);
-        tv_name.setText(sitter.name);
+        sitter = sitterModel.find(sitter_id);
+        tv_name.setText(sitter.getName());
 
-        loggedUser = User.getLoggedUser(0);
-        animals = sitter.pegaAnimals();
+        owner = ownerModel.getLoggedOwnerUser();
+        animals = sitter.animals;
 
         configureToolbar();
 
@@ -139,7 +154,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         JSONObject jsonContact = new JSONObject();
         JSONArray jsonAnimals = new JSONArray();
         try {
-            jsonContact.put("sitter_id", sitter.apiId);
+            jsonContact.put("sitter_id", sitter.getId());
             jsonContact.put("date_start", Formatter.formattedDateForAPI(tv_date_start.getText().toString()));
             jsonContact.put("date_final", Formatter.formattedDateForAPI(tv_date_final.getText().toString()));
             jsonContact.put("time_start", tv_time_start.getText());
@@ -150,13 +165,13 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
             for (Animal a : selectedAnimals) {
                 JSONObject jsonAnimal = new JSONObject();
-                Animal animalFromDB = new Select().from(Animal.class).where("name = ?", a.getName()).executeSingle();
+                Animal animalFromDB = animalModel.findByName(a.getName());
                 jsonAnimal.put("animal_id", animalFromDB.getId());
                 jsonAnimals.put(jsonAnimal);
             }
 
             jsonContact.put("animal_contacts", jsonAnimals);
-            String[] params = {jsonContact.toString(), String.valueOf(loggedUser.owner.apiId)};
+            String[] params = {jsonContact.toString(), String.valueOf(owner.getApiId())};
 
             new SendRequestContactHandler((PetSitterApp) getApplication()).execute(params);
             Intent intent = new Intent(this, OwnerHomeActivity.class);
@@ -293,7 +308,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 Date convertedTimeFinal = formatterTime.parse(tv_time_final.getText().toString().replace("h", ":"));
                 long minutes = (convertedTimeFinal.getTime() - (convertedTimeStart.getTime())) / 60000;
 
-                double minuteValue = sitter.value_hour / 60;
+                double minuteValue = sitter.getValue_hour() / 60;
                 double totalMinutesValue = minutes * minuteValue;
                 double totalValue = totalMinutesValue * days;
                 tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue * selectedAnimalsCount));
@@ -406,7 +421,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 Spinner spAnimal = (Spinner) linearLayoutNestedChild.getChildAt(0).findViewById(R.id.sp_animal);
 
                 Animal animal = new Animal();
-                animal.name = animals.get(spAnimal.getSelectedItemPosition()).getName();
+                animal.setName(animals.get(spAnimal.getSelectedItemPosition()).getName());
                 list.add(animal);
             }
         }

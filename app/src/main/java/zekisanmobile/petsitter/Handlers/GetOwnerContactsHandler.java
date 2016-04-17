@@ -20,7 +20,7 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... params) {
-        Request request = new Request.Builder()
+        /*Request request = new Request.Builder()
                 .url(BASE_SEARCH_URL + params[0] + FINAL_SEARCH_URL)
                 .build();
         try {
@@ -31,7 +31,7 @@ public class GetOwnerContactsHandler extends AsyncTask<String, Void, Void> {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
         return null;
     }
 }

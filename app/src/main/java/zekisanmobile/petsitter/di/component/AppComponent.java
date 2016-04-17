@@ -10,9 +10,12 @@ import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
 import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.Owner.ContactDetailsPresenter;
 import zekisanmobile.petsitter.Owner.MyPetSittersPresenter;
+import zekisanmobile.petsitter.Owner.NewContactActivity;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.Owner.OwnerHomePresenter;
+import zekisanmobile.petsitter.Sitter.OtherContactsPresenter;
 import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
+import zekisanmobile.petsitter.Sitter.SitterHomePresenter;
 import zekisanmobile.petsitter.controller.ContactController;
 import zekisanmobile.petsitter.di.module.ApplicationModule;
 import zekisanmobile.petsitter.di.module.NetModule;
@@ -34,6 +37,8 @@ public interface AppComponent {
 
     void inject(MainActivity mainActivity);
 
+    void inject(NewContactActivity newContactActivity);
+
     void inject(zekisanmobile.petsitter.Sitter.ContactDetailsActivity contactDetailsActivity);
 
     void inject(SitterHomeActivity sitterHomeActivity);
@@ -50,8 +55,14 @@ public interface AppComponent {
 
     void inject(ContactDetailsPresenter contactDetailsPresenter);
 
+    void inject(zekisanmobile.petsitter.Sitter.ContactDetailsPresenter contactDetailsPresenter);
+
     void inject(MyPetSittersPresenter myPetSittersPresenter);
 
     void inject(OwnerHomePresenter ownerHomePresenter);
+
+    void inject(OtherContactsPresenter otherContactsPresenter);
+
+    void inject(SitterHomePresenter sitterHomePresenter);
 
 }

@@ -3,8 +3,11 @@ package zekisanmobile.petsitter.Sitter;
 import java.text.NumberFormat;
 import java.util.List;
 
-import zekisanmobile.petsitter.model.Animal;
-import zekisanmobile.petsitter.model.Contact;
+import javax.inject.Inject;
+
+import zekisanmobile.petsitter.model.ContactModel;
+import zekisanmobile.petsitter.vo.Animal;
+import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.util.Formatter;
 
 public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
@@ -12,23 +15,27 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     private ContactDetailsView view;
     private Contact contact;
 
+    @Inject
+    ContactModel contactModel;
+
     public ContactDetailsPresenterImpl(ContactDetailsView view){
+        view.getPetSitterApp().getAppComponent().inject(this);
         this.view = view;
     }
 
     @Override
     public void getContactFromDb(long id) {
-        this.contact = Contact.load(Contact.class, id);
+        this.contact = contactModel.find(id);
     }
 
     @Override
     public long getContactApiId() {
-        return this.contact.apiId;
+        return this.contact.getApiId();
     }
 
     @Override
     public String getContactOwnerName() {
-        return this.contact.owner.name;
+        return this.contact.getOwner().getName();
     }
 
     @Override
@@ -38,34 +45,34 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public String getContactDistrict() {
-        return this.contact.owner.district;
+        return this.contact.getOwner().getDistrict();
     }
 
     @Override
     public String getContactAddress() {
-        return this.contact.owner.address;
+        return this.contact.getOwner().getAddress();
     }
 
     @Override
     public String getContactStartDate() {
-        return Formatter.formattedDateFromString(this.contact.dateStart);
+        return Formatter.formattedDateFromString(this.contact.getDateStart());
     }
 
     @Override
     public String getContactDatePeriod() {
-        return Formatter.formattedDateFromString(this.contact.dateStart)
+        return Formatter.formattedDateFromString(this.contact.getDateStart())
                 + " - "
-                + Formatter.formattedDateFromString(this.contact.dateFinal);
+                + Formatter.formattedDateFromString(this.contact.getDateFinal());
     }
 
     @Override
     public String getContactTimePeriod() {
-        return this.contact.timeStart + " - " + this.contact.timeFinal;
+        return this.contact.getTimeStart() + " - " + this.contact.getTimeFinal();
     }
 
     @Override
     public String getContactTotalValue() {
-        return NumberFormat.getCurrencyInstance().format(this.contact.totalValue);
+        return NumberFormat.getCurrencyInstance().format(this.contact.getTotalValue());
     }
 
     @Override
@@ -80,27 +87,27 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public double getContactOwnerLatitude() {
-        return this.contact.owner.latitude;
+        return this.contact.getOwner().getLatitude();
     }
 
     @Override
     public double getContactOwnerLongitude() {
-        return this.contact.owner.longitude;
+        return this.contact.getOwner().getLongitude();
     }
 
     @Override
     public boolean isAccepted() {
-        return this.contact.status == 30;
+        return this.contact.getStatus() == 30;
     }
 
     @Override
     public boolean isFinished() {
-        return this.contact.status == 40;
+        return this.contact.getStatus() == 40;
     }
 
     @Override
     public boolean isRejected() {
-        return this.contact.status == 20;
+        return this.contact.getStatus() == 20;
     }
 
     @Override
@@ -110,11 +117,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void acceptContact() {
-        Contact.updateStatus(this.contact.apiId, 30);
+        contactModel.updateStatus(this.contact.getApiId(), 30);
     }
 
     @Override
     public void deleteContact() {
-        Contact.delete(this.contact.getId());
+        contactModel.delete(this.contact.getId());
     }
 }

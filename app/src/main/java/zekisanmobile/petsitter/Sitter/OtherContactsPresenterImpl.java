@@ -2,26 +2,33 @@ package zekisanmobile.petsitter.Sitter;
 
 import java.util.List;
 
-import zekisanmobile.petsitter.model.Contact;
-import zekisanmobile.petsitter.model.Sitter;
+import javax.inject.Inject;
+
+import zekisanmobile.petsitter.model.SitterModel;
+import zekisanmobile.petsitter.vo.Contact;
+import zekisanmobile.petsitter.vo.Sitter;
 
 public class OtherContactsPresenterImpl implements OtherContactsPresenter {
 
     private OtherContactsView view;
     private Sitter sitter;
 
+    @Inject
+    SitterModel sitterModel;
+
     public OtherContactsPresenterImpl(OtherContactsView view, long sitter_id){
+        view.getPetSitterApp().getAppComponent().inject(this);
         this.view = view;
-        this.sitter = Sitter.load(Sitter.class, sitter_id);
+        this.sitter = sitterModel.find(sitter_id);
     }
 
     @Override
     public List<Contact> getContacts(String type) {
         switch (type){
             case "next":
-                return sitter.getNextContacts(sitter.getId());
+                return sitterModel.getNextContacts(sitter.getId());
             case "finished":
-                return sitter.getFinishedContacts(sitter.getId());
+                return sitterModel.getFinishedContacts(sitter.getId());
         }
         return null;
     }

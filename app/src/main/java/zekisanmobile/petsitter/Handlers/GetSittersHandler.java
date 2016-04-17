@@ -13,7 +13,7 @@ import retrofit2.Retrofit;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
 import zekisanmobile.petsitter.api.ApiService;
-import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.vo.Sitter;
 
 public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> {
 

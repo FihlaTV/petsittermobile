@@ -12,7 +12,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.Owner.OwnerHomeView;
 import zekisanmobile.petsitter.api.ApiService;
-import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.vo.Sitter;
 
 public class SearchHandler extends AsyncTask<String, Void, ArrayList<Sitter>> {
 

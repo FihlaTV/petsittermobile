@@ -1,24 +1,8 @@
 package zekisanmobile.petsitter.util;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.query.Delete;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import zekisanmobile.petsitter.model.Animal;
-import zekisanmobile.petsitter.model.AnimalSitter;
-import zekisanmobile.petsitter.model.Contact;
-import zekisanmobile.petsitter.model.Owner;
-import zekisanmobile.petsitter.model.Sitter;
-
 public class MyJSONConverter {
 
-    public static ArrayList<Sitter> convertSitters(JSONArray jsonArray) {
+    /*public static ArrayList<Sitter> convertSitters(JSONArray jsonArray) {
         ArrayList<Sitter> returnedSitters = new ArrayList<Sitter>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
@@ -112,5 +96,5 @@ public class MyJSONConverter {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

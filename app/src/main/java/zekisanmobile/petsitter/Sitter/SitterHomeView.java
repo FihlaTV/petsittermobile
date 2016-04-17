@@ -3,7 +3,7 @@ package zekisanmobile.petsitter.Sitter;
 import java.util.List;
 
 import zekisanmobile.petsitter.PetSitterApp;
-import zekisanmobile.petsitter.model.Contact;
+import zekisanmobile.petsitter.vo.Contact;
 
 public interface SitterHomeView {
 

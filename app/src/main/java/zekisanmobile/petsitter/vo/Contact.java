@@ -71,7 +71,7 @@ public class Contact extends BaseModel implements Validation {
     @JsonIgnore
     public String updated_at;
 
-    @Column
+    @ColumnIgnore
     @JsonProperty("animals")
     List<Animal> animals;
     //endregion

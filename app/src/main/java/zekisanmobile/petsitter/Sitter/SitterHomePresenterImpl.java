@@ -3,19 +3,24 @@ package zekisanmobile.petsitter.Sitter;
 import java.util.ArrayList;
 import java.util.List;
 
-import zekisanmobile.petsitter.Handlers.GetSitterContactsHandler;
-import zekisanmobile.petsitter.model.Contact;
-import zekisanmobile.petsitter.model.Sitter;
-import zekisanmobile.petsitter.model.User;
+import javax.inject.Inject;
+
+import zekisanmobile.petsitter.model.SitterModel;
+import zekisanmobile.petsitter.vo.Contact;
+import zekisanmobile.petsitter.vo.Sitter;
 
 public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     SitterHomeView view;
-    private User user;
+    private Sitter sitter;
+
+    @Inject
+    SitterModel sitterModel;
 
     public SitterHomePresenterImpl(SitterHomeView view){
+        view.getPetSitterApp().getAppComponent().inject(this);
         this.view = view;
-        this.user = User.getLoggedUser(1);
+        this.sitter = sitterModel.getLoggedSitterUser();
     }
 
     @Override
@@ -37,17 +42,17 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     @Override
     public String getLoggedUserName() {
-        return user.name;
+        return sitter.getName();
     }
 
     @Override
     public String getLoggedUserPhoto() {
-        return user.photo;
+        return sitter.getPhoto();
     }
 
     @Override
     public String getLoggedUserEmail() {
-        return user.email;
+        return sitter.getUser().getEmail();
     }
 
     @Override
@@ -57,26 +62,26 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     @Override
     public long getLoggedUserSitterApiId() {
-        return getSitterFromUser().apiId;
+        return getSitterFromUser().getApiId();
     }
 
     @Override
     public long getLoggedUserSitterId() {
-        return this.user.sitter.getId();
+        return this.sitter.getId();
     }
 
     @Override
     public Sitter getSitterFromUser() {
-        return user.sitter;
+        return sitter;
     }
 
     @Override
     public List<Contact> getNewContacts() {
-        return new ArrayList<Contact>(Sitter.getNewContacts(getSitterFromUser().getId()));
+        return new ArrayList<Contact>(sitterModel.getNewContacts(getSitterFromUser().getId()));
     }
 
     @Override
     public List<Contact> getCurrentContacts() {
-        return new ArrayList<Contact>(Sitter.getCurrentContacts(getSitterFromUser().getId()));
+        return new ArrayList<Contact>(sitterModel.getCurrentContacts(getSitterFromUser().getId()));
     }
 }

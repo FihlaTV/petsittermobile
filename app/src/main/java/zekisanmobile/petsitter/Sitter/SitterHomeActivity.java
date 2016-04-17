@@ -32,8 +32,8 @@ import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.controller.ContactController;
 import zekisanmobile.petsitter.event.contact.FetchedSitterContactsEvent;
-import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.vo.Contact;
 
 public class SitterHomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
