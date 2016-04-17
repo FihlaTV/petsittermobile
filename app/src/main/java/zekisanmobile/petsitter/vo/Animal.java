@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.raizlabs.android.dbflow.StringUtils;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
+import com.raizlabs.android.dbflow.annotation.ManyToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
@@ -14,6 +15,7 @@ import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
 @Table(database = PetSitterDatabase.class)
+@ManyToMany(referencedTable = Contact.class)
 public class Animal extends BaseModel implements Validation{
 
     //region Members

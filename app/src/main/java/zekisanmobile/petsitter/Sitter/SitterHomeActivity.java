@@ -22,6 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.ContactsByStatusFragment;
 import zekisanmobile.petsitter.Main.MainActivity;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.R;
 
@@ -139,5 +140,10 @@ public class SitterHomeActivity extends AppCompatActivity
     public void updateAdapters(List<Contact> newContacts, List<Contact> currentContacts) {
         newContactsFragment.updateContactsList(newContacts);
         currentContactsFragment.updateContactsList(currentContacts);
+    }
+
+    @Override
+    public PetSitterApp getPetSitterApp() {
+        return (PetSitterApp) getApplication();
     }
 }

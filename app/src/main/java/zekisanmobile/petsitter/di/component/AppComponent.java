@@ -3,6 +3,7 @@ package zekisanmobile.petsitter.di.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import zekisanmobile.petsitter.Handlers.GetSitterContactsHandler;
 import zekisanmobile.petsitter.Handlers.GetSittersHandler;
 import zekisanmobile.petsitter.Handlers.SearchHandler;
 import zekisanmobile.petsitter.Main.MainActivity;
@@ -18,6 +19,8 @@ public interface AppComponent {
     void inject(GetSittersHandler getSittersHandler);
 
     void inject(SearchHandler searchHandler);
+
+    void inject(GetSitterContactsHandler getSitterContactsHandler);
 
     void inject(MainActivity mainActivity);
 

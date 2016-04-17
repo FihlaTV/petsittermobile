@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.Adapters.SearchAdapter;
 import zekisanmobile.petsitter.Handlers.SearchHandler;
+import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.model.SearchItem;
 import zekisanmobile.petsitter.R;
 
@@ -76,7 +77,7 @@ public class SearchFragment extends Fragment {
 
         json.put("animals", jsonArray);
         String[] params = {json.toString(), String.valueOf(1)};
-        new SearchHandler(getContext()).execute(params);
+        new SearchHandler((OwnerHomeActivity) getActivity()).execute(params);
     }
 
     private List<SearchItem> loadSearchOptions() {
