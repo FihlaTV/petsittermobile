@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter.model;
 
+import com.activeandroid.query.Select;
 import com.raizlabs.android.dbflow.runtime.TransactionManager;
 import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
 import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
@@ -8,8 +9,8 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import zekisanmobile.petsitter.util.ValidationUtil;
+import zekisanmobile.petsitter.vo.*;
 import zekisanmobile.petsitter.vo.User;
-import zekisanmobile.petsitter.vo.User_Table;
 
 public class UserModel {
 

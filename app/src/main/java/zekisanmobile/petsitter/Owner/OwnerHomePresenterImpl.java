@@ -1,41 +1,48 @@
 package zekisanmobile.petsitter.Owner;
 
+import javax.inject.Inject;
+
 import zekisanmobile.petsitter.Handlers.GetOwnerContactsHandler;
-import zekisanmobile.petsitter.model.User;
+import zekisanmobile.petsitter.model.OwnerModel;
+import zekisanmobile.petsitter.vo.Owner;
 
 public class OwnerHomePresenterImpl implements OwnerHomePresenter{
 
-    private User loggedUser;
+    private Owner owner;
     private OwnerHomeView view;
 
+    @Inject
+    OwnerModel ownerModel;
+
     public OwnerHomePresenterImpl(OwnerHomeView view){
+        view.getPetSitterApp().getAppComponent().inject(this);
         this.view = view;
-        getLoggedUser();
+        this.owner = ownerModel.getLoggedOwnerUser();
     }
 
     @Override
     public void getLoggedUser() {
-        this.loggedUser = User.getLoggedUser(0);
+        // TODO: crair o job
         new GetOwnerContactsHandler().execute(getStringOwnerApiId());
     }
 
     @Override
     public String getStringOwnerApiId() {
-        return String.valueOf(this.loggedUser.owner.apiId);
+        return String.valueOf(owner.getApiId());
     }
 
     @Override
     public String getLoggedUserName() {
-        return loggedUser.name;
+        return owner.getName();
     }
 
     @Override
     public String getLoggedUserEmail() {
-        return loggedUser.name;
+        return owner.getUser().getEmail();
     }
 
     @Override
     public String getLoggedUserPhoto() {
-        return loggedUser.photo;
+        return owner.getUser().getPhoto();
     }
 }

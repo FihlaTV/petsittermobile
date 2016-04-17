@@ -76,6 +76,100 @@ public class Contact extends BaseModel implements Validation {
     List<Animal> animals;
     //endregion
 
+    //region Accessors
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getApiId() {
+        return apiId;
+    }
+
+    public void setApiId(long apiId) {
+        this.apiId = apiId;
+    }
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public String getDateFinal() {
+        return dateFinal;
+    }
+
+    public void setDateFinal(String dateFinal) {
+        this.dateFinal = dateFinal;
+    }
+
+    public String getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(String timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public String getTimeFinal() {
+        return timeFinal;
+    }
+
+    public void setTimeFinal(String timeFinal) {
+        this.timeFinal = timeFinal;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+    public double getTotalValue() {
+        return totalValue;
+    }
+
+    public void setTotalValue(double totalValue) {
+        this.totalValue = totalValue;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public void setAnimals(List<Animal> animals) {
+        this.animals = animals;
+    }
+    //endregion
+
     @OneToMany
     public List<Animal> getAnimals() {
         if (animals == null) {

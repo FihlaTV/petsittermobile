@@ -12,6 +12,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.OwnerContactListAdapter;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
 
 public class MyPetSittersActivity extends AppCompatActivity implements MyPetSittersView,
@@ -61,5 +62,10 @@ public class MyPetSittersActivity extends AppCompatActivity implements MyPetSitt
         Intent intent = new Intent(MyPetSittersActivity.this, ContactDetailsActivity.class);
         intent.putExtra("contactId", adapter.getContactAtPosition(position).getId());
         startActivity(intent);
+    }
+
+    @Override
+    public PetSitterApp getPetSitterApp() {
+        return (PetSitterApp) getApplication();
     }
 }

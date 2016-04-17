@@ -2,12 +2,12 @@ package zekisanmobile.petsitter.Owner;
 
 import java.util.List;
 
-import zekisanmobile.petsitter.model.Contact;
-import zekisanmobile.petsitter.model.User;
+import zekisanmobile.petsitter.vo.Contact;
+import zekisanmobile.petsitter.vo.Owner;
 
 public interface MyPetSittersPresenter {
 
-    User getLoggedUser();
+    Owner getLoggedUser();
 
     List<Contact> getContacts();
 

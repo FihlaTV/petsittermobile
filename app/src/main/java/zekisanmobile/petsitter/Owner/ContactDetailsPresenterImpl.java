@@ -3,65 +3,71 @@ package zekisanmobile.petsitter.Owner;
 import java.text.NumberFormat;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import zekisanmobile.petsitter.Sitter.ContactDetailsView;
-import zekisanmobile.petsitter.model.Animal;
-import zekisanmobile.petsitter.model.Contact;
+import zekisanmobile.petsitter.vo.Animal;
+import zekisanmobile.petsitter.model.ContactModel;
+import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.util.Formatter;
 
 public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     private ContactDetailsView view;
     private Contact contact;
+    @Inject
+    ContactModel contactModel;
 
     public ContactDetailsPresenterImpl(ContactDetailsView view){
+        view.getPetSitterApp().getAppComponent().inject(this);
         this.view = view;
     }
 
     @Override
     public void getContactFromDb(long id) {
-        this.contact = Contact.load(Contact.class, id);
+        this.contact = contactModel.find(id);
     }
 
     @Override
     public String getContactSitterName() {
-        return this.contact.sitter.name;
+        return this.contact.getSitter().getName();
     }
 
     @Override
     public String getContactSitterPhoto() {
-        return this.contact.sitter.photo;
+        return this.contact.getSitter().getPhoto();
     }
 
     @Override
     public String getContactDistrict() {
-        return this.contact.sitter.district;
+        return this.contact.getSitter().getDistrict();
     }
 
     @Override
     public String getContactAddress() {
-        return this.contact.sitter.address;
+        return this.contact.getSitter().getAddress();
     }
 
     @Override
     public String getContactStartDate() {
-        return Formatter.formattedDateFromString(this.contact.dateStart);
+        return Formatter.formattedDateFromString(this.contact.getDateStart());
     }
 
     @Override
     public String getContactDatePeriod() {
-        return Formatter.formattedDateFromString(this.contact.dateStart)
+        return Formatter.formattedDateFromString(this.contact.getDateStart())
                 + " - "
-                + Formatter.formattedDateFromString(this.contact.dateFinal);
+                + Formatter.formattedDateFromString(this.contact.getDateFinal());
     }
 
     @Override
     public String getContactTimePeriod() {
-        return this.contact.timeStart + " - " + this.contact.timeFinal;
+        return this.contact.getTimeStart() + " - " + this.contact.getTimeFinal();
     }
 
     @Override
     public String getContactTotalValue() {
-        return NumberFormat.getCurrencyInstance().format(this.contact.totalValue);
+        return NumberFormat.getCurrencyInstance().format(this.contact.getTotalValue());
     }
 
     @Override
@@ -76,27 +82,27 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public double getContactSitterLatitude() {
-        return this.contact.sitter.latitude;
+        return this.contact.getSitter().getLatitude();
     }
 
     @Override
     public double getContactSitterLongitude() {
-        return this.contact.sitter.longitude;
+        return this.contact.getSitter().getLongitude();
     }
 
     @Override
     public boolean isAccepted() {
-        return this.contact.status == 30;
+        return this.contact.getStatus() == 30;
     }
 
     @Override
     public boolean isFinished() {
-        return this.contact.status == 40;
+        return this.contact.getStatus() == 40;
     }
 
     @Override
     public boolean isRejected() {
-        return this.contact.status == 20;
+        return this.contact.getStatus() == 20;
     }
 
     @Override

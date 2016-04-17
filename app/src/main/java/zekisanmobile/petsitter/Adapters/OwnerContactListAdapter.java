@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.model.Contact;
+import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.util.ContactStatusString;
 
@@ -41,12 +41,14 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
         if (contacts != null || contacts.size() == 0) {
             Contact contact = contacts.get(position);
 
-            int imageId = parentContext.getResources().getIdentifier(contact.sitter.photo, "drawable", parentContext.getPackageName());
+            int imageId = parentContext.getResources().getIdentifier(contact.getSitter().getPhoto(),
+                    "drawable", parentContext.getPackageName());
             holder.iv_contact_sitter.setImageResource(imageId);
-            holder.tv_contact_sitter.setText(contact.sitter.name);
-            holder.tv_contact_status.setText(ContactStatusString.getStatusName(contact.status,
-                    contact.dateStart, contact.dateFinal));
-            holder.tv_contact_period.setText(ContactStatusString.contatPeriod(contact.dateStart, contact.dateFinal));
+            holder.tv_contact_sitter.setText(contact.getSitter().getName());
+            holder.tv_contact_status.setText(ContactStatusString.getStatusName(contact.getStatus(),
+                    contact.getDateStart(), contact.getDateFinal()));
+            holder.tv_contact_period.setText(ContactStatusString.contatPeriod(contact.getDateStart(),
+                    contact.getDateFinal()));
         }
     }
 
