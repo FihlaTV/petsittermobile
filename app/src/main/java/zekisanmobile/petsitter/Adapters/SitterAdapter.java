@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder> {
@@ -69,9 +69,10 @@ public class SitterAdapter extends RecyclerView.Adapter<SitterAdapter.ViewHolder
     public void onBindViewHolder(SitterAdapter.ViewHolder holder, int position) {
         Sitter sitter = sitters.get(position);
 
-        int imageId = parentContext.getResources().getIdentifier(sitter.photo, "drawable", parentContext.getPackageName());
+        int imageId = parentContext.getResources().getIdentifier(sitter.getPhoto(), "drawable",
+                parentContext.getPackageName());
         holder.iv_sitter.setImageResource(imageId);
-        holder.tv_name.setText(sitter.name);
+        holder.tv_name.setText(sitter.getName());
         holder.tv_like_percent.setText("95%");
         holder.tv_dislike_percent.setText("5%");
     }

@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import zekisanmobile.petsitter.Adapters.SitterAdapter;
 import zekisanmobile.petsitter.Handlers.GetSittersHandler;
 import zekisanmobile.petsitter.Interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.Owner.SitterProfileActivity;

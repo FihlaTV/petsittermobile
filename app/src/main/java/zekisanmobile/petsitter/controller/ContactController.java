@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.job.BaseJob;
+import zekisanmobile.petsitter.job.contact.FetchOwnerContactsJob;
 import zekisanmobile.petsitter.job.contact.FetchSitterContactsJob;
 import zekisanmobile.petsitter.job.contact.SendContactStatusJob;
 
@@ -35,9 +36,15 @@ public class ContactController {
         }
     }
 
-    public void fecthSitterContactsAsync(boolean fromUI, long sitterId) {
+    public void fetchSitterContactsAsync(boolean fromUI, long sitterId) {
         jobManager.addJobInBackground(
                 new FetchSitterContactsJob(fromUI ? BaseJob.UI_HIGH : BaseJob.BACKGROUND, sitterId)
+        );
+    }
+
+    public void fetchOwnerContactsAsync(boolean fromUI, long ownerId) {
+        jobManager.addJobInBackground(
+                new FetchOwnerContactsJob(fromUI ? BaseJob.UI_HIGH : BaseJob.BACKGROUND, ownerId)
         );
     }
 }

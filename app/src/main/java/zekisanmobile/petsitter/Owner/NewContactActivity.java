@@ -38,6 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.model.Animal;
 import zekisanmobile.petsitter.model.Sitter;
 import zekisanmobile.petsitter.model.User;
@@ -157,7 +158,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
             jsonContact.put("animal_contacts", jsonAnimals);
             String[] params = {jsonContact.toString(), String.valueOf(loggedUser.owner.apiId)};
 
-            new SendRequestContactHandler().execute(params);
+            new SendRequestContactHandler((PetSitterApp) getApplication()).execute(params);
             Intent intent = new Intent(this, OwnerHomeActivity.class);
             startActivity(intent);
         } catch (JSONException e) {

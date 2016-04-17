@@ -2,7 +2,6 @@ package zekisanmobile.petsitter.Owner;
 
 import javax.inject.Inject;
 
-import zekisanmobile.petsitter.Handlers.GetOwnerContactsHandler;
 import zekisanmobile.petsitter.model.OwnerModel;
 import zekisanmobile.petsitter.vo.Owner;
 
@@ -21,14 +20,8 @@ public class OwnerHomePresenterImpl implements OwnerHomePresenter{
     }
 
     @Override
-    public void getLoggedUser() {
-        // TODO: crair o job
-        new GetOwnerContactsHandler().execute(getStringOwnerApiId());
-    }
-
-    @Override
-    public String getStringOwnerApiId() {
-        return String.valueOf(owner.getApiId());
+    public long getOwnerApiId() {
+        return owner.getApiId();
     }
 
     @Override

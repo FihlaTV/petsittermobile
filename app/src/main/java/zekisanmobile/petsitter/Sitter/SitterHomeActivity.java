@@ -78,7 +78,7 @@ public class SitterHomeActivity extends AppCompatActivity
     protected void onStart(){
         super.onStart();
         EventBus.getDefault().register(this);
-        controller.fecthSitterContactsAsync(true, presenter.getLoggedUserSitterApiId());
+        controller.fetchSitterContactsAsync(true, presenter.getLoggedUserSitterApiId());
     }
 
     @Override
@@ -99,7 +99,8 @@ public class SitterHomeActivity extends AppCompatActivity
 
         CircleImageView ivUserImage = ButterKnife.findById(header, R.id.ivUserImage);
         ivUserImage.setImageResource(getApplicationContext().getResources()
-                .getIdentifier(presenter.getLoggedUserPhoto(), "drawable", getApplicationContext().getPackageName()));
+                .getIdentifier(presenter.getLoggedUserPhoto(), "drawable",
+                        getApplicationContext().getPackageName()));
 
         TextView tvUsername = ButterKnife.findById(header, R.id.tvUsername);
         tvUsername.setText(presenter.getLoggedUserName());

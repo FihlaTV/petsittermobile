@@ -15,7 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,7 +30,8 @@ import zekisanmobile.petsitter.Fragments.SearchFragment;
 import zekisanmobile.petsitter.Fragments.SitterFragment;
 import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.PetSitterApp;
-import zekisanmobile.petsitter.model.Sitter;
+import zekisanmobile.petsitter.controller.ContactController;
+import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.R;
 
 public class OwnerHomeActivity extends AppCompatActivity
@@ -37,16 +42,22 @@ public class OwnerHomeActivity extends AppCompatActivity
     @Bind(R.id.nav_view) NavigationView navigationView;
     @Bind(R.id.viewpager) ViewPager viewPager;
     @Bind(R.id.tabs) TabLayout tabLayout;
+
     private ViewPagerAdapter adapter;
     private SitterFragment sitterFragment;
     private MapsFragment mapsFragment;
 
     private OwnerHomePresenter presenter;
 
+    @Inject
+    ContactController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_owner_home);
+
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
 
@@ -56,6 +67,19 @@ public class OwnerHomeActivity extends AppCompatActivity
         configureTabLayout();
         configureNavigationDrawer();
         configureNavigationView();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        EventBus.getDefault().register(this);
+        controller.fetchOwnerContactsAsync(false, presenter.getOwnerApiId());
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     private void configureNavigationDrawer() {
