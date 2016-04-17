@@ -7,9 +7,11 @@ import zekisanmobile.petsitter.Handlers.GetSitterContactsHandler;
 import zekisanmobile.petsitter.Handlers.GetSittersHandler;
 import zekisanmobile.petsitter.Handlers.SearchHandler;
 import zekisanmobile.petsitter.Main.MainActivity;
+import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
 import zekisanmobile.petsitter.controller.ContactController;
 import zekisanmobile.petsitter.di.module.ApplicationModule;
 import zekisanmobile.petsitter.di.module.NetModule;
+import zekisanmobile.petsitter.job.contact.FetchSitterContactsJob;
 import zekisanmobile.petsitter.job.contact.SendContactStatusJob;
 
 @Singleton
@@ -26,7 +28,11 @@ public interface AppComponent {
 
     void inject(zekisanmobile.petsitter.Sitter.ContactDetailsActivity contactDetailsActivity);
 
+    void inject(SitterHomeActivity sitterHomeActivity);
+
     void inject(SendContactStatusJob sendContactStatusJob);
+
+    void inject(FetchSitterContactsJob fecthSitterContactsJob);
 
     void inject(ContactController contactController);
 

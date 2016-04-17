@@ -25,7 +25,7 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
 
     @Override
     public void getContacts() {
-        new GetSitterContactsHandler(this, view).execute(getStringLoggedUserSitterApiId());
+        //new GetSitterContactsHandler(this, view).execute(getStringLoggedUserSitterApiId());
     }
 
     @Override

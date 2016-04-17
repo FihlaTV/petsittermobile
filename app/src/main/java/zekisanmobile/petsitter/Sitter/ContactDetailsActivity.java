@@ -151,7 +151,7 @@ public class ContactDetailsActivity extends AppCompatActivity
     @OnClick(R.id.bt_accept)
     public void acceptContact(){
         presenter.acceptContact();
-        controller.sendContactAsync(true, presenter.getContactApiId(), 30);
+        controller.sendContactUpdateAsync(true, presenter.getContactApiId(), 30);
         showAcceptDialog();
     }
 
@@ -182,7 +182,7 @@ public class ContactDetailsActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.deleteContact();
-                        controller.sendContactAsync(true, presenter.getContactApiId(), 20);
+                        controller.sendContactUpdateAsync(true, presenter.getContactApiId(), 20);
                         Intent intent = new Intent(ContactDetailsActivity.this, SitterHomeActivity.class);
                         startActivity(intent);
                     }

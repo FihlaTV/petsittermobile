@@ -2,7 +2,9 @@ package zekisanmobile.petsitter.Sitter;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -14,7 +16,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,6 +29,8 @@ import zekisanmobile.petsitter.Adapters.ViewPagerAdapter;
 import zekisanmobile.petsitter.Fragments.ContactsByStatusFragment;
 import zekisanmobile.petsitter.Main.MainActivity;
 import zekisanmobile.petsitter.PetSitterApp;
+import zekisanmobile.petsitter.controller.ContactController;
+import zekisanmobile.petsitter.event.contact.FetchedSitterContactsEvent;
 import zekisanmobile.petsitter.model.Contact;
 import zekisanmobile.petsitter.R;
 
@@ -35,6 +43,10 @@ public class SitterHomeActivity extends AppCompatActivity
     @Bind(R.id.viewpager) ViewPager viewPager;
     @Bind(R.id.tabs) TabLayout tabLayout;
     @Bind(R.id.nav_view_sitter_home) NavigationView navigationView;
+    @Bind(R.id.coordinator_layout) CoordinatorLayout coordinatorLayout;
+
+    @Inject
+    ContactController controller;
 
     private ViewPagerAdapter adapter;
     private SitterHomePresenter presenter;
@@ -47,6 +59,8 @@ public class SitterHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sitter_home);
 
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
+
         ButterKnife.bind(this);
 
         this.presenter = new SitterHomePresenterImpl(this);
@@ -56,7 +70,13 @@ public class SitterHomeActivity extends AppCompatActivity
         configureNavigationDrawer();
         configureNavigationView();
 
-        presenter.getContacts();
+        updateAdapters(presenter.getNewContacts(), presenter.getCurrentContacts());
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        controller.fecthSitterContactsAsync(true, presenter.getLoggedUserSitterApiId());
     }
 
     @Override
@@ -145,5 +165,15 @@ public class SitterHomeActivity extends AppCompatActivity
     @Override
     public PetSitterApp getPetSitterApp() {
         return (PetSitterApp) getApplication();
+    }
+
+    @Subscribe
+    public void onEventMainThread(FetchedSitterContactsEvent event) {
+        if (event.isSuccess()) {
+            updateAdapters(presenter.getNewContacts(), presenter.getCurrentContacts());
+        } else {
+            Snackbar.make(coordinatorLayout, "Não foi possível atualizar a lista de " +
+                    "solicitações de Pet Sitter", Snackbar.LENGTH_SHORT).show();
+        }
     }
 }
