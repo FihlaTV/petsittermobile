@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
@@ -76,7 +77,14 @@ public class SitterHomeActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
+        EventBus.getDefault().register(this);
         controller.fecthSitterContactsAsync(true, presenter.getLoggedUserSitterApiId());
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override
