@@ -14,7 +14,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import zekisanmobile.petsitter.PetSitterApp;
-import zekisanmobile.petsitter.controller.ContactController;
+import zekisanmobile.petsitter.controller.contact.ContactController;
 import zekisanmobile.petsitter.job.BaseJob;
 import zekisanmobile.petsitter.model.AnimalModel;
 import zekisanmobile.petsitter.model.ContactModel;

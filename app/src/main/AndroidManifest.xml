@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Main.MainActivity"
+            android:name=".view.main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,48 +34,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Owner.OwnerHomeActivity"
+            android:name=".view.owner.OwnerHomeActivity"
             android:label="@string/title_activity_dono_home"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Owner.SitterProfileActivity"
+            android:name=".view.owner.SitterProfileActivity"
             android:label="@string/title_activity_sitter_profile"
             android:launchMode="singleTop"
-            android:parentActivityName=".Owner.OwnerHomeActivity"
+            android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Owner.NewContactActivity"
+            android:name=".view.owner.NewContactActivity"
             android:label="Solicitação de Pet Sitter"
-            android:parentActivityName=".Owner.SitterProfileActivity"
+            android:parentActivityName=".view.owner.SitterProfileActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Sitter.SitterHomeActivity"
+            android:name=".view.sitter.SitterHomeActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Sitter.ContactDetailsActivity"
+            android:name=".view.sitter.ContactDetailsActivity"
             android:label="Solicitação de Pet Sitter"
-            android:parentActivityName=".Sitter.SitterHomeActivity"
+            android:parentActivityName=".view.sitter.SitterHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Owner.ContactDetailsActivity"
+            android:name=".view.owner.ContactDetailsActivity"
             android:label="Pet Sitter"
-            android:parentActivityName=".Owner.MyPetSittersActivity"
+            android:parentActivityName=".view.owner.MyPetSittersActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Owner.MyPetSittersActivity"
+            android:name=".view.owner.MyPetSittersActivity"
             android:label="Meus Pet Sitters"
-            android:parentActivityName=".Owner.OwnerHomeActivity"
+            android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Sitter.OtherContactsActivity"
-            android:parentActivityName=".Owner.OwnerHomeActivity"
+            android:name=".view.sitter.OtherContactsActivity"
+            android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Owner.EvaluationActivity"
-            android:parentActivityName=".Owner.OwnerHomeActivity"
+            android:name=".view.owner.EvaluationActivity"
+            android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
         <meta-data

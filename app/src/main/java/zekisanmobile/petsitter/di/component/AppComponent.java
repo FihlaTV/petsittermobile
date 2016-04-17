@@ -3,20 +3,20 @@ package zekisanmobile.petsitter.di.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import zekisanmobile.petsitter.Handlers.GetSitterContactsHandler;
-import zekisanmobile.petsitter.Handlers.GetSittersHandler;
-import zekisanmobile.petsitter.Handlers.SearchHandler;
-import zekisanmobile.petsitter.Handlers.SendRequestContactHandler;
-import zekisanmobile.petsitter.Main.MainActivity;
-import zekisanmobile.petsitter.Owner.ContactDetailsPresenter;
-import zekisanmobile.petsitter.Owner.MyPetSittersPresenter;
-import zekisanmobile.petsitter.Owner.NewContactActivity;
-import zekisanmobile.petsitter.Owner.OwnerHomeActivity;
-import zekisanmobile.petsitter.Owner.OwnerHomePresenter;
-import zekisanmobile.petsitter.Sitter.OtherContactsPresenter;
-import zekisanmobile.petsitter.Sitter.SitterHomeActivity;
-import zekisanmobile.petsitter.Sitter.SitterHomePresenter;
-import zekisanmobile.petsitter.controller.ContactController;
+import zekisanmobile.petsitter.handler.GetSitterContactsHandler;
+import zekisanmobile.petsitter.handler.GetSittersHandler;
+import zekisanmobile.petsitter.handler.SearchHandler;
+import zekisanmobile.petsitter.handler.SendRequestContactHandler;
+import zekisanmobile.petsitter.view.main.MainActivity;
+import zekisanmobile.petsitter.view.owner.ContactDetailsPresenter;
+import zekisanmobile.petsitter.view.owner.MyPetSittersPresenter;
+import zekisanmobile.petsitter.view.owner.NewContactActivity;
+import zekisanmobile.petsitter.view.owner.OwnerHomeActivity;
+import zekisanmobile.petsitter.view.owner.OwnerHomePresenter;
+import zekisanmobile.petsitter.view.sitter.OtherContactsPresenter;
+import zekisanmobile.petsitter.view.sitter.SitterHomeActivity;
+import zekisanmobile.petsitter.view.sitter.SitterHomePresenter;
+import zekisanmobile.petsitter.controller.contact.ContactController;
 import zekisanmobile.petsitter.di.module.ApplicationModule;
 import zekisanmobile.petsitter.di.module.NetModule;
 import zekisanmobile.petsitter.job.contact.FetchOwnerContactsJob;
@@ -39,7 +39,7 @@ public interface AppComponent {
 
     void inject(NewContactActivity newContactActivity);
 
-    void inject(zekisanmobile.petsitter.Sitter.ContactDetailsActivity contactDetailsActivity);
+    void inject(zekisanmobile.petsitter.view.sitter.ContactDetailsActivity contactDetailsActivity);
 
     void inject(SitterHomeActivity sitterHomeActivity);
 
@@ -55,7 +55,7 @@ public interface AppComponent {
 
     void inject(ContactDetailsPresenter contactDetailsPresenter);
 
-    void inject(zekisanmobile.petsitter.Sitter.ContactDetailsPresenter contactDetailsPresenter);
+    void inject(zekisanmobile.petsitter.view.sitter.ContactDetailsPresenter contactDetailsPresenter);
 
     void inject(MyPetSittersPresenter myPetSittersPresenter);
 
