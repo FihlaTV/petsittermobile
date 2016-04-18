@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.model.SitterModel;
 import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.R;
@@ -44,6 +45,8 @@ public class SitterProfileActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sitter_profile);
+
+        ((PetSitterApp) getApplication()).getAppComponent().inject(this);
 
         ButterKnife.bind(this);
 

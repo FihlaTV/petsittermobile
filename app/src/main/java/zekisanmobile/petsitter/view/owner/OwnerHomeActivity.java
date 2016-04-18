@@ -72,14 +72,7 @@ public class OwnerHomeActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
-        EventBus.getDefault().register(this);
         controller.fetchOwnerContactsAsync(false, presenter.getOwnerApiId());
-    }
-
-    @Override
-    protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 
     private void configureNavigationDrawer() {

@@ -57,7 +57,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    OwnerModel providesOwnerModel() {
+    public OwnerModel providesOwnerModel() {
         return new OwnerModel();
     }
 

@@ -27,7 +27,7 @@ public class Owner extends BaseModel implements Validation {
     long apiId;
 
     @JsonProperty("name")
-    @Column(name = "name")
+    @Column
     String name;
 
     @JsonProperty("address")

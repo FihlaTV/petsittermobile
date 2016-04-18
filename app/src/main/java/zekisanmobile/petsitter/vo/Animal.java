@@ -10,13 +10,15 @@ import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.io.Serializable;
+
 import zekisanmobile.petsitter.model.PetSitterDatabase;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
 @Table(database = PetSitterDatabase.class)
 @ManyToMany(referencedTable = Contact.class)
-public class Animal extends BaseModel implements Validation{
+public class Animal extends BaseModel implements Validation, Serializable {
 
     //region Members
     @PrimaryKey(autoincrement = true)
