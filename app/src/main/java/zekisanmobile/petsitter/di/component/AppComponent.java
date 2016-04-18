@@ -13,6 +13,11 @@ import zekisanmobile.petsitter.handler.SendRequestContactHandler;
 import zekisanmobile.petsitter.job.contact.FetchOwnerContactsJob;
 import zekisanmobile.petsitter.job.contact.FetchSitterContactsJob;
 import zekisanmobile.petsitter.job.contact.SendContactStatusJob;
+import zekisanmobile.petsitter.model.AnimalModel;
+import zekisanmobile.petsitter.model.ContactModel;
+import zekisanmobile.petsitter.model.OwnerModel;
+import zekisanmobile.petsitter.model.SitterModel;
+import zekisanmobile.petsitter.model.UserModel;
 import zekisanmobile.petsitter.view.main.MainActivity;
 import zekisanmobile.petsitter.view.owner.ContactDetailsPresenterImpl;
 import zekisanmobile.petsitter.view.owner.MyPetSittersPresenterImpl;
@@ -67,5 +72,15 @@ public interface AppComponent {
     void inject(OtherContactsPresenterImpl otherContactsPresenter);
 
     void inject(SitterHomePresenterImpl sitterHomePresenter);
+
+    void inject(AnimalModel animalModel);
+
+    void inject(ContactModel contactModel);
+
+    void inject(OwnerModel ownerModel);
+
+    void inject(SitterModel sitterModel);
+
+    void inject(UserModel userModel);
 
 }

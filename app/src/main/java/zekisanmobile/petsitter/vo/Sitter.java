@@ -2,100 +2,75 @@ package zekisanmobile.petsitter.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.raizlabs.android.dbflow.StringUtils;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.ManyToMany;
-import com.raizlabs.android.dbflow.annotation.OneToMany;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import zekisanmobile.petsitter.model.PetSitterDatabase;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
-@Table(database = PetSitterDatabase.class)
-@ManyToMany(referencedTable = Animal.class)
-public class Sitter extends BaseModel implements Validation, Serializable {
+public class Sitter extends RealmObject implements Validation, Serializable {
 
     //region Members
-    @PrimaryKey(autoincrement = true)
+    @PrimaryKey
     @JsonIgnore
     long id;
 
     @JsonProperty("id")
-    @Column
     long apiId;
 
     @JsonProperty("name")
-    @Column
     String name;
 
     @JsonProperty("address")
-    @Column
     String address;
 
     @JsonProperty("district")
-    @Column
     String district;
 
     @JsonProperty("photo")
-    @Column(name = "photo")
     String photo;
 
     @JsonProperty("header_background")
-    @Column
     String profileBackground;
 
     @JsonProperty("latitude")
-    @Column
     float latitude;
 
     @JsonProperty("longitude")
-    @Column
     float longitude;
 
     @JsonProperty("value_hour")
-    @Column
     double value_hour;
 
     @JsonProperty("value_shift")
-    @Column
     double value_shift;
 
     @JsonProperty("value_day")
-    @Column
     double value_day;
 
     @JsonProperty("about_me")
-    @Column
     String about_me;
 
     @JsonIgnore
-    @Column
-    @ForeignKey(saveForeignKeyModel = false)
     User user;
 
     @JsonProperty("animals")
-    @ColumnIgnore
-    List<Animal> animals;
+    RealmList<Animal> animals;
 
     @JsonIgnore
-    @ColumnIgnore
+    @Ignore
     public List<String> cares;
 
-    @ColumnIgnore
+    @Ignore
     @JsonIgnore
     public String updated_at;
 
-    @ColumnIgnore
+    @Ignore
     @JsonIgnore
     public String created_at;
     //endregion
@@ -218,9 +193,13 @@ public class Sitter extends BaseModel implements Validation, Serializable {
     //region Inherited Methods
     @Override
     public void validate() {
-        if (!StringUtils.isNotNullOrEmpty(name)) {
+        if (name == null) {
             throw new ValidationFailedException("Nome inválido.");
         }
+    }
+
+    public RealmList<Animal> getAnimals() {
+        return animals;
     }
     //endregion
 }

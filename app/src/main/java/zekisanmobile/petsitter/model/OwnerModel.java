@@ -1,27 +1,31 @@
 package zekisanmobile.petsitter.model;
 
-import com.raizlabs.android.dbflow.runtime.TransactionManager;
-import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
-import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
 import java.util.Date;
 import java.util.List;
 
-import zekisanmobile.petsitter.util.Formatter;
+import javax.inject.Inject;
+
+import io.realm.Realm;
+import io.realm.Sort;
+import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.util.ValidationUtil;
 import zekisanmobile.petsitter.vo.Contact;
-import zekisanmobile.petsitter.vo.Contact_Table;
 import zekisanmobile.petsitter.vo.Owner;
-import zekisanmobile.petsitter.vo.Owner_Table;
-import zekisanmobile.petsitter.vo.User;
-import zekisanmobile.petsitter.vo.User_Table;
 
 public class OwnerModel {
 
+    @Inject
+    Realm realm;
+
+    public OwnerModel(AppComponent appComponent) {
+        appComponent.inject(this);
+    }
+
     public void save(Owner owner){
         owner.validate();
-        owner.save();
+        realm.beginTransaction();
+        realm.copyToRealm(owner);
+        realm.commitTransaction();
     }
 
     public void saveAll(final List<Owner> owners){
@@ -29,72 +33,51 @@ public class OwnerModel {
         if (owners.isEmpty()) {
             return;
         }
-        TransactionManager.getInstance()
-                .addTransaction(new SaveModelTransaction(ProcessModelInfo.withModels(owners)));
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(owners);
+        realm.commitTransaction();
     }
 
     public Owner find(long id) {
-        return new SQLite().select()
-                .from(Owner.class)
-                .where(Owner_Table.id.is(id))
-                .querySingle();
+        return realm.where(Owner.class).equalTo("id", id).findFirst();
     }
 
     public List<Owner> all(){
-        return new SQLite().select()
-                .from(Owner.class)
-                .queryList();
+        return realm.where(Owner.class).findAll();
     }
 
     public Owner getLoggedOwnerUser() {
-        User user = new SQLite().select()
-                .from(User.class)
-                .where(User_Table.logged.is(true), User_Table.type.is(0))
-                .querySingle();
-
-        return new SQLite().select()
-                .from(Owner.class)
-                .where(Owner_Table.user_id.is(user.getId()))
-                .querySingle();
+        return realm.where(Owner.class).equalTo("user.logged", true)
+                .equalTo("user.type", 0).findFirst();
     }
 
-    public static List<Contact> getCurrentContacts(long id){
-        return new SQLite().select()
-                .from(Contact.class)
-                .where(Contact_Table.owner_id.is(id),
-                        Contact_Table.status.is(30),
-                        Contact_Table.dateFinal.greaterThanOrEq(
-                                Formatter.formattedDateToSQL(new Date())))
-                .orderBy(Contact_Table.dateStart, false)
-                .queryList();
+    public List<Contact> getCurrentContacts(long id){
+        return realm.where(Contact.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 30)
+                .greaterThanOrEqualTo("dateFinal", new Date())
+                .findAllSorted("dateStart", Sort.DESCENDING);
     }
 
-    public static List<Contact> getNewContacts(long id){
-        return new SQLite().select()
-                .from(Contact.class)
-                .where(Contact_Table.owner_id.is(id),
-                        Contact_Table.status.is(10),
-                        Contact_Table.dateStart.greaterThanOrEq(
-                                Formatter.formattedDateToSQL(new Date())))
-                .orderBy(Contact_Table.dateStart, false)
-                .queryList();
+    public List<Contact> getNewContacts(long id){
+        return realm.where(Contact.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 10)
+                .greaterThanOrEqualTo("dateStart", new Date())
+                .findAllSorted("dateStart", Sort.DESCENDING);
     }
 
     public List<Contact> getFinishedContacts(long id) {
-        return new SQLite().select()
-                .from(Contact.class)
-                .where(Contact_Table.owner_id.is(id),
-                        Contact_Table.status.is(40))
-                .orderBy(Contact_Table.dateFinal, false)
-                .queryList();
+        return realm.where(Contact.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 40)
+                .findAllSorted("dateFinal", Sort.DESCENDING);
     }
 
     public List<Contact> getRejectContacts(long id) {
-        return new SQLite().select()
-                .from(Contact.class)
-                .where(Contact_Table.owner_id.is(id),
-                        Contact_Table.status.is(20))
-                .orderBy(Contact_Table.dateFinal, false)
-                .queryList();
+        return realm.where(Contact.class)
+                .equalTo("owner.id", id)
+                .equalTo("status", 20)
+                .findAllSorted("dateFinal", Sort.DESCENDING);
     }
 }

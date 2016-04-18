@@ -2,60 +2,46 @@ package zekisanmobile.petsitter.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.raizlabs.android.dbflow.StringUtils;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
-import zekisanmobile.petsitter.model.PetSitterDatabase;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
-@Table(database = PetSitterDatabase.class)
-public class Owner extends BaseModel implements Validation {
+public class Owner extends RealmObject implements Validation {
 
     //region Members
-    @PrimaryKey(autoincrement = true)
+    @PrimaryKey
     @JsonIgnore
     long id;
 
     @JsonProperty("id")
-    @Column
     long apiId;
 
     @JsonProperty("name")
-    @Column
     String name;
 
     @JsonProperty("address")
-    @Column
     String address;
 
     @JsonProperty("district")
-    @Column
     String district;
 
     @JsonProperty("latitude")
-    @Column
     float latitude;
 
     @JsonProperty("longitude")
-    @Column
     float longitude;
 
     @JsonIgnore
-    @Column
-    @ForeignKey(saveForeignKeyModel = false)
     User user;
 
-    @ColumnIgnore
+    @Ignore
     @JsonIgnore
     public String updated_at;
 
-    @ColumnIgnore
+    @Ignore
     @JsonIgnore
     public String created_at;
     //endregion
@@ -129,7 +115,7 @@ public class Owner extends BaseModel implements Validation {
     //region Inherited Methods
     @Override
     public void validate() {
-        if(!StringUtils.isNotNullOrEmpty(name)){
+        if(name == null){
             throw new ValidationFailedException("Nome inválido.");
         }
     }

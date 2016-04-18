@@ -1,25 +1,28 @@
 package zekisanmobile.petsitter.model;
 
-import com.raizlabs.android.dbflow.runtime.DBTransactionInfo;
-import com.raizlabs.android.dbflow.runtime.TransactionManager;
-import com.raizlabs.android.dbflow.runtime.transaction.BaseTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.QueryTransaction;
-import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
-import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.sql.language.Where;
-
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.realm.Realm;
+import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.util.ValidationUtil;
 import zekisanmobile.petsitter.vo.Contact;
-import zekisanmobile.petsitter.vo.Contact_Table;
 
 public class ContactModel {
 
+    @Inject
+    Realm realm;
+
+    public ContactModel(AppComponent appComponent) {
+        appComponent.inject(this);
+    }
+
     public void save(Contact contact){
         contact.validate();
-        contact.save();
+        realm.beginTransaction();
+        realm.copyToRealm(contact);
+        realm.commitTransaction();
     }
 
     public void saveAll(final List<Contact> contacts){
@@ -27,34 +30,30 @@ public class ContactModel {
         if (contacts.isEmpty()) {
             return;
         }
-        TransactionManager.getInstance()
-                .addTransaction(new SaveModelTransaction(ProcessModelInfo.withModels(contacts)));
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(contacts);
+        realm.commitTransaction();
     }
 
     public Contact find(long id) {
-        return new SQLite().select()
-                .from(Contact.class)
-                .where(Contact_Table.id.is(id))
-                .querySingle();
+        return realm.where(Contact.class).equalTo("id", id).findFirst();
     }
 
     public List<Contact> all(){
-        return new SQLite().select()
-                .from(Contact.class)
-                .queryList();
+        return realm.where(Contact.class).findAll();
     }
 
     public void updateStatus(long apiId, int status) {
-        Where<Contact> update = SQLite.update(Contact.class)
-                .set(Contact_Table.status.eq(status))
-                .where(Contact_Table.apiId.eq(apiId));
-        TransactionManager.getInstance().addTransaction(new QueryTransaction(
-                DBTransactionInfo.create(BaseTransaction.PRIORITY_UI), update));
+        Contact contact = realm.where(Contact.class).equalTo("apiId", apiId).findFirst();
+        realm.beginTransaction();
+        contact.setStatus(status);
+        realm.commitTransaction();
     }
 
     public void delete(long id) {
-        SQLite.delete(Contact.class)
-                .where(Contact_Table.id.is(id))
-                .query();
+        Contact contact = realm.where(Contact.class).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        contact.removeFromRealm();
+        realm.commitTransaction();
     }
 }

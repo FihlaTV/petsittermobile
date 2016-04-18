@@ -1,37 +1,26 @@
 package zekisanmobile.petsitter.vo;
 
-import com.raizlabs.android.dbflow.StringUtils;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
-
 import java.io.Serializable;
 
-import zekisanmobile.petsitter.model.PetSitterDatabase;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
-@Table(database = PetSitterDatabase.class)
-public class User extends BaseModel implements Validation, Serializable {
+public class User extends RealmObject implements Validation, Serializable {
 
     //region Members
-    @PrimaryKey(autoincrement = true)
+    @PrimaryKey
     long id;
 
-    @Column
     String name;
 
-    @Column
     String email;
 
-    @Column
     String photo;
 
-    @Column
     boolean logged;
 
-    @Column
     int type; // 0 - Owner, 1 - PetSitter
     //endregion
 
@@ -88,7 +77,7 @@ public class User extends BaseModel implements Validation, Serializable {
     //region Inherited Methods
     @Override
     public void validate() {
-        if(!StringUtils.isNotNullOrEmpty(name)){
+        if(name == null){
             throw new ValidationFailedException("Nome inválido.");
         }
     }

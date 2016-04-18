@@ -13,6 +13,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.realm.Realm;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.controller.contact.ContactController;
 import zekisanmobile.petsitter.job.BaseJob;
@@ -52,25 +53,25 @@ public class ApplicationModule {
     @Provides
     @Singleton
     AnimalModel providesAnimalModel() {
-        return new AnimalModel();
+        return new AnimalModel(this.application.getAppComponent());
     }
 
     @Provides
     @Singleton
     public OwnerModel providesOwnerModel() {
-        return new OwnerModel();
+        return new OwnerModel(this.application.getAppComponent());
     }
 
     @Provides
     @Singleton
     SitterModel providesSitterModel() {
-        return new SitterModel();
+        return new SitterModel(this.application.getAppComponent());
     }
 
     @Provides
     @Singleton
     ContactModel providesContactModel() {
-        return new ContactModel();
+        return new ContactModel(this.application.getAppComponent());
     }
 
     @Provides
@@ -103,6 +104,12 @@ public class ApplicationModule {
     @Singleton
     ContactController providesContactController() {
         return new ContactController(application);
+    }
+
+    @Provides
+    @Singleton
+    Realm providesRealm(){
+        return Realm.getDefaultInstance();
     }
     //endregion
 }

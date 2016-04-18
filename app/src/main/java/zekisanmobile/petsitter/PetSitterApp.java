@@ -3,8 +3,9 @@ package zekisanmobile.petsitter;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
-import com.raizlabs.android.dbflow.config.FlowManager;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import zekisanmobile.petsitter.config.PetSitterConfig;
 import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.di.component.DaggerAppComponent;
@@ -19,7 +20,8 @@ public class PetSitterApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        FlowManager.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(config);
 
         appComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))

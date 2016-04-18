@@ -2,38 +2,30 @@ package zekisanmobile.petsitter.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.raizlabs.android.dbflow.StringUtils;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ColumnIgnore;
-import com.raizlabs.android.dbflow.annotation.ManyToMany;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import java.io.Serializable;
 
-import zekisanmobile.petsitter.model.PetSitterDatabase;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
-@Table(database = PetSitterDatabase.class)
-@ManyToMany(referencedTable = Contact.class)
-public class Animal extends BaseModel implements Validation, Serializable {
+public class Animal extends RealmObject implements Validation, Serializable {
 
     //region Members
-    @PrimaryKey(autoincrement = true)
     @JsonIgnore
+    @PrimaryKey
     long id;
 
-    @Column
     @JsonProperty("name")
     String name;
 
-    @ColumnIgnore
+    @Ignore
     @JsonIgnore
     public String created_at;
 
-    @ColumnIgnore
+    @Ignore
     @JsonIgnore
     public String updated_at;
     //endregion
@@ -59,7 +51,7 @@ public class Animal extends BaseModel implements Validation, Serializable {
     //region Inherited Methods
     @Override
     public void validate() {
-        if(!StringUtils.isNotNullOrEmpty(name)){
+        if(name == null){
             throw new ValidationFailedException("Nome inválido.");
         }
     }

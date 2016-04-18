@@ -1,21 +1,30 @@
 package zekisanmobile.petsitter.model;
 
-import com.raizlabs.android.dbflow.runtime.TransactionManager;
-import com.raizlabs.android.dbflow.runtime.transaction.process.ProcessModelInfo;
-import com.raizlabs.android.dbflow.runtime.transaction.process.SaveModelTransaction;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.util.ValidationUtil;
 import zekisanmobile.petsitter.vo.Animal;
-import zekisanmobile.petsitter.vo.Animal_Table;
 
 public class AnimalModel {
 
+    @Inject
+    Realm realm;
+
+    public AnimalModel(AppComponent appComponent) {
+        appComponent.inject(this);
+    }
+
     public void save(Animal animal){
         animal.validate();
-        animal.save();
+        realm.beginTransaction();
+        realm.copyToRealm(animal);
+        realm.commitTransaction();
     }
 
     public void saveAll(final List<Animal> animals){
@@ -23,27 +32,27 @@ public class AnimalModel {
         if (animals.isEmpty()) {
             return;
         }
-        TransactionManager.getInstance()
-                .addTransaction(new SaveModelTransaction(ProcessModelInfo.withModels(animals)));
+        realm.beginTransaction();
+        for (Animal animal : animals) {
+            realm.copyToRealm(animal);
+        }
+        realm.commitTransaction();
     }
 
     public Animal find(long id) {
-        return new SQLite().select()
-                .from(Animal.class)
-                .where(Animal_Table.id.is(id))
-                .querySingle();
+        return realm.where(Animal.class).equalTo("id", id).findFirst();
     }
 
     public List<Animal> all(){
-        return new SQLite().select()
-                .from(Animal.class)
-                .queryList();
+        RealmResults<Animal> animalsFromDb = realm.where(Animal.class).findAll();
+        List<Animal> animals = new ArrayList<>();
+        for (Animal animal : animalsFromDb) {
+            animals.add(animal);
+        }
+        return animals;
     }
 
     public Animal findByName(String name) {
-        return new SQLite().select()
-                .from(Animal.class)
-                .where(Animal_Table.name.eq(name))
-                .querySingle();
+        return realm.where(Animal.class).equalTo("name", name).findFirst();
     }
 }
