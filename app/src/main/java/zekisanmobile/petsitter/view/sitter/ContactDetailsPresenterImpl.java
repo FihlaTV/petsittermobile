@@ -55,14 +55,14 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public String getContactStartDate() {
-        return Formatter.formattedDateFromString(this.contact.getDateStart());
+        return Formatter.formatDateToString(this.contact.getDateStart());
     }
 
     @Override
     public String getContactDatePeriod() {
-        return Formatter.formattedDateFromString(this.contact.getDateStart())
+        return Formatter.formatDateToString(this.contact.getDateStart())
                 + " - "
-                + Formatter.formattedDateFromString(this.contact.getDateFinal());
+                + Formatter.formatDateToString(this.contact.getDateFinal());
     }
 
     @Override

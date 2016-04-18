@@ -47,7 +47,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     UserModel providesUserModel() {
-        return new UserModel();
+        return new UserModel(this.application.getAppComponent());
     }
 
     @Provides
@@ -77,7 +77,7 @@ public class ApplicationModule {
     @Provides
     @Singleton
     EventBus providesEventBus() {
-        return new EventBus();
+        return EventBus.getDefault();
     }
 
     @Provides

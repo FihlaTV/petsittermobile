@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class ContactStatusString {
 
-    public static String getStatusName(int status, String contactDateStart, String contactDateFinal){
+    public static String getStatusName(int status, Date contactDateStart, Date contactDateFinal){
         switch (status){
             case 10:
                 return "Próximo";
             case 20:
                 return "Recusado";
             case 30:
-                if(Formatter.formattedDate(contactDateStart).getDate() >= new Date().getDate() &&
-                        new Date().getDate() <= Formatter.formattedDate(contactDateFinal).getDate()){
+                if(contactDateStart.getDate() >= new Date().getDate() &&
+                        new Date().getDate() <= contactDateFinal.getDate()){
                     return "Atual";
                 }else{
                     return "Próximo";
@@ -24,9 +24,9 @@ public class ContactStatusString {
         }
     }
 
-    public static String contatPeriod(String dateStart, String dateFinal){
-        return Formatter.formattedDateFromString(dateStart)
+    public static String contatPeriod(Date dateStart, Date dateFinal){
+        return Formatter.formatDateToString(dateStart)
                 + " - "
-                + Formatter.formattedDateFromString(dateFinal);
+                + Formatter.formatDateToString(dateFinal);
     }
 }

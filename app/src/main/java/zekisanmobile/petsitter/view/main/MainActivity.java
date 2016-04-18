@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import zekisanmobile.petsitter.view.owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     SitterModel sitterModel;
+
+    @Inject
+    Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +116,14 @@ public class MainActivity extends AppCompatActivity {
         try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("users.json");
+            realm.beginTransaction();
+            realm.createOrUpdateAllFromJson(User.class, inputStream);
+            realm.commitTransaction();
+            /*String json = new String(buffer, "UTF-8");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
             inputStream.close();
-            String json = new String(buffer, "UTF-8");
             JSONArray jsonArray = new JSONArray(json);
             List<User> users = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -129,9 +136,10 @@ public class MainActivity extends AppCompatActivity {
                 user.setType(userObject.getInt("type"));
                 users.add(user);
             }
-            userModel.saveAll(users);
+            userModel.saveAll(users);*/
         } catch (Exception e) {
             e.printStackTrace();
+            realm.cancelTransaction();
         }
     }
 
@@ -139,7 +147,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("animals.json");
-            int size = inputStream.available();
+            realm.beginTransaction();
+            realm.createOrUpdateAllFromJson(Animal.class, inputStream);
+            realm.commitTransaction();
+            /*int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
             inputStream.close();
@@ -152,9 +163,10 @@ public class MainActivity extends AppCompatActivity {
                 animal.setName(animalObject.getString("name"));
                 animals.add(animal);
             }
-            animalModel.saveAll(animals);
+            animalModel.saveAll(animals);*/
         } catch (Exception e) {
             e.printStackTrace();
+            realm.cancelTransaction();
         }
     }
 
@@ -162,7 +174,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("owners.json");
-            int size = inputStream.available();
+            realm.beginTransaction();
+            realm.createOrUpdateAllFromJson(Owner.class, inputStream);
+            realm.commitTransaction();
+            /*int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
             inputStream.close();
@@ -181,9 +196,10 @@ public class MainActivity extends AppCompatActivity {
                 owner.setUser(userModel.find(ownerObject.getJSONObject("user").getLong("id")));
                 owners.add(owner);
             }
-            ownerModel.saveAll(owners);
+            ownerModel.saveAll(owners);*/
         } catch (Exception e) {
             e.printStackTrace();
+            realm.cancelTransaction();
         }
     }
 
@@ -191,7 +207,10 @@ public class MainActivity extends AppCompatActivity {
         try {
             AssetManager assetManager = getAssets();
             InputStream inputStream = assetManager.open("sitters.json");
-            int size = inputStream.available();
+            realm.beginTransaction();
+            realm.createOrUpdateAllFromJson(Sitter.class, inputStream);
+            realm.commitTransaction();
+            /*int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);
             inputStream.close();
@@ -216,9 +235,10 @@ public class MainActivity extends AppCompatActivity {
                 sitter.setUser(userModel.find(sitterObject.getJSONObject("user").getLong("id")));
                 sitters.add(sitter);
             }
-            sitterModel.saveAll(sitters);
+            sitterModel.saveAll(sitters);*/
         } catch (Exception e) {
             e.printStackTrace();
+            realm.cancelTransaction();
         }
     }
 }

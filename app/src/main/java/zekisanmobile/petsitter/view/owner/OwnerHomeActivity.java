@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -16,8 +17,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -25,12 +29,15 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import zekisanmobile.petsitter.adapter.ViewPagerAdapter;
+import zekisanmobile.petsitter.event.contact.SaveFetchedContactsEvent;
 import zekisanmobile.petsitter.fragment.MapsFragment;
 import zekisanmobile.petsitter.fragment.SearchFragment;
 import zekisanmobile.petsitter.fragment.SitterFragment;
+import zekisanmobile.petsitter.model.ContactModel;
 import zekisanmobile.petsitter.view.main.MainActivity;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.controller.contact.ContactController;
+import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -52,6 +59,9 @@ public class OwnerHomeActivity extends AppCompatActivity
     @Inject
     ContactController controller;
 
+    @Inject
+    ContactModel contactModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +82,14 @@ public class OwnerHomeActivity extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
+        EventBus.getDefault().register(this);
         controller.fetchOwnerContactsAsync(false, presenter.getOwnerApiId());
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     private void configureNavigationDrawer() {
@@ -161,5 +178,13 @@ public class OwnerHomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(SaveFetchedContactsEvent event) {
+        if (event.isSuccess()) {
+            List<Contact> contacts = event.getContacts();
+            contactModel.saveAll(contacts);
+        }
     }
 }

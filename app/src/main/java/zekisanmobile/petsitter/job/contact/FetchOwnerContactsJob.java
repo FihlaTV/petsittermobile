@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import com.birbit.android.jobqueue.Params;
 import com.birbit.android.jobqueue.RetryConstraint;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -16,7 +18,7 @@ import retrofit2.Retrofit;
 import zekisanmobile.petsitter.api.ApiService;
 import zekisanmobile.petsitter.api.NetworkException;
 import zekisanmobile.petsitter.di.component.AppComponent;
-import zekisanmobile.petsitter.event.contact.FetchedSitterContactsEvent;
+import zekisanmobile.petsitter.event.contact.SaveFetchedContactsEvent;
 import zekisanmobile.petsitter.job.BaseJob;
 import zekisanmobile.petsitter.model.ContactModel;
 import zekisanmobile.petsitter.vo.Contact;
@@ -31,6 +33,9 @@ public class FetchOwnerContactsJob extends BaseJob {
 
     @Inject
     ContactModel contactModel;
+
+    @Inject
+    transient EventBus eventBus;
 
     public FetchOwnerContactsJob(@Priority int priority, @Nullable Long ownerId) {
         super(new Params(priority).addTags(GROUP).requireNetwork());
@@ -56,6 +61,7 @@ public class FetchOwnerContactsJob extends BaseJob {
             Response<List<Contact>> response = call.execute();
             if(response.isSuccessful()) {
                 handleResponse(response.body());
+                eventBus.post(new SaveFetchedContactsEvent(true, response.body()));
             } else {
                 throw new NetworkException(response.code());
             }
@@ -65,7 +71,7 @@ public class FetchOwnerContactsJob extends BaseJob {
     }
 
     private void handleResponse(List<Contact> contacts){
-        contactModel.saveAll(contacts);
+
     }
 
     @Override

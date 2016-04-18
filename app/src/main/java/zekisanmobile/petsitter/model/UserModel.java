@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.realm.Realm;
+import zekisanmobile.petsitter.PetSitterApp;
+import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.util.ValidationUtil;
 import zekisanmobile.petsitter.vo.User;
 
@@ -12,6 +14,10 @@ public class UserModel {
 
     @Inject
     Realm realm;
+
+    public UserModel(AppComponent appComponent) {
+        appComponent.inject(this);
+    }
 
     public void save(User user){
         user.validate();

@@ -3,13 +3,16 @@ package zekisanmobile.petsitter.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import zekisanmobile.petsitter.util.Validation;
 
-public class Contact extends RealmObject implements Validation {
+public class Contact extends RealmObject implements Validation, Serializable {
 
     //region Members
     @PrimaryKey
@@ -20,10 +23,10 @@ public class Contact extends RealmObject implements Validation {
     long apiId;
 
     @JsonProperty("date_start")
-    String dateStart;
+    Date dateStart;
 
     @JsonProperty("date_final")
-    String dateFinal;
+    Date dateFinal;
 
     @JsonProperty("time_start")
     String timeStart;
@@ -37,13 +40,13 @@ public class Contact extends RealmObject implements Validation {
     @JsonProperty("sitter")
     Sitter sitter;
 
-    @JsonProperty("owner")
+    @JsonProperty("pet_owner")
     Owner owner;
 
     @JsonProperty("total_value")
     double totalValue;
 
-    @JsonProperty("status")
+    @JsonProperty("status_cd")
     int status;
 
     @Ignore
@@ -52,6 +55,14 @@ public class Contact extends RealmObject implements Validation {
 
     @JsonProperty("animals")
     RealmList<Animal> animals;
+
+    @Ignore
+    @JsonIgnore
+    public long sitter_id;
+
+    @Ignore
+    @JsonIgnore
+    public long pet_owner_id;
     //endregion
 
     //region Accessors
@@ -71,19 +82,19 @@ public class Contact extends RealmObject implements Validation {
         this.apiId = apiId;
     }
 
-    public String getDateStart() {
+    public Date getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(String dateStart) {
+    public void setDateStart(Date dateStart) {
         this.dateStart = dateStart;
     }
 
-    public String getDateFinal() {
+    public Date getDateFinal() {
         return dateFinal;
     }
 
-    public void setDateFinal(String dateFinal) {
+    public void setDateFinal(Date dateFinal) {
         this.dateFinal = dateFinal;
     }
 

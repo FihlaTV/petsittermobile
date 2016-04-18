@@ -3,13 +3,15 @@ package zekisanmobile.petsitter.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
-public class Owner extends RealmObject implements Validation {
+public class Owner extends RealmObject implements Validation, Serializable {
 
     //region Members
     @PrimaryKey
@@ -33,6 +35,9 @@ public class Owner extends RealmObject implements Validation {
 
     @JsonProperty("longitude")
     float longitude;
+
+    @JsonProperty("photo")
+    String photo;
 
     @JsonIgnore
     User user;
@@ -109,6 +114,14 @@ public class Owner extends RealmObject implements Validation {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
     //endregion
 

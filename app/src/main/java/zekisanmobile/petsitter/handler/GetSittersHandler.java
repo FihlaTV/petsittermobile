@@ -35,20 +35,16 @@ public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> 
     protected ArrayList<Sitter> doInBackground(Void... params) {
         ApiService service = retrofit.create(ApiService.class);
         Call<List<Sitter>> call = service.listSitters();
-        List<Sitter> sittersFromDB = new ArrayList<>();
+
         try {
             sitters = call.execute().body();
-            sitterModel.saveAll(sitters);
 
-            for (int i = 0; i < sitters.size(); i++) {
-                sittersFromDB.add(sitterModel.findByApiId(sitters.get(i).getApiId()));
-            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        if (sittersFromDB != null){
-            return new ArrayList<Sitter>(sittersFromDB);
+        if (sitters != null){
+            return new ArrayList<Sitter>(sitters);
         }
         return null;
     }
@@ -59,6 +55,12 @@ public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> 
             sitterFragment.showProgress(false);
         }
         if (receivedSitters != null && receivedSitters.size() > 0) {
+            sitterModel.saveAll(sitters);
+
+            List<Sitter> sittersFromDB = new ArrayList<>();
+            for (int i = 0; i < sitters.size(); i++) {
+                sittersFromDB.add(sitterModel.findByApiId(sitters.get(i).getApiId()));
+            }
             view.updateSitterList(receivedSitters);
         }
     }
