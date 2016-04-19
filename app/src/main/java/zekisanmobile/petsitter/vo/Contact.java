@@ -57,12 +57,12 @@ public class Contact extends RealmObject implements Validation, Serializable {
     RealmList<Animal> animals;
 
     @Ignore
-    @JsonIgnore
-    public long sitter_id;
+    @JsonProperty("sitter_id")
+    long sitter_id;
 
     @Ignore
-    @JsonIgnore
-    public long pet_owner_id;
+    @JsonProperty("pet_owner_id")
+    long pet_owner_id;
     //endregion
 
     //region Accessors
@@ -161,6 +161,23 @@ public class Contact extends RealmObject implements Validation, Serializable {
     public RealmList<Animal> getAnimals() {
         return animals;
     }
+
+    public long getSitter_id() {
+        return sitter_id;
+    }
+
+    public void setSitter_id(long sitter_id) {
+        this.sitter_id = sitter_id;
+    }
+
+    public long getPet_owner_id() {
+        return pet_owner_id;
+    }
+
+    public void setPet_owner_id(long pet_owner_id) {
+        this.pet_owner_id = pet_owner_id;
+    }
+
     //endregion
 
     @Override

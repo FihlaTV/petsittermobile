@@ -38,10 +38,11 @@ public class GetSitterContactsHandler extends AsyncTask<String, Void, Void> {
             Call<List<Contact>> call = service.sitterContacts(params[0]);
             contacts = call.execute().body();
             for (Contact contact : contacts) {
-                contactModel.insertOrUpdateContact(contact.getId(), contact.getDateStart(),
-                        contact.getDateFinal(), contact.getTimeStart(), contact.getTimeFinal(),
-                        contact.getCreatedAt(), contact.getSitter(), contact.getOwner(),
-                        contact.getTotalValue(), contact.getStatus(), contact.getAnimals());
+                contactModel.insertOrUpdateContact(contact.getId(), contact.getApiId(),
+                        contact.getDateStart(), contact.getDateFinal(), contact.getTimeStart(),
+                        contact.getTimeFinal(), contact.getCreatedAt(), contact.getSitter(),
+                        contact.getOwner(), contact.getTotalValue(), contact.getStatus(),
+                        contact.getAnimals());
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -72,7 +72,7 @@ public class FetchSitterContactsJob extends BaseJob {
 
     private void handleResponse(List<Contact> contacts){
         for (Contact contact : contacts) {
-            contactModel.insertOrUpdateContact(contact.getId(), contact.getDateStart(),
+            contactModel.insertOrUpdateContact(contact.getId(), contact.getApiId(), contact.getDateStart(),
                     contact.getDateFinal(), contact.getTimeStart(), contact.getTimeFinal(),
                     contact.getCreatedAt(), contact.getSitter(), contact.getOwner(),
                     contact.getTotalValue(), contact.getStatus(), contact.getAnimals());
