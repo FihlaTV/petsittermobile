@@ -42,7 +42,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            sitters = (ArrayList<Sitter>) savedInstanceState.getSerializable("sittersList");
+            //sitters = (ArrayList<Sitter>) savedInstanceState.getSerializable("sittersList");
         } else {
             new GetSittersHandler(this, (OwnerHomeActivity) this.getActivity()).execute();
         }
@@ -91,7 +91,7 @@ public class SitterFragment extends Fragment implements RecyclerViewOnClickListe
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putSerializable("sittersList", sitters);
+        //savedInstanceState.putSerializable("sittersList", sitters);
     }
 
     @Override
