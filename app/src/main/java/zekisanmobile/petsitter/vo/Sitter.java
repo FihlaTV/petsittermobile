@@ -17,11 +17,8 @@ public class Sitter extends RealmObject implements Validation, Serializable {
 
     //region Members
     @PrimaryKey
-    @JsonIgnore
-    long id;
-
     @JsonProperty("id")
-    long apiId;
+    long id;
 
     @JsonProperty("name")
     String name;
@@ -82,14 +79,6 @@ public class Sitter extends RealmObject implements Validation, Serializable {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getApiId() {
-        return apiId;
-    }
-
-    public void setApiId(long apiId) {
-        this.apiId = apiId;
     }
 
     public String getName() {

@@ -59,7 +59,7 @@ public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> 
 
             List<Sitter> sittersFromDB = new ArrayList<>();
             for (int i = 0; i < sitters.size(); i++) {
-                sittersFromDB.add(sitterModel.findByApiId(sitters.get(i).getApiId()));
+                sittersFromDB.add(sitterModel.find(sitters.get(i).getId()));
             }
             view.updateSitterList(receivedSitters);
         }

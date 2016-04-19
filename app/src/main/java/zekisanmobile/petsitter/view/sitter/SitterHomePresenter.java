@@ -14,9 +14,8 @@ public interface SitterHomePresenter {
     String getLoggedUserName();
     String getLoggedUserPhoto();
     String getLoggedUserEmail();
-    String getStringLoggedUserSitterApiId();
+    String getStringLoggedUserSitterId();
 
-    long getLoggedUserSitterApiId();
     long getLoggedUserSitterId();
 
     Sitter getSitterFromUser();

@@ -56,13 +56,8 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     }
 
     @Override
-    public String getStringLoggedUserSitterApiId() {
-        return String.valueOf(getLoggedUserSitterApiId());
-    }
-
-    @Override
-    public long getLoggedUserSitterApiId() {
-        return getSitterFromUser().getApiId();
+    public String getStringLoggedUserSitterId() {
+        return String.valueOf(getLoggedUserSitterId());
     }
 
     @Override

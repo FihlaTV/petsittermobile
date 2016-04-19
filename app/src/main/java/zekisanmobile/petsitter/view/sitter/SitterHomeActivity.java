@@ -78,7 +78,7 @@ public class SitterHomeActivity extends AppCompatActivity
     protected void onStart(){
         super.onStart();
         EventBus.getDefault().register(this);
-        controller.fetchSitterContactsAsync(true, presenter.getLoggedUserSitterApiId());
+        controller.fetchSitterContactsAsync(true, presenter.getLoggedUserSitterId());
     }
 
     @Override
