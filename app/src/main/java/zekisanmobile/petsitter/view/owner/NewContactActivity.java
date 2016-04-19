@@ -38,6 +38,8 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
+import zekisanmobile.petsitter.adapter.AnimalSpinnerAdapter;
 import zekisanmobile.petsitter.handler.SendRequestContactHandler;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
@@ -107,10 +109,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         configureToolbar();
 
         Spinner spAnimal = (Spinner) findViewById(R.id.sp_animal);
-        ArrayAdapter<Animal> animalArrayAdapter = new ArrayAdapter<Animal>(
-                this, android.R.layout.simple_spinner_item, animals
-        );
-        spAnimal.setAdapter(animalArrayAdapter);
+        spAnimal.setAdapter(new AnimalSpinnerAdapter(this, animalModel.getRealmResultFromList(animals)));
         View btRemoveAnimal = findViewById(R.id.bt_remove_animal);
         btRemoveAnimal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -377,10 +376,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         LinearLayout linearLayoutChild = (LinearLayout) inflater.inflate(R.layout.box_animal, null);
 
         Spinner spAnimal = (Spinner) linearLayoutChild.findViewById(R.id.sp_animal);
-        ArrayAdapter<Animal> animalArrayAdapter = new ArrayAdapter<Animal>(
-                this, android.R.layout.simple_spinner_item, animals
-        );
-        spAnimal.setAdapter(animalArrayAdapter);
+        spAnimal.setAdapter(new AnimalSpinnerAdapter(this, animalModel.getRealmResultFromList(animals)));
 
         View btRemoveAnimal = linearLayoutChild.findViewById(R.id.bt_remove_animal);
         btRemoveAnimal.setOnClickListener(new View.OnClickListener() {

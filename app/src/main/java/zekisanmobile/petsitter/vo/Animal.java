@@ -14,7 +14,7 @@ import zekisanmobile.petsitter.util.ValidationFailedException;
 public class Animal extends RealmObject implements Validation, Serializable {
 
     //region Members
-    @JsonIgnore
+    @JsonProperty("id")
     @PrimaryKey
     long id;
 

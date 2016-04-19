@@ -6,6 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.realm.Realm;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.util.ValidationUtil;
@@ -54,5 +55,18 @@ public class AnimalModel {
 
     public Animal findByName(String name) {
         return realm.where(Animal.class).equalTo("name", name).findFirst();
+    }
+
+    public RealmResults getRealmResultFromList(List<Animal> animals){
+        long[] ids = new long[animals.size()];
+        for(int i = 0; i < animals.size(); i++){
+            ids[i] = animals.get(i).getId();
+        }
+        RealmQuery query = realm.where(Animal.class);
+        for (long id : ids) {
+            if (ids.length > 1) query = query.or();
+            query = query.equalTo("id", id);
+        }
+        return query.findAll();
     }
 }
