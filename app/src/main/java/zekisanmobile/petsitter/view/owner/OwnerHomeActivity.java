@@ -184,7 +184,12 @@ public class OwnerHomeActivity extends AppCompatActivity
     public void onEventMainThread(SaveFetchedContactsEvent event) {
         if (event.isSuccess()) {
             List<Contact> contacts = event.getContacts();
-            contactModel.saveAll(contacts);
+            for (Contact contact : contacts) {
+                contactModel.insertOrUpdateContact(contact.getId(), contact.getDateStart(),
+                        contact.getDateFinal(), contact.getTimeStart(), contact.getTimeFinal(),
+                        contact.getCreatedAt(), contact.getSitter(), contact.getOwner(),
+                        contact.getTotalValue(), contact.getStatus(), contact.getAnimals());
+            }
         }
     }
 }

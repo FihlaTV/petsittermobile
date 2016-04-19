@@ -1,13 +1,18 @@
 package zekisanmobile.petsitter.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.util.ValidationUtil;
+import zekisanmobile.petsitter.vo.Animal;
 import zekisanmobile.petsitter.vo.Contact;
+import zekisanmobile.petsitter.vo.Owner;
+import zekisanmobile.petsitter.vo.Sitter;
 
 public class ContactModel {
 
@@ -30,9 +35,53 @@ public class ContactModel {
         if (contacts.isEmpty()) {
             return;
         }
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(contacts);
-        realm.commitTransaction();
+
+        for (Contact contact : contacts) {
+            realm.beginTransaction();
+            Contact contactFromDB;
+            if ((contactFromDB = realm.where(Contact.class).equalTo("apiId", contact.getApiId())
+                    .findFirst()) == null) {
+                contactFromDB = realm.createObject(Contact.class);
+                long id = realm.where(Contact.class).max("id").longValue() + 1;
+                contactFromDB.setId(id);
+            }
+            contactFromDB.setDateStart(contact.getDateStart());
+            contactFromDB.setDateFinal(contact.getDateFinal());
+            contactFromDB.setTimeStart(contact.getTimeStart());
+            contactFromDB.setTimeFinal(contact.getTimeFinal());
+            contactFromDB.setCreatedAt(contact.getCreatedAt());
+            realm.commitTransaction();
+        }
+    }
+
+    public void insertOrUpdateContact(final long id, final Date date_start, final Date date_final, final String time_start,
+                                      final String time_final, final String created_at, final Sitter sitter, final Owner owner,
+                                      final double totalValue, final int status, final List<Animal> animals){
+        realm.executeTransactionAsync(new Realm.Transaction() {
+
+            @Override
+            public void execute(Realm realm) {
+                Contact newContact;
+                if((newContact = realm.where(Contact.class).equalTo("id", id).findFirst()) == null) {
+                    newContact = realm.createObject(Contact.class);
+                    long newiD = realm.where(Contact.class).max("id").longValue() + 1;
+                    newContact.setId(newiD + 1);
+                } else {
+                    newContact.setId(id);
+                }
+                newContact.setDateStart(date_start);
+                newContact.setDateFinal(date_final);
+                newContact.setTimeStart(time_start);
+                newContact.setTimeFinal(time_final);
+                newContact.setCreatedAt(created_at);
+                newContact.setSitter(sitter);
+                newContact.setOwner(owner);
+                newContact.setTotalValue(totalValue);
+                newContact.setStatus(status);
+                if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
+                newContact.getAnimals().addAll(animals);
+            }
+        });
     }
 
     public Contact find(long id) {

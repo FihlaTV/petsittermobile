@@ -16,7 +16,7 @@ public class Contact extends RealmObject implements Validation, Serializable {
 
     //region Members
     @PrimaryKey
-    @JsonIgnore
+    @JsonProperty("app_id")
     long id;
 
     @JsonProperty("id")
