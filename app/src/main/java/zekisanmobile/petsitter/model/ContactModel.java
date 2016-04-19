@@ -74,8 +74,10 @@ public class ContactModel {
                 newContact.setTimeStart(time_start);
                 newContact.setTimeFinal(time_final);
                 newContact.setCreatedAt(created_at);
-                newContact.setSitter(sitter);
-                newContact.setOwner(owner);
+                newContact.setSitter(realm.where(Sitter.class)
+                        .equalTo("apiId", sitter.getApiId()).findFirst());
+                newContact.setOwner(realm.where(Owner.class)
+                        .equalTo("apiId", owner.getApiId()).findFirst());
                 newContact.setTotalValue(totalValue);
                 newContact.setStatus(status);
                 if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
