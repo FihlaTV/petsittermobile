@@ -28,6 +28,6 @@ public interface ApiService {
     Call sendContactStatusUpdate(@Path("contact") String contact_id, @Body String body);
 
     @POST("pet_owners/{owner}/request_contact")
-    Call sendContactRequest(@Path("owner") String owner_id, @Body String body);
+    Call<Void> sendContactRequest(@Path("owner") String owner_id, @Body String body);
 
 }
