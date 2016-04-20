@@ -3,16 +3,24 @@ package zekisanmobile.petsitter.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.parceler.Parcel;
+import org.parceler.ParcelPropertyConverter;
+
 import java.io.Serializable;
 import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.SitterRealmProxy;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
+import zekisanmobile.petsitter.util.RealmListParcelConverter;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
+@Parcel(implementations = {SitterRealmProxy.class},
+        value = Parcel.Serialization.FIELD,
+        analyze = {Sitter.class})
 public class Sitter extends RealmObject implements Validation, Serializable {
 
     //region Members
@@ -57,6 +65,7 @@ public class Sitter extends RealmObject implements Validation, Serializable {
     User user;
 
     @JsonProperty("animals")
+    @ParcelPropertyConverter(RealmListParcelConverter.class)
     RealmList<Animal> animals;
 
     @JsonIgnore

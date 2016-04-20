@@ -3,15 +3,21 @@ package zekisanmobile.petsitter.vo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.parceler.Parcel;
+
 import java.io.Serializable;
 
+import io.realm.AnimalRealmProxy;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 import zekisanmobile.petsitter.util.Validation;
 import zekisanmobile.petsitter.util.ValidationFailedException;
 
-public class Animal extends RealmObject implements Validation, Serializable {
+@Parcel(implementations = {AnimalRealmProxy.class},
+        value = Parcel.Serialization.FIELD,
+        analyze = {Animal.class})
+public class Animal extends RealmObject implements Validation {
 
     //region Members
     @JsonProperty("id")
@@ -51,7 +57,7 @@ public class Animal extends RealmObject implements Validation, Serializable {
     //region Inherited Methods
     @Override
     public void validate() {
-        if(name == null){
+        if (name == null) {
             throw new ValidationFailedException("Nome inválido.");
         }
     }
