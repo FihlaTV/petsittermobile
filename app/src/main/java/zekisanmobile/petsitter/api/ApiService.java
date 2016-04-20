@@ -11,7 +11,6 @@ import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.vo.Contact;
 
 public interface ApiService {
-
     @GET("sitters.json")
     Call<List<Sitter>> listSitters();
 
@@ -28,6 +27,5 @@ public interface ApiService {
     Call sendContactStatusUpdate(@Path("contact") String contact_id, @Body String body);
 
     @POST("pet_owners/{owner}/request_contact")
-    Call<Void> sendContactRequest(@Path("owner") String owner_id, @Body String body);
-
+    Call<Void> sendContactRequest(@Path("owner") String owner_id, @Body ContactRequestBody body);
 }

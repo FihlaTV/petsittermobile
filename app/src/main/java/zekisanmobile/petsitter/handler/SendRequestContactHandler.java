@@ -12,11 +12,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.api.ApiService;
+import zekisanmobile.petsitter.api.ContactRequestBody;
 import zekisanmobile.petsitter.api.NetworkException;
 import zekisanmobile.petsitter.job.BaseJob;
 import zekisanmobile.petsitter.job.contact.FetchOwnerContactsJob;
 
-public class SendRequestContactHandler extends AsyncTask<String, Void, Void>{
+public class SendRequestContactHandler extends AsyncTask<Void, Void, Void>{
 
     private long owner_api_id;
 
@@ -26,16 +27,20 @@ public class SendRequestContactHandler extends AsyncTask<String, Void, Void>{
     @Inject
     Retrofit retrofit;
 
-    public SendRequestContactHandler(PetSitterApp petSitterApp) {
+    ContactRequestBody body;
+
+    public SendRequestContactHandler(PetSitterApp petSitterApp, long owner_api_id,
+                                     ContactRequestBody body) {
         petSitterApp.getAppComponent().inject(this);
+        this.owner_api_id = owner_api_id;
+        this.body = body;
     }
 
     @Override
-    protected Void doInBackground(String... params) {
-        owner_api_id = Long.parseLong(params[1]);
+    protected Void doInBackground(Void... params) {
         ApiService service = retrofit.create(ApiService.class);
         try {
-            Response response = service.sendContactRequest(params[1], params[0]).execute();
+            Response response = service.sendContactRequest(String.valueOf(owner_api_id), body).execute();
             if (response.isSuccessful()){
                 jobManager.addJobInBackground(
                         new FetchOwnerContactsJob(BaseJob.BACKGROUND, owner_api_id)

@@ -40,6 +40,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.RealmResults;
 import zekisanmobile.petsitter.adapter.AnimalSpinnerAdapter;
+import zekisanmobile.petsitter.api.AnimalBody;
+import zekisanmobile.petsitter.api.ContactRequestBody;
 import zekisanmobile.petsitter.handler.SendRequestContactHandler;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
@@ -150,34 +152,31 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact(View view) {
-        JSONObject jsonContact = new JSONObject();
-        JSONArray jsonAnimals = new JSONArray();
-        try {
-            jsonContact.put("sitter_id", sitter.getId());
-            jsonContact.put("date_start", Formatter.formattedDateForAPI(tv_date_start.getText().toString()));
-            jsonContact.put("date_final", Formatter.formattedDateForAPI(tv_date_final.getText().toString()));
-            jsonContact.put("time_start", tv_time_start.getText());
-            jsonContact.put("time_final", tv_time_final.getText());
-            jsonContact.put("total_value", tvTotalValue.getText().toString()
-                    .replace("R$", "").replace(",", "."));
+        List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
 
-            List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
-            for (Animal a : selectedAnimals) {
-                JSONObject jsonAnimal = new JSONObject();
-                Animal animalFromDB = animalModel.findByName(a.getName());
-                jsonAnimal.put("animal_id", animalFromDB.getId());
-                jsonAnimals.put(jsonAnimal);
-            }
+        ContactRequestBody body = new ContactRequestBody();
+        body.setSitter_id(sitter.getId());
+        body.setDate_start(Formatter.formattedDateForAPI(tv_date_start.getText().toString()));
+        body.setDate_final(Formatter.formattedDateForAPI(tv_date_final.getText().toString()));
+        body.setTime_start(tv_time_start.getText().toString());
+        body.setTime_final(tv_time_final.getText().toString());
+        body.setTotal_value(tvTotalValue.getText().toString().replace("R$", "")
+                .replace(",", "."));
 
-            jsonContact.put("animal_contacts", jsonAnimals);
-            String[] params = {jsonContact.toString(), String.valueOf(owner.getApiId())};
-
-            new SendRequestContactHandler((PetSitterApp) getApplication()).execute(params);
-            Intent intent = new Intent(this, OwnerHomeActivity.class);
-            startActivity(intent);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        List<AnimalBody> animalBodyList = new ArrayList<>();
+        for (Animal a : selectedAnimals) {
+            Animal animalFromDB = animalModel.findByName(a.getName());
+            AnimalBody animalBody = new AnimalBody();
+            animalBody.setAnimal_id(animalFromDB.getId());
+            animalBodyList.add(animalBody);
         }
+
+        body.setAnimal_contacts(animalBodyList);
+
+        new SendRequestContactHandler((PetSitterApp) getApplication(), owner.getApiId(), body)
+                .execute();
+        Intent intent = new Intent(this, OwnerHomeActivity.class);
+        startActivity(intent);
     }
 
     private void scheduleJobDate() {
@@ -266,7 +265,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         month = monthOfYear;
         day = dayOfMonth;
 
-        switch (flag){
+        switch (flag) {
             case FLAG_START:
                 tv_date_start.setText(setDateOnTextView());
                 break;
@@ -282,7 +281,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         this.hour = hourOfDay;
         this.minute = minute;
 
-        switch (flag){
+        switch (flag) {
             case FLAG_START:
                 tv_time_start.setText(setTimeOnTextView());
                 break;
@@ -317,8 +316,8 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         }
     }
 
-    private boolean canCalculateTotalValue(){
-        if(tv_date_start.getText() != null && tv_date_final.getText() != null
+    private boolean canCalculateTotalValue() {
+        if (tv_date_start.getText() != null && tv_date_final.getText() != null
                 && tv_time_start.getText() != null && tv_time_final.getText() != null) return true;
         return false;
     }
@@ -399,7 +398,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         calculateTotalValue();
     }
 
-    private void updateSelectedAnimalsCount(){
+    private void updateSelectedAnimalsCount() {
         View btAddAnimal = findViewById(R.id.bt_add_animal);
         LinearLayout linearLayoutParent = (LinearLayout) btAddAnimal.getParent().getParent();
         LinearLayout linearLayoutChild = (LinearLayout) linearLayoutParent.getChildAt(9);
