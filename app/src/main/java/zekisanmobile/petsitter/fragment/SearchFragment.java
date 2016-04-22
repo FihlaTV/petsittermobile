@@ -8,25 +8,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.adapter.SearchAdapter;
+import zekisanmobile.petsitter.api.SearchSittersBody;
 import zekisanmobile.petsitter.handler.SearchHandler;
+import zekisanmobile.petsitter.model.OwnerModel;
 import zekisanmobile.petsitter.view.owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.model.SearchItem;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.vo.Owner;
 
 public class SearchFragment extends Fragment {
 
-    @Bind(R.id.rv_search) RecyclerView recyclerView;
+    @Bind(R.id.rv_search)
+    RecyclerView recyclerView;
     private SearchAdapter adapter;
     private List<SearchItem> items = new ArrayList<SearchItem>();
     private List<String> selectedItems = new ArrayList<String>();
@@ -53,31 +58,29 @@ public class SearchFragment extends Fragment {
     }
 
     @OnClick(R.id.btn_search)
-    public void onBtnSearchClick(){
+    public void onBtnSearchClick() {
         selectedItems.clear();
         for (SearchItem item : items) {
             if (item.isSelected()) {
                 selectedItems.add(item.getName());
             }
         }
-        try {
-            doSearch();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        doSearch();
     }
 
-    private void doSearch() throws JSONException {
-        JSONObject json = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-
-        for (String item: selectedItems) {
-            jsonArray.put(item);
+    private void doSearch() {
+        List<String> animals = new ArrayList<>();
+        for (String item : selectedItems) {
+            animals.add(item);
         }
+        SearchSittersBody searchSittersBody = new SearchSittersBody();
+        searchSittersBody.setAnimals(animals);
 
-        json.put("animals", jsonArray);
-        String[] params = {json.toString(), String.valueOf(1)};
-        new SearchHandler((OwnerHomeActivity) getActivity()).execute(params);
+        Owner owner = new OwnerModel(((PetSitterApp)getActivity().getApplication())
+                .getAppComponent()).getLoggedOwnerUser();
+
+        new SearchHandler((OwnerHomeActivity) getActivity(), owner.getApiId(), searchSittersBody)
+                .execute();
     }
 
     private List<SearchItem> loadSearchOptions() {
@@ -91,7 +94,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView(){
+    public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }

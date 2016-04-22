@@ -21,7 +21,7 @@ public interface ApiService {
     Call<List<Contact>> ownerContacts(@Path("owner") String owner_id);
 
     @POST("pet_owners/{user}/search_sitters")
-    Call<List<Sitter>> searchSitters(@Path("user") String user_id, @Body String body);
+    Call<List<Sitter>> searchSitters(@Path("user") String user_id, @Body SearchSittersBody body);
 
     @POST("contacts/{contact}/update_status")
     Call sendContactStatusUpdate(@Path("contact") String contact_id, @Body String body);
