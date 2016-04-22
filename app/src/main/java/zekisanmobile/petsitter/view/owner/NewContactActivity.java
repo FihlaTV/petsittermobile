@@ -157,7 +157,6 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact(View view) {
-        // TODO: arrumar essa shit
         List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
 
         long new_contact_id = contactModel.insertOrUpdateContact(0, 0,
@@ -166,10 +165,11 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 tv_time_start.getText().toString(),
                 tv_time_final.getText().toString(),"",
                 sitter, owner, Double.parseDouble(tvTotalValue.getText().toString().replace("R$", "")
-                        .replace(",", ".")), 10, animals);
+                        .replace(",", ".")), 10, animals, false);
 
         ContactRequestBody body = new ContactRequestBody();
         body.setSitter_id(sitter.getId());
+        body.setApp_id(new_contact_id);
         body.setDate_start(Formatter.formattedDateForAPI(tv_date_start.getText().toString()));
         body.setDate_final(Formatter.formattedDateForAPI(tv_date_final.getText().toString()));
         body.setTime_start(tv_time_start.getText().toString());

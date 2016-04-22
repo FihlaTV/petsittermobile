@@ -19,6 +19,12 @@ public class ContactModel {
     @Inject
     Realm realm;
 
+    @Inject
+    SitterModel sitterModel;
+
+    @Inject
+    OwnerModel ownerModel;
+
     public ContactModel(AppComponent appComponent) {
         appComponent.inject(this);
     }
@@ -59,7 +65,7 @@ public class ContactModel {
                                       final String time_final, final String created_at,
                                       final Sitter sitter, final Owner owner,
                                       final double totalValue, final int status,
-                                      final List<Animal> animals){
+                                      final List<Animal> animals, final boolean fromApi){
         final long[] contact_id = new long[1];
         realm.executeTransactionAsync(new Realm.Transaction() {
 
@@ -68,8 +74,8 @@ public class ContactModel {
                 Contact newContact;
                 if((newContact = realm.where(Contact.class).equalTo("id", id).findFirst()) == null) {
                     newContact = realm.createObject(Contact.class);
-                    long newId = realm.where(Contact.class).max("id").longValue() + 1;
-                    newContact.setId(newId + 1);
+                    long newId = fromApi ? id : realm.where(Contact.class).max("id").longValue() + 1;
+                    newContact.setId(newId);
                 }
                 newContact.setApiId(apiId);
                 newContact.setDateStart(date_start);
@@ -77,10 +83,8 @@ public class ContactModel {
                 newContact.setTimeStart(time_start);
                 newContact.setTimeFinal(time_final);
                 newContact.setCreatedAt(created_at);
-                newContact.setSitter(realm.where(Sitter.class)
-                        .equalTo("id", sitter.getId()).findFirst());
-                newContact.setOwner(realm.where(Owner.class)
-                        .equalTo("apiId", owner.getApiId()).findFirst());
+                newContact.setSitter(sitterModel.find(sitter.getId()));
+                newContact.setOwner(ownerModel.find(owner.getId()));
                 newContact.setTotalValue(totalValue);
                 newContact.setStatus(status);
                 if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();

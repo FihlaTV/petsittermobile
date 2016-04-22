@@ -75,7 +75,7 @@ public class FetchSitterContactsJob extends BaseJob {
             contactModel.insertOrUpdateContact(contact.getId(), contact.getApiId(), contact.getDateStart(),
                     contact.getDateFinal(), contact.getTimeStart(), contact.getTimeFinal(),
                     contact.getCreatedAt(), contact.getSitter(), contact.getOwner(),
-                    contact.getTotalValue(), contact.getStatus(), contact.getAnimals());
+                    contact.getTotalValue(), contact.getStatus(), contact.getAnimals(), true);
         }
     }
 

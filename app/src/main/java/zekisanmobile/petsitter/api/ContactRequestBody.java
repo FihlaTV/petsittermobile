@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ContactRequestBody {
 
-    long sitter_id;
+    long sitter_id, app_id;
 
     String date_start, date_final, time_start, time_final;
 
@@ -18,6 +18,14 @@ public class ContactRequestBody {
 
     public void setSitter_id(long sitter_id) {
         this.sitter_id = sitter_id;
+    }
+
+    public long getApp_id() {
+        return app_id;
+    }
+
+    public void setApp_id(long app_id) {
+        this.app_id = app_id;
     }
 
     public String getDate_start() {
