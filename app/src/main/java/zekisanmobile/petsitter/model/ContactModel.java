@@ -54,18 +54,19 @@ public class ContactModel {
         }
     }
 
-    public void insertOrUpdateContact(final long id, final long apiId, final Date date_start,
+    public long insertOrUpdateContact(final long id, final long apiId, final Date date_start,
                                       final Date date_final, final String time_start,
                                       final String time_final, final String created_at,
                                       final Sitter sitter, final Owner owner,
                                       final double totalValue, final int status,
                                       final List<Animal> animals){
+        final long[] contact_id = new long[1];
         realm.executeTransactionAsync(new Realm.Transaction() {
 
             @Override
             public void execute(Realm realm) {
                 Contact newContact;
-                if((newContact = realm.where(Contact.class).equalTo("apiId", id).findFirst()) == null) {
+                if((newContact = realm.where(Contact.class).equalTo("id", id).findFirst()) == null) {
                     newContact = realm.createObject(Contact.class);
                     long newId = realm.where(Contact.class).max("id").longValue() + 1;
                     newContact.setId(newId + 1);
@@ -84,8 +85,11 @@ public class ContactModel {
                 newContact.setStatus(status);
                 if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
                 newContact.getAnimals().addAll(animals);
+
+                contact_id[0] = newContact.getId();
             }
         });
+        return contact_id[0];
     }
 
     public Contact find(long id) {

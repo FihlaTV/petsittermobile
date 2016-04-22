@@ -23,4 +23,14 @@ public class Formatter {
         }
         return "";
     }
+
+    public static Date formattedDateForDB(String date) {
+        try {
+            SimpleDateFormat input = new SimpleDateFormat("dd/MM/yyyy");
+            return input.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

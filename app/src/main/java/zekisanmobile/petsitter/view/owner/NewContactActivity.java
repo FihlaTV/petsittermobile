@@ -46,10 +46,12 @@ import zekisanmobile.petsitter.handler.SendRequestContactHandler;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.model.AnimalModel;
+import zekisanmobile.petsitter.model.ContactModel;
 import zekisanmobile.petsitter.model.OwnerModel;
 import zekisanmobile.petsitter.model.SitterModel;
 import zekisanmobile.petsitter.util.Formatter;
 import zekisanmobile.petsitter.vo.Animal;
+import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.vo.Owner;
 import zekisanmobile.petsitter.vo.Sitter;
 
@@ -90,6 +92,9 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
     @Inject
     AnimalModel animalModel;
+
+    @Inject
+    ContactModel contactModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +157,16 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     }
 
     private void requestContact(View view) {
+        // TODO: arrumar essa shit
         List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
+
+        long new_contact_id = contactModel.insertOrUpdateContact(0, 0,
+                Formatter.formattedDateForDB(tv_date_start.getText().toString()),
+                Formatter.formattedDateForDB(tv_date_final.getText().toString()),
+                tv_time_start.getText().toString(),
+                tv_time_final.getText().toString(),"",
+                sitter, owner, Double.parseDouble(tvTotalValue.getText().toString().replace("R$", "")
+                        .replace(",", ".")), 10, animals);
 
         ContactRequestBody body = new ContactRequestBody();
         body.setSitter_id(sitter.getId());
