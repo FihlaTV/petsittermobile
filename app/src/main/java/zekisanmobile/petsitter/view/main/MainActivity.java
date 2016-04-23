@@ -119,24 +119,6 @@ public class MainActivity extends AppCompatActivity {
             realm.beginTransaction();
             realm.createOrUpdateAllFromJson(User.class, inputStream);
             realm.commitTransaction();
-            /*String json = new String(buffer, "UTF-8");
-            int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            JSONArray jsonArray = new JSONArray(json);
-            List<User> users = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject userObject = jsonArray.getJSONObject(i);
-                User user = new User();
-                user.setName(userObject.getString("name"));
-                user.setEmail(userObject.getString("email"));
-                user.setPhoto(userObject.getString("photo"));
-                user.setLogged(userObject.getBoolean("logged"));
-                user.setType(userObject.getInt("type"));
-                users.add(user);
-            }
-            userModel.saveAll(users);*/
         } catch (Exception e) {
             e.printStackTrace();
             realm.cancelTransaction();
@@ -150,20 +132,6 @@ public class MainActivity extends AppCompatActivity {
             realm.beginTransaction();
             realm.createOrUpdateAllFromJson(Animal.class, inputStream);
             realm.commitTransaction();
-            /*int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            String json = new String(buffer, "UTF-8");
-            JSONArray jsonArray = new JSONArray(json);
-            List<Animal> animals = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject animalObject = jsonArray.getJSONObject(i);
-                Animal animal = new Animal();
-                animal.setName(animalObject.getString("name"));
-                animals.add(animal);
-            }
-            animalModel.saveAll(animals);*/
         } catch (Exception e) {
             e.printStackTrace();
             realm.cancelTransaction();
@@ -177,26 +145,6 @@ public class MainActivity extends AppCompatActivity {
             realm.beginTransaction();
             realm.createOrUpdateAllFromJson(Owner.class, inputStream);
             realm.commitTransaction();
-            /*int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            String json = new String(buffer, "UTF-8");
-            JSONArray jsonArray = new JSONArray(json);
-            List<Owner> owners = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject ownerObject = jsonArray.getJSONObject(i);
-                Owner owner = new Owner();
-                owner.setApiId(ownerObject.getLong("apiId"));
-                owner.setName(ownerObject.getString("name"));
-                owner.setAddress(ownerObject.getString("address"));
-                owner.setDistrict(ownerObject.getString("district"));
-                owner.setLatitude(Float.parseFloat(ownerObject.getString("latitude")));
-                owner.setLongitude(Float.parseFloat(ownerObject.getString("longitude")));
-                owner.setUser(userModel.find(ownerObject.getJSONObject("user").getLong("id")));
-                owners.add(owner);
-            }
-            ownerModel.saveAll(owners);*/
         } catch (Exception e) {
             e.printStackTrace();
             realm.cancelTransaction();
@@ -210,32 +158,6 @@ public class MainActivity extends AppCompatActivity {
             realm.beginTransaction();
             realm.createOrUpdateAllFromJson(Sitter.class, inputStream);
             realm.commitTransaction();
-            /*int size = inputStream.available();
-            byte[] buffer = new byte[size];
-            inputStream.read(buffer);
-            inputStream.close();
-            String json = new String(buffer, "UTF-8");
-            JSONArray jsonArray = new JSONArray(json);
-            List<Sitter> sitters = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject sitterObject = jsonArray.getJSONObject(i);
-                Sitter sitter = new Sitter();
-                sitter.setApiId(sitterObject.getLong("apiId"));
-                sitter.setName(sitterObject.getString("name"));
-                sitter.setAddress(sitterObject.getString("address"));
-                sitter.setPhoto(sitterObject.getString("photo"));
-                sitter.setProfileBackground(sitterObject.getString("profile_background"));
-                sitter.setLatitude(Float.parseFloat(sitterObject.getString("latitude")));
-                sitter.setLongitude(Float.parseFloat(sitterObject.getString("longitude")));
-                sitter.setDistrict(sitterObject.getString("district"));
-                sitter.setValue_hour(sitterObject.getDouble("value_hour"));
-                sitter.setValue_shift(sitterObject.getDouble("value_shift"));
-                sitter.setValue_day(sitterObject.getDouble("value_day"));
-                sitter.setAbout_me(sitterObject.getString("about_me"));
-                sitter.setUser(userModel.find(sitterObject.getJSONObject("user").getLong("id")));
-                sitters.add(sitter);
-            }
-            sitterModel.saveAll(sitters);*/
         } catch (Exception e) {
             e.printStackTrace();
             realm.cancelTransaction();

@@ -1,14 +1,38 @@
 [
   {
     "id": 1,
+    "name": "Letícia",
+    "email": "leticia@gmail.com",
+    "photo": "sitter1",
+    "logged": false,
+    "category": 1
+  },
+  {
+    "id": 2,
     "name": "Márcio Lopes",
-    "email": "zekisan88@gmail.com",
-    "photo": "sitter2",
+    "email": "marciolopes@gmail.com",
+    "photo": "sitter1",
     "logged": true,
     "type": 1
   },
   {
-    "id": 2,
+    "id": 3,
+    "name": "Matheus",
+    "email": "matheus@gmail.com",
+    "photo": "sitter3",
+    "logged": false,
+    "category": 1
+  },
+  {
+    "id": 4,
+    "name": "Lúcia",
+    "email": "lucia@gmail.com",
+    "photo": "sitter4",
+    "logged": false,
+    "category": 1
+  },
+  {
+    "id": 5,
     "name": "Ezequiel Guilherme",
     "email": "zekisan88@gmail.com",
     "photo": "me",

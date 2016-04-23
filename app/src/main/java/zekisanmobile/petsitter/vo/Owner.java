@@ -39,8 +39,12 @@ public class Owner extends RealmObject implements Validation, Serializable {
     @JsonProperty("photo")
     String photo;
 
-    @JsonIgnore
+    @JsonProperty("user")
     User user;
+
+    @JsonIgnore
+    @Ignore
+    public int user_id;
 
     @Ignore
     @JsonIgnore

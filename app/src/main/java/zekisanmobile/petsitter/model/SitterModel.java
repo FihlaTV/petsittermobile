@@ -86,6 +86,6 @@ public class SitterModel {
 
     public Sitter getLoggedSitterUser() {
         return realm.where(Sitter.class).equalTo("user.logged", true)
-                .equalTo("user.type", 1).findFirst();
+                .equalTo("user.category", 1).findFirst();
     }
 }

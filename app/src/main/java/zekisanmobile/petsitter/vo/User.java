@@ -21,7 +21,7 @@ public class User extends RealmObject implements Validation, Serializable {
 
     boolean logged;
 
-    int type; // 0 - Owner, 1 - PetSitter
+    int category; // 0 - Owner, 1 - PetSitter
     //endregion
 
     //region Accessors
@@ -65,14 +65,14 @@ public class User extends RealmObject implements Validation, Serializable {
         this.logged = logged;
     }
 
-    public int getType() {
-        return type;
+    public int getCategory() {
+        return category;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setCategory(int category) {
+        this.category = category;
     }
-    //endregion
+//endregion
 
     //region Inherited Methods
     @Override

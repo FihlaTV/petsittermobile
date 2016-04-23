@@ -61,8 +61,12 @@ public class Sitter extends RealmObject implements Validation, Serializable {
     @JsonProperty("about_me")
     String about_me;
 
-    @JsonIgnore
+    @JsonProperty("user")
     User user;
+
+    @JsonIgnore
+    @Ignore
+    public int user_id;
 
     @JsonProperty("animals")
     @ParcelPropertyConverter(RealmListParcelConverter.class)

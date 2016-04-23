@@ -48,7 +48,7 @@ public class OwnerModel {
 
     public Owner getLoggedOwnerUser() {
         return realm.where(Owner.class).equalTo("user.logged", true)
-                .equalTo("user.type", 0).findFirst();
+                .equalTo("user.category", 0).findFirst();
     }
 
     public List<Contact> getCurrentContacts(long id){
