@@ -1,5 +1,6 @@
 package zekisanmobile.petsitter.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -23,9 +24,11 @@ public class Contact extends RealmObject implements Validation, Serializable {
     long apiId;
 
     @JsonProperty("date_start")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone="EST")
     Date dateStart;
 
     @JsonProperty("date_final")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone="EST")
     Date dateFinal;
 
     @JsonProperty("time_start")

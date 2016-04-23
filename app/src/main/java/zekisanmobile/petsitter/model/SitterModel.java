@@ -49,7 +49,7 @@ public class SitterModel {
         return realm.where(Contact.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 30)
-                .lessThan("dateStart", new Date())
+                .greaterThan("dateStart", new Date())
                 .findAllSorted("dateStart", Sort.DESCENDING);
     }
 
@@ -72,6 +72,7 @@ public class SitterModel {
         return realm.where(Contact.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 30)
+                .lessThanOrEqualTo("dateStart", new Date())
                 .greaterThanOrEqualTo("dateFinal", new Date())
                 .findAllSorted("dateStart", Sort.DESCENDING);
     }
