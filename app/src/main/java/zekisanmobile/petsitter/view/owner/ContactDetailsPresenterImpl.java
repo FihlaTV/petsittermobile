@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import zekisanmobile.petsitter.view.sitter.ContactDetailsView;
 import zekisanmobile.petsitter.vo.Animal;
 import zekisanmobile.petsitter.model.ContactModel;
@@ -25,7 +26,7 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void getContactFromDb(long id) {
-        this.contact = contactModel.find(id);
+        this.contact = contactModel.find(Realm.getDefaultInstance(), id);
     }
 
     @Override

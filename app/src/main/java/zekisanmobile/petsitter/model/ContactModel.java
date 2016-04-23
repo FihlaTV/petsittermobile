@@ -3,10 +3,7 @@ package zekisanmobile.petsitter.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.realm.Realm;
-import io.realm.RealmResults;
 import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.util.ValidationUtil;
 import zekisanmobile.petsitter.vo.Animal;
@@ -16,27 +13,18 @@ import zekisanmobile.petsitter.vo.Sitter;
 
 public class ContactModel {
 
-    @Inject
-    Realm realm;
-
-    @Inject
-    SitterModel sitterModel;
-
-    @Inject
-    OwnerModel ownerModel;
-
     public ContactModel(AppComponent appComponent) {
         appComponent.inject(this);
     }
 
-    public void save(Contact contact){
+    public void save(Realm realm, Contact contact){
         contact.validate();
         realm.beginTransaction();
         realm.copyToRealm(contact);
         realm.commitTransaction();
     }
 
-    public void saveAll(final List<Contact> contacts){
+    public void saveAll(Realm realm, final List<Contact> contacts){
         ValidationUtil.pruneInvalid(contacts);
         if (contacts.isEmpty()) {
             return;
@@ -60,17 +48,14 @@ public class ContactModel {
         }
     }
 
-    public long insertOrUpdateContact(final long id, final long apiId, final Date date_start,
+    public long insertOrUpdateContact(Realm realm, final long id, final long apiId, final Date date_start,
                                       final Date date_final, final String time_start,
                                       final String time_final, final String created_at,
                                       final Sitter sitter, final Owner owner,
                                       final double totalValue, final int status,
                                       final List<Animal> animals, final boolean fromApi){
         final long[] contact_id = new long[1];
-        realm.executeTransactionAsync(new Realm.Transaction() {
-
-            @Override
-            public void execute(Realm realm) {
+        realm.beginTransaction();
                 Contact newContact;
                 if((newContact = realm.where(Contact.class).equalTo("id", id).findFirst()) == null) {
                     newContact = realm.createObject(Contact.class);
@@ -83,35 +68,36 @@ public class ContactModel {
                 newContact.setTimeStart(time_start);
                 newContact.setTimeFinal(time_final);
                 newContact.setCreatedAt(created_at);
-                newContact.setSitter(sitterModel.find(sitter.getId()));
-                newContact.setOwner(ownerModel.find(owner.getId()));
+                newContact.setSitter(realm.where(Sitter.class).equalTo("id", sitter.getId())
+                        .findFirst());
+                newContact.setOwner(realm.where(Owner.class).equalTo("apiId", owner
+                        .getApiId()).findFirst());
                 newContact.setTotalValue(totalValue);
                 newContact.setStatus(status);
                 if (newContact.getAnimals().size() > 0) newContact.getAnimals().clear();
                 newContact.getAnimals().addAll(animals);
 
                 contact_id[0] = newContact.getId();
-            }
-        });
+        realm.commitTransaction();
         return contact_id[0];
     }
 
-    public Contact find(long id) {
+    public Contact find(Realm realm, long id) {
         return realm.where(Contact.class).equalTo("id", id).findFirst();
     }
 
-    public List<Contact> all(){
+    public List<Contact> all(Realm realm){
         return realm.where(Contact.class).findAll();
     }
 
-    public void updateStatus(long apiId, int status) {
+    public void updateStatus(Realm realm, long apiId, int status) {
         Contact contact = realm.where(Contact.class).equalTo("apiId", apiId).findFirst();
         realm.beginTransaction();
         contact.setStatus(status);
         realm.commitTransaction();
     }
 
-    public void delete(long id) {
+    public void delete(Realm realm, long id) {
         Contact contact = realm.where(Contact.class).equalTo("id", id).findFirst();
         realm.beginTransaction();
         contact.removeFromRealm();

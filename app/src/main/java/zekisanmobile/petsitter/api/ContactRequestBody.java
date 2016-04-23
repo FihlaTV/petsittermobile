@@ -8,7 +8,7 @@ public class ContactRequestBody {
 
     String date_start, date_final, time_start, time_final;
 
-    String total_value;
+    double total_value;
 
     List<AnimalBody> animal_contacts;
 
@@ -60,11 +60,11 @@ public class ContactRequestBody {
         this.time_final = time_final;
     }
 
-    public String getTotal_value() {
+    public double getTotal_value() {
         return total_value;
     }
 
-    public void setTotal_value(String total_value) {
+    public void setTotal_value(double total_value) {
         this.total_value = total_value;
     }
 

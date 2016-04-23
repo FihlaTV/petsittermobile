@@ -31,7 +31,7 @@ public class AnimalSpinnerAdapter extends RealmBaseAdapter<Animal> implements Li
             holder = (CustomViewHolder) convertView.getTag();
         }
 
-        final Animal animal = realmResults.get(position);
+        final Animal animal = adapterData.get(position);
         holder.tvName.setText(animal.getName());
 
         return convertView;

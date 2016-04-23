@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import zekisanmobile.petsitter.model.ContactModel;
 import zekisanmobile.petsitter.vo.Animal;
 import zekisanmobile.petsitter.vo.Contact;
@@ -25,7 +26,7 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void getContactFromDb(long id) {
-        this.contact = contactModel.find(id);
+        this.contact = contactModel.find(Realm.getDefaultInstance(), id);
     }
 
     @Override
@@ -117,11 +118,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
 
     @Override
     public void acceptContact() {
-        contactModel.updateStatus(this.contact.getApiId(), 30);
+        contactModel.updateStatus(Realm.getDefaultInstance(), this.contact.getApiId(), 30);
     }
 
     @Override
     public void deleteContact() {
-        contactModel.delete(this.contact.getId());
+        contactModel.delete(Realm.getDefaultInstance(), this.contact.getId());
     }
 }

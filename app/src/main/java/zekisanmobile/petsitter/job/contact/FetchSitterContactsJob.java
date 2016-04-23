@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -72,7 +73,8 @@ public class FetchSitterContactsJob extends BaseJob {
 
     private void handleResponse(List<Contact> contacts){
         for (Contact contact : contacts) {
-            contactModel.insertOrUpdateContact(contact.getId(), contact.getApiId(), contact.getDateStart(),
+            contactModel.insertOrUpdateContact(Realm.getDefaultInstance(), contact.getId(),
+                    contact.getApiId(), contact.getDateStart(),
                     contact.getDateFinal(), contact.getTimeStart(), contact.getTimeFinal(),
                     contact.getCreatedAt(), contact.getSitter(), contact.getOwner(),
                     contact.getTotalValue(), contact.getStatus(), contact.getAnimals(), true);

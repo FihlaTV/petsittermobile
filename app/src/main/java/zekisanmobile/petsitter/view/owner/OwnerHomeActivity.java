@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.realm.Realm;
 import zekisanmobile.petsitter.adapter.ViewPagerAdapter;
 import zekisanmobile.petsitter.event.contact.SaveFetchedContactsEvent;
 import zekisanmobile.petsitter.fragment.MapsFragment;
@@ -38,6 +39,7 @@ import zekisanmobile.petsitter.view.main.MainActivity;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.controller.contact.ContactController;
 import zekisanmobile.petsitter.vo.Contact;
+import zekisanmobile.petsitter.vo.Owner;
 import zekisanmobile.petsitter.vo.Sitter;
 import zekisanmobile.petsitter.R;
 
@@ -185,7 +187,8 @@ public class OwnerHomeActivity extends AppCompatActivity
         if (event.isSuccess()) {
             List<Contact> contacts = event.getContacts();
             for (Contact contact : contacts) {
-                contactModel.insertOrUpdateContact(contact.getId(), contact.getApiId(),
+                contactModel.insertOrUpdateContact(Realm.getDefaultInstance(), contact.getId(),
+                        contact.getApiId(),
                         contact.getDateStart(), contact.getDateFinal(), contact.getTimeStart(),
                         contact.getTimeFinal(), contact.getCreatedAt(), contact.getSitter(),
                         contact.getOwner(), contact.getTotalValue(), contact.getStatus(),

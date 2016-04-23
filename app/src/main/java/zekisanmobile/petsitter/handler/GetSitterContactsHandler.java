@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.view.sitter.SitterHomePresenter;
@@ -38,7 +39,8 @@ public class GetSitterContactsHandler extends AsyncTask<String, Void, Void> {
             Call<List<Contact>> call = service.sitterContacts(params[0]);
             contacts = call.execute().body();
             for (Contact contact : contacts) {
-                contactModel.insertOrUpdateContact(contact.getId(), contact.getApiId(),
+                contactModel.insertOrUpdateContact(Realm.getDefaultInstance(), contact.getId(),
+                        contact.getApiId(),
                         contact.getDateStart(), contact.getDateFinal(), contact.getTimeStart(),
                         contact.getTimeFinal(), contact.getCreatedAt(), contact.getSitter(),
                         contact.getOwner(), contact.getTotalValue(), contact.getStatus(),

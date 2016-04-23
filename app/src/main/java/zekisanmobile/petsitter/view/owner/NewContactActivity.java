@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -19,10 +18,6 @@ import android.widget.TextView;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -38,20 +33,19 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.RealmResults;
+import io.realm.Realm;
+import zekisanmobile.petsitter.PetSitterApp;
+import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.adapter.AnimalSpinnerAdapter;
 import zekisanmobile.petsitter.api.AnimalBody;
 import zekisanmobile.petsitter.api.ContactRequestBody;
 import zekisanmobile.petsitter.handler.SendRequestContactHandler;
-import zekisanmobile.petsitter.PetSitterApp;
-import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.model.AnimalModel;
 import zekisanmobile.petsitter.model.ContactModel;
 import zekisanmobile.petsitter.model.OwnerModel;
 import zekisanmobile.petsitter.model.SitterModel;
 import zekisanmobile.petsitter.util.Formatter;
 import zekisanmobile.petsitter.vo.Animal;
-import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.vo.Owner;
 import zekisanmobile.petsitter.vo.Sitter;
 
@@ -159,13 +153,12 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
     private void requestContact(View view) {
         List<Animal> selectedAnimals = getAnimalsFromView(view, animals);
 
-        long new_contact_id = contactModel.insertOrUpdateContact(0, 0,
+        long new_contact_id = contactModel.insertOrUpdateContact(Realm.getDefaultInstance(), 0, 0,
                 Formatter.formattedDateForDB(tv_date_start.getText().toString()),
                 Formatter.formattedDateForDB(tv_date_final.getText().toString()),
                 tv_time_start.getText().toString(),
                 tv_time_final.getText().toString(),"",
-                sitter, owner, Double.parseDouble(tvTotalValue.getText().toString().replace("R$", "")
-                        .replace(",", ".")), 10, animals, false);
+                sitter, owner, calculateTotalValue(), 10, animals, false);
 
         ContactRequestBody body = new ContactRequestBody();
         body.setSitter_id(sitter.getId());
@@ -174,8 +167,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         body.setDate_final(Formatter.formattedDateForAPI(tv_date_final.getText().toString()));
         body.setTime_start(tv_time_start.getText().toString());
         body.setTime_final(tv_time_final.getText().toString());
-        body.setTotal_value(tvTotalValue.getText().toString().replace("R$", "")
-                .replace(",", "."));
+        body.setTotal_value(calculateTotalValue());
 
         List<AnimalBody> animalBodyList = new ArrayList<>();
         for (Animal a : selectedAnimals) {
@@ -306,8 +298,9 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
         calculateTotalValue();
     }
 
-    private void calculateTotalValue() {
+    private double calculateTotalValue() {
         updateSelectedAnimalsCount();
+        double totalValue;
         if (canCalculateTotalValue() && selectedAnimalsCount > 0) {
             SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat formatterTime = new SimpleDateFormat("hh:mm");
@@ -322,12 +315,14 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
                 double minuteValue = sitter.getValue_hour() / 60;
                 double totalMinutesValue = minutes * minuteValue;
-                double totalValue = totalMinutesValue * days;
-                tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue * selectedAnimalsCount));
+                totalValue = totalMinutesValue * days * selectedAnimalsCount;
+                tvTotalValue.setText(NumberFormat.getCurrencyInstance().format(totalValue));
+                return totalValue;
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+        return 0;
     }
 
     private boolean canCalculateTotalValue() {
