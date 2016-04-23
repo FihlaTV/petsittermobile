@@ -1,37 +1,29 @@
 package zekisanmobile.petsitter.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.Sort;
 import zekisanmobile.petsitter.di.component.AppComponent;
-import zekisanmobile.petsitter.util.Formatter;
 import zekisanmobile.petsitter.util.ValidationUtil;
-import zekisanmobile.petsitter.vo.Animal;
 import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.vo.Sitter;
 
 public class SitterModel {
 
-    @Inject
-    Realm realm;
-
     public SitterModel(AppComponent appComponent) {
         appComponent.inject(this);
     }
 
-    public void save(Sitter sitter) {
+    public void save(Realm realm, Sitter sitter) {
         sitter.validate();
         realm.beginTransaction();
         realm.copyToRealm(sitter);
         realm.commitTransaction();
     }
 
-    public void saveAll(final List<Sitter> sitters) {
+    public void saveAll(Realm realm, final List<Sitter> sitters) {
         ValidationUtil.pruneInvalid(sitters);
         if (sitters.isEmpty()) {
             return;
@@ -41,19 +33,19 @@ public class SitterModel {
         realm.commitTransaction();
     }
 
-    public Sitter findByApiId(long apiId) {
+    public Sitter findByApiId(Realm realm, long apiId) {
         return realm.where(Sitter.class).equalTo("apiId", apiId).findFirst();
     }
 
-    public Sitter find(long id) {
+    public Sitter find(Realm realm, long id) {
         return realm.where(Sitter.class).equalTo("id", id).findFirst();
     }
 
-    public List<Sitter> all() {
+    public List<Sitter> all(Realm realm) {
         return realm.where(Sitter.class).findAll();
     }
 
-    public List<Contact> getNextContacts(long id) {
+    public List<Contact> getNextContacts(Realm realm, long id) {
         return realm.where(Contact.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 30)
@@ -61,14 +53,14 @@ public class SitterModel {
                 .findAllSorted("dateStart", Sort.DESCENDING);
     }
 
-    public List<Contact> getFinishedContacts(long id) {
+    public List<Contact> getFinishedContacts(Realm realm, long id) {
         return realm.where(Contact.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 40)
                 .findAll();
     }
 
-    public List<Contact> getNewContacts(long id){
+    public List<Contact> getNewContacts(Realm realm, long id){
         return realm.where(Contact.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 10)
@@ -76,7 +68,7 @@ public class SitterModel {
                 .findAll();
     }
 
-    public List<Contact> getCurrentContacts(long id){
+    public List<Contact> getCurrentContacts(Realm realm, long id){
         return realm.where(Contact.class)
                 .equalTo("sitter.id", id)
                 .equalTo("status", 30)
@@ -84,7 +76,7 @@ public class SitterModel {
                 .findAllSorted("dateStart", Sort.DESCENDING);
     }
 
-    public Sitter getLoggedSitterUser() {
+    public Sitter getLoggedSitterUser(Realm realm) {
         return realm.where(Sitter.class).equalTo("user.logged", true)
                 .equalTo("user.category", 1).findFirst();
     }

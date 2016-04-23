@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.api.ApiService;
+import zekisanmobile.petsitter.api.SendContactStatusBody;
 import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.job.BaseJob;
 
@@ -18,13 +19,13 @@ public class SendContactStatusJob extends BaseJob {
 
     private static final String GROUP = "SendContactStatusJob";
     private final String contactId;
-    private final String requestBody;
+    private final SendContactStatusBody requestBody;
 
     @Inject
     transient Retrofit retrofit;
 
     public SendContactStatusJob(@Priority int priority, @Nullable String contactId,
-                                @Nullable String requestBody) {
+                                @Nullable SendContactStatusBody requestBody) {
         super(new Params(priority).addTags(GROUP).requireNetwork());
         this.contactId = contactId;
         this.requestBody = requestBody;

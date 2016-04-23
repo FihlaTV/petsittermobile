@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class SitterHomeActivity extends AppCompatActivity
         configureNavigationDrawer();
         configureNavigationView();
 
-        updateAdapters(presenter.getNewContacts(), presenter.getCurrentContacts());
+        //updateAdapters(presenter.getNewContacts(), presenter.getCurrentContacts());
     }
 
     @Override
@@ -176,10 +177,11 @@ public class SitterHomeActivity extends AppCompatActivity
         return (PetSitterApp) getApplication();
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(FetchedSitterContactsEvent event) {
         if (event.isSuccess()) {
-            updateAdapters(presenter.getNewContacts(), presenter.getCurrentContacts());
+            updateAdapters(presenter.getNewContacts(event.getSitterId()),
+                    presenter.getCurrentContacts(event.getSitterId()));
         } else {
             Snackbar.make(coordinatorLayout, "Não foi possível atualizar a lista de " +
                     "solicitações de Pet Sitter", Snackbar.LENGTH_SHORT).show();

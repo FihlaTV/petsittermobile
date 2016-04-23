@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.fragment.SitterFragment;
@@ -55,11 +56,11 @@ public class GetSittersHandler extends AsyncTask<Void, Void, ArrayList<Sitter>> 
             sitterFragment.showProgress(false);
         }
         if (receivedSitters != null && receivedSitters.size() > 0) {
-            sitterModel.saveAll(sitters);
+            sitterModel.saveAll(Realm.getDefaultInstance(), sitters);
 
             List<Sitter> sittersFromDB = new ArrayList<>();
             for (int i = 0; i < sitters.size(); i++) {
-                sittersFromDB.add(sitterModel.find(sitters.get(i).getId()));
+                sittersFromDB.add(sitterModel.find(Realm.getDefaultInstance(), sitters.get(i).getId()));
             }
             view.updateSitterList(receivedSitters);
         }

@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.model.SitterModel;
 import zekisanmobile.petsitter.vo.Sitter;
@@ -52,7 +53,7 @@ public class SitterProfileActivity extends AppCompatActivity
 
         Intent intent = getIntent();
         long sitter_id = intent.getLongExtra("sitter_id", 0);
-        sitter = sitterModel.find(sitter_id);
+        sitter = sitterModel.find(Realm.getDefaultInstance(), sitter_id);
 
         configureToolbar();
         prepareSitterData();

@@ -101,7 +101,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
 
         Intent intent = getIntent();
         long sitter_id = intent.getLongExtra("sitter_id", 0);
-        sitter = sitterModel.find(sitter_id);
+        sitter = sitterModel.find(Realm.getDefaultInstance(), sitter_id);
         tv_name.setText(sitter.getName());
 
         owner = ownerModel.getLoggedOwnerUser();

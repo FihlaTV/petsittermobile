@@ -20,7 +20,7 @@ public interface SitterHomePresenter {
 
     Sitter getSitterFromUser();
 
-    List<Contact> getNewContacts();
-    List<Contact> getCurrentContacts();
+    List<Contact> getNewContacts(long sitter_id);
+    List<Contact> getCurrentContacts(long sitter_id);
 
 }

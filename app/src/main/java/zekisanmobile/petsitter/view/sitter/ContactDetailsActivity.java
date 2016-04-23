@@ -33,12 +33,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.api.SendContactStatusBody;
 import zekisanmobile.petsitter.controller.contact.ContactController;
 
 public class ContactDetailsActivity extends AppCompatActivity
         implements ContactDetailsView, OnMapReadyCallback {
 
     private ContactDetailsPresenter presenter;
+    private long contact_id;
 
     @Inject
     ContactController controller;
@@ -77,6 +79,7 @@ public class ContactDetailsActivity extends AppCompatActivity
 
         presenter = new ContactDetailsPresenterImpl(this);
         presenter.getContactFromDb(getIntent().getLongExtra("contactId", 1L));
+        contact_id = presenter.getContactApiId();
 
         configureToolbar();
         configureViews();
@@ -151,7 +154,9 @@ public class ContactDetailsActivity extends AppCompatActivity
     @OnClick(R.id.bt_accept)
     public void acceptContact(){
         presenter.acceptContact();
-        controller.sendContactUpdateAsync(true, presenter.getContactApiId(), 30);
+        SendContactStatusBody body = new SendContactStatusBody();
+        body.setStatus(30);
+        controller.sendContactUpdateAsync(true, presenter.getContactApiId(), body);
         showAcceptDialog();
     }
 
@@ -182,7 +187,9 @@ public class ContactDetailsActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         presenter.deleteContact();
-                        controller.sendContactUpdateAsync(true, presenter.getContactApiId(), 20);
+                        SendContactStatusBody body = new SendContactStatusBody();
+                        body.setStatus(20);
+                        controller.sendContactUpdateAsync(true, contact_id, body);
                         Intent intent = new Intent(ContactDetailsActivity.this, SitterHomeActivity.class);
                         startActivity(intent);
                     }

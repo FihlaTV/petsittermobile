@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import zekisanmobile.petsitter.model.SitterModel;
 import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.vo.Sitter;
@@ -20,7 +21,7 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     public SitterHomePresenterImpl(SitterHomeView view){
         view.getPetSitterApp().getAppComponent().inject(this);
         this.view = view;
-        this.sitter = sitterModel.getLoggedSitterUser();
+        this.sitter = sitterModel.getLoggedSitterUser(Realm.getDefaultInstance());
     }
 
     @Override
@@ -36,7 +37,7 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     @Override
     public void updateContacts() {
         if (view != null){
-            view.updateAdapters(getNewContacts(), getCurrentContacts());
+            //view.updateAdapters(getNewContacts(), getCurrentContacts());
         }
     }
 
@@ -71,12 +72,14 @@ public class SitterHomePresenterImpl implements SitterHomePresenter{
     }
 
     @Override
-    public List<Contact> getNewContacts() {
-        return new ArrayList<Contact>(sitterModel.getNewContacts(getSitterFromUser().getId()));
+    public List<Contact> getNewContacts(long sitter_id) {
+        return new ArrayList<Contact>(sitterModel.getNewContacts(Realm.getDefaultInstance(),
+                sitter_id));
     }
 
     @Override
-    public List<Contact> getCurrentContacts() {
-        return new ArrayList<Contact>(sitterModel.getCurrentContacts(getSitterFromUser().getId()));
+    public List<Contact> getCurrentContacts(long sitter_id) {
+        return new ArrayList<Contact>(sitterModel.getCurrentContacts(Realm.getDefaultInstance(),
+                sitter_id));
     }
 }

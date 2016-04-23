@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             for (Owner o : owners) {
                 Log.i("LOG", "Owner: { id: " + o.getId() + ", name: " + o.getName() + " }");
             }
-            List<Sitter> sitters = sitterModel.all();
+            List<Sitter> sitters = sitterModel.all(Realm.getDefaultInstance());
             for (Sitter s : sitters) {
                 Log.i("LOG", "Sitter: { id: " + s.getId() + ", name: " + s.getName() + " }");
             }

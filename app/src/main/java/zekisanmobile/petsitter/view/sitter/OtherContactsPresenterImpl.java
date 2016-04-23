@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import zekisanmobile.petsitter.model.SitterModel;
 import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.vo.Sitter;
@@ -19,16 +20,16 @@ public class OtherContactsPresenterImpl implements OtherContactsPresenter {
     public OtherContactsPresenterImpl(OtherContactsView view, long sitter_id){
         view.getPetSitterApp().getAppComponent().inject(this);
         this.view = view;
-        this.sitter = sitterModel.find(sitter_id);
+        this.sitter = sitterModel.find(Realm.getDefaultInstance(), sitter_id);
     }
 
     @Override
     public List<Contact> getContacts(String type) {
         switch (type){
             case "next":
-                return sitterModel.getNextContacts(sitter.getId());
+                return sitterModel.getNextContacts(Realm.getDefaultInstance(), sitter.getId());
             case "finished":
-                return sitterModel.getFinishedContacts(sitter.getId());
+                return sitterModel.getFinishedContacts(Realm.getDefaultInstance(), sitter.getId());
         }
         return null;
     }
