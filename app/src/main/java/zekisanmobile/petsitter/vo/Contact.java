@@ -2,6 +2,7 @@ package zekisanmobile.petsitter.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -58,6 +59,10 @@ public class Contact extends RealmObject implements Validation, Serializable {
 
     @JsonProperty("animals")
     RealmList<Animal> animals;
+
+    @JsonProperty("rate")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    Rate rate;
 
     @Ignore
     @JsonProperty("sitter_id")
@@ -181,6 +186,13 @@ public class Contact extends RealmObject implements Validation, Serializable {
         this.pet_owner_id = pet_owner_id;
     }
 
+    public Rate getRate() {
+        return rate;
+    }
+
+    public void setRate(Rate rate) {
+        this.rate = rate;
+    }
     //endregion
 
     @Override
