@@ -12,6 +12,8 @@ import zekisanmobile.petsitter.handler.SearchHandler;
 import zekisanmobile.petsitter.handler.SendRequestContactHandler;
 import zekisanmobile.petsitter.job.contact.FetchOwnerContactsJob;
 import zekisanmobile.petsitter.job.contact.FetchSitterContactsJob;
+import zekisanmobile.petsitter.job.contact.RateContactJob;
+import zekisanmobile.petsitter.job.contact.ReplyRateJob;
 import zekisanmobile.petsitter.job.contact.SendContactStatusJob;
 import zekisanmobile.petsitter.model.AnimalModel;
 import zekisanmobile.petsitter.model.ContactModel;
@@ -56,6 +58,10 @@ public interface AppComponent {
     void inject(SendContactStatusJob sendContactStatusJob);
 
     void inject(FetchSitterContactsJob fecthSitterContactsJob);
+
+    void inject(RateContactJob rateContactJob);
+
+    void inject(ReplyRateJob replyRateJob);
 
     void inject(FetchOwnerContactsJob fetchOwnerContactsJob);
 

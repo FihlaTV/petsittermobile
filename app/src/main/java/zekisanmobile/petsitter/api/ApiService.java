@@ -28,4 +28,10 @@ public interface ApiService {
 
     @POST("pet_owners/{owner}/request_contact")
     Call<Void> sendContactRequest(@Path("owner") String owner_id, @Body ContactRequestBody body);
+
+    @POST("pet_owners/{owner}/rate_contact")
+    Call<Void> rateContact(@Path("owner") String owner_id, @Body RateContactBody body);
+
+    @POST("rates/{rate}/reply_rate")
+    Call<Void> replyContact(@Path("rate") String rate_id, @Body ReplyRateBody body);
 }
