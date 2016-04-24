@@ -1,9 +1,9 @@
 package zekisanmobile.petsitter.adapter;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
-import android.content.Context;
 import android.widget.TextView;
 
 import io.realm.RealmBaseAdapter;
@@ -13,10 +13,13 @@ import zekisanmobile.petsitter.vo.Animal;
 
 public class AnimalSpinnerAdapter extends RealmBaseAdapter<Animal> implements ListAdapter {
 
+    //region Constructors
     public AnimalSpinnerAdapter(Context context, RealmResults<Animal> animals){
         super(context, animals, false);
     }
+    //endregion
 
+    //region Inherited Methods
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         CustomViewHolder holder;
@@ -36,9 +39,12 @@ public class AnimalSpinnerAdapter extends RealmBaseAdapter<Animal> implements Li
 
         return convertView;
     }
+    //endregion
 
+    //region Private Classes
     private static class CustomViewHolder {
         TextView tvName;
     }
+    //endregion
 
 }

@@ -7,8 +7,13 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import zekisanmobile.petsitter.vo.Sitter;
+import zekisanmobile.petsitter.api.body.ContactRequestBody;
+import zekisanmobile.petsitter.api.body.RateContactBody;
+import zekisanmobile.petsitter.api.body.ReplyRateBody;
+import zekisanmobile.petsitter.api.body.SearchSittersBody;
+import zekisanmobile.petsitter.api.body.SendContactStatusBody;
 import zekisanmobile.petsitter.vo.Contact;
+import zekisanmobile.petsitter.vo.Sitter;
 
 public interface ApiService {
     @GET("sitters.json")

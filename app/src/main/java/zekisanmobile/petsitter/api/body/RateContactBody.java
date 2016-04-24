@@ -1,13 +1,16 @@
-package zekisanmobile.petsitter.api;
+package zekisanmobile.petsitter.api.body;
 
 public class RateContactBody {
 
+    //region Members
     long contact_id;
 
     boolean positive;
 
     String text;
+    //endregion
 
+    //region Accessors
     public long getContact_id() {
         return contact_id;
     }
@@ -31,4 +34,5 @@ public class RateContactBody {
     public void setText(String text) {
         this.text = text;
     }
+    //endregion
 }

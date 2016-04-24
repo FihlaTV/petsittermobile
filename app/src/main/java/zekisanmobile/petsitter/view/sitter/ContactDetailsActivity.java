@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
-import zekisanmobile.petsitter.api.SendContactStatusBody;
+import zekisanmobile.petsitter.api.body.SendContactStatusBody;
 import zekisanmobile.petsitter.controller.contact.ContactController;
 
 public class ContactDetailsActivity extends AppCompatActivity

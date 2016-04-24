@@ -11,17 +11,22 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import zekisanmobile.petsitter.model.SearchItem;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.model.SearchItem;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItemHolder>{
 
+    //region Members
     private List<SearchItem> items;
+    //endregion
 
+    //region Constructors
     public SearchAdapter(List<SearchItem> items) {
         this.items = items;
     }
+    //endregion
 
+    //region Inherited Methods
     @Override
     public SearchItemHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_item, null);
@@ -45,7 +50,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
     public int getItemCount() {
         return (null != items ? items.size() : 0);
     }
+    //endregion
 
+    //region Inner Class
     public class SearchItemHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.chk_search_item) CheckBox chk_search_item;
@@ -55,4 +62,5 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
             ButterKnife.bind(this, view);
         }
     }
+    //endregion
 }

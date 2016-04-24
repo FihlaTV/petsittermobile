@@ -12,22 +12,27 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import zekisanmobile.petsitter.interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.util.ContactStatusString;
+import zekisanmobile.petsitter.vo.Contact;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
+    //region Members
     private List<Contact> contacts;
     private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
     private Context parentContext;
+    //endregion
 
+    //region Constructors
     public ContactListAdapter(List<Contact> contacts, Context parentContext){
         this.contacts = contacts;
         this.parentContext = parentContext;
     }
+    //endregion
 
+    //region Inherited Methods
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -54,7 +59,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     public int getItemCount() {
         return contacts.size();
     }
+    //endregion
 
+    //region Methods
     public void setRecyclerViewOnClickListenerHack(
             RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack){
         this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
@@ -67,7 +74,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     public void updateContactsList(List<Contact> contacts) {
         this.contacts = contacts;
     }
+    //endregion
 
+    //region Inner Classes
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_contact_owner) ImageView iv_contact_owner;
@@ -87,4 +96,5 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             }
         }
     }
+    //endregion
 }

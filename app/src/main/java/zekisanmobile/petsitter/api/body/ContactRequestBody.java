@@ -1,9 +1,10 @@
-package zekisanmobile.petsitter.api;
+package zekisanmobile.petsitter.api.body;
 
 import java.util.List;
 
 public class ContactRequestBody {
 
+    //region Members
     long sitter_id, app_id;
 
     String date_start, date_final, time_start, time_final;
@@ -11,7 +12,9 @@ public class ContactRequestBody {
     double total_value;
 
     List<AnimalBody> animal_contacts;
+    //endregion
 
+    //region Accessors
     public long getSitter_id() {
         return sitter_id;
     }
@@ -75,4 +78,5 @@ public class ContactRequestBody {
     public void setAnimal_contacts(List<AnimalBody> animal_contacts) {
         this.animal_contacts = animal_contacts;
     }
+    //endregion
 }

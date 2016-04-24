@@ -12,7 +12,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.api.ApiService;
-import zekisanmobile.petsitter.api.ContactRequestBody;
+import zekisanmobile.petsitter.api.body.ContactRequestBody;
 import zekisanmobile.petsitter.api.NetworkException;
 import zekisanmobile.petsitter.job.BaseJob;
 import zekisanmobile.petsitter.job.contact.FetchOwnerContactsJob;

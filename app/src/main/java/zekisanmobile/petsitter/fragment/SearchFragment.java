@@ -8,19 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.adapter.SearchAdapter;
-import zekisanmobile.petsitter.api.SearchSittersBody;
+import zekisanmobile.petsitter.api.body.SearchSittersBody;
 import zekisanmobile.petsitter.handler.SearchHandler;
 import zekisanmobile.petsitter.model.OwnerModel;
 import zekisanmobile.petsitter.view.owner.OwnerHomeActivity;

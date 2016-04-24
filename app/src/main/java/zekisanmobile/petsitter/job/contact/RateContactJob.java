@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.api.ApiService;
-import zekisanmobile.petsitter.api.RateContactBody;
+import zekisanmobile.petsitter.api.body.RateContactBody;
 import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.job.BaseJob;
 

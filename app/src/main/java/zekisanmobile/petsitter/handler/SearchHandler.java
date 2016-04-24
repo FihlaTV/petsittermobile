@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
-import zekisanmobile.petsitter.api.SearchSittersBody;
+import zekisanmobile.petsitter.api.body.SearchSittersBody;
 import zekisanmobile.petsitter.view.owner.OwnerHomeView;
 import zekisanmobile.petsitter.api.ApiService;
 import zekisanmobile.petsitter.vo.Sitter;

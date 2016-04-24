@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,22 +12,27 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import zekisanmobile.petsitter.interfaces.RecyclerViewOnClickListenerHack;
-import zekisanmobile.petsitter.vo.Contact;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.interfaces.RecyclerViewOnClickListenerHack;
 import zekisanmobile.petsitter.util.ContactStatusString;
+import zekisanmobile.petsitter.vo.Contact;
 
 public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactListAdapter.ViewHolder> {
 
+    //region Members
     private List<Contact> contacts;
     private RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack;
     private Context parentContext;
+    //endregion
 
+    //region Constructors
     public OwnerContactListAdapter(List<Contact> contacts, Context parentContext){
         this.contacts = contacts;
         this.parentContext = parentContext;
     }
+    //endregion
 
+    //region Inherited Methods
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -56,7 +60,9 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
     public int getItemCount() {
         return contacts.size();
     }
+    //endregion
 
+    //region Methods
     public Contact getContactAtPosition(int position){
         return contacts.get(position);
     }
@@ -64,7 +70,9 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
     public void setRecyclerViewOnClickListenerHack(RecyclerViewOnClickListenerHack recyclerViewOnClickListenerHack){
         this.recyclerViewOnClickListenerHack = recyclerViewOnClickListenerHack;
     }
+    //endregion
 
+    //region Inner Class
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @Bind(R.id.iv_contact_sitter)
@@ -89,4 +97,5 @@ public class OwnerContactListAdapter extends RecyclerView.Adapter<OwnerContactLi
             }
         }
     }
+    //endregion
 }

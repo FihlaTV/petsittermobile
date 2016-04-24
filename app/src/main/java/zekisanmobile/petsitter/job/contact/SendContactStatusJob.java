@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import zekisanmobile.petsitter.api.ApiService;
-import zekisanmobile.petsitter.api.SendContactStatusBody;
+import zekisanmobile.petsitter.api.body.SendContactStatusBody;
 import zekisanmobile.petsitter.di.component.AppComponent;
 import zekisanmobile.petsitter.job.BaseJob;
 

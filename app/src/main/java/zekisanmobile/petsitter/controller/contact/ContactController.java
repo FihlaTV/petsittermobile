@@ -2,13 +2,10 @@ package zekisanmobile.petsitter.controller.contact;
 
 import com.birbit.android.jobqueue.JobManager;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import javax.inject.Inject;
 
 import zekisanmobile.petsitter.PetSitterApp;
-import zekisanmobile.petsitter.api.SendContactStatusBody;
+import zekisanmobile.petsitter.api.body.SendContactStatusBody;
 import zekisanmobile.petsitter.job.BaseJob;
 import zekisanmobile.petsitter.job.contact.FetchOwnerContactsJob;
 import zekisanmobile.petsitter.job.contact.FetchSitterContactsJob;

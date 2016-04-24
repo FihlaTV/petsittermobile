@@ -8,13 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
+
+    //region Members
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
+    //endregion
 
+    //region Constructors
     public ViewPagerAdapter(FragmentManager manager) {
         super(manager);
     }
+    //endregion
 
+    //region Inherited Methods
     @Override
     public Fragment getItem(int position) {
         return mFragmentList.get(position);
@@ -34,4 +40,5 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
+    //endregion
 }
