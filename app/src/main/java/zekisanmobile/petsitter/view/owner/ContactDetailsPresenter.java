@@ -18,6 +18,8 @@ public interface ContactDetailsPresenter {
     double getContactSitterLatitude();
     double getContactSitterLongitude();
 
+    long getContactId();
+
     boolean isAccepted();
     boolean isRejected();
     boolean isFinished();

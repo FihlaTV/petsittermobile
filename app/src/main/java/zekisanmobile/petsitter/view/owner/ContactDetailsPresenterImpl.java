@@ -92,6 +92,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     }
 
     @Override
+    public long getContactId() {
+        return this.contact.getId();
+    }
+
+    @Override
     public boolean isAccepted() {
         return this.contact.getStatus() == 30;
     }

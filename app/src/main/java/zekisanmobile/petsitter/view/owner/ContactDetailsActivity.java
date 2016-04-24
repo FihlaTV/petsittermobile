@@ -57,8 +57,8 @@ public class ContactDetailsActivity extends AppCompatActivity
     ListView lvContactPets;
     @Bind(R.id.tv_total_value)
     TextView tvTotalValue;
-    @Bind(R.id.bt_evaluate)
-    Button btEvaluate;
+    @Bind(R.id.bt_rate)
+    Button btRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +110,7 @@ public class ContactDetailsActivity extends AppCompatActivity
 
     private void configureButtonsVisibility(){
         if (!presenter.isFinished()){
-            ((ViewGroup) btEvaluate.getParent()).removeView(btEvaluate);
+            ((ViewGroup) btRate.getParent()).removeView(btRate);
         }
     }
 
@@ -139,9 +139,11 @@ public class ContactDetailsActivity extends AppCompatActivity
         googleMap.animateCamera(cameraUpdate);
     }
 
-    @OnClick(R.id.bt_evaluate)
+    @OnClick(R.id.bt_rate)
     public void evaluateContact(){
-
+        Intent intent = new Intent(ContactDetailsActivity.this, RateActivity.class);
+        intent.putExtra("contact_id", presenter.getContactId());
+        startActivity(intent);
     }
 
     private void showAcceptDialog() {

@@ -74,7 +74,7 @@
             android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.owner.EvaluationActivity"
+            android:name=".view.owner.RateActivity"
             android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>

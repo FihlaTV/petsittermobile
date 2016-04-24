@@ -7,7 +7,7 @@
     android:id="@+id/drawer_evaluation">
 
     <include
-        layout="@layout/app_bar_main_evaluation"
+        layout="@layout/app_bar_main_rate"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
