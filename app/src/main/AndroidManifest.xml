@@ -75,6 +75,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.owner.RateActivity"
+            android:label="Avaliação de Pet Sitter"
             android:parentActivityName=".view.owner.OwnerHomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             ></activity>
