@@ -26,6 +26,11 @@ public class RatePresenterImpl implements RatePresenter{
 
     //region Inherited Methods
     @Override
+    public long getLoggedUserId() {
+        return owner.getId();
+    }
+
+    @Override
     public String getLoggedUserPhoto() {
         return owner.getUser().getPhoto();
     }

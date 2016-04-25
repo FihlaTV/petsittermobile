@@ -70,6 +70,14 @@ public class RateContactJob extends BaseJob {
 
     @Override
     protected RetryConstraint shouldReRunOnThrowable(Throwable throwable, int runCount, int maxRunCount) {
-        return null;
+        if (shouldRetry(throwable)) {
+            return RetryConstraint.createExponentialBackoff(runCount, 1000);
+        }
+        return RetryConstraint.CANCEL;
+    }
+
+    @Override
+    protected int getRetryLimit() {
+        return 2;
     }
 }

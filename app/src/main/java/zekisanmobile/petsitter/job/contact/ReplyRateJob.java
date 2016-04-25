@@ -45,6 +45,7 @@ public class ReplyRateJob extends BaseJob {
         body.setText(text);
         ApiService service = retrofit.create(ApiService.class);
         Call call = service.replyContact(String.valueOf(rateId), body);
+        call.execute();
     }
 
     @Override
@@ -54,6 +55,14 @@ public class ReplyRateJob extends BaseJob {
 
     @Override
     protected RetryConstraint shouldReRunOnThrowable(Throwable throwable, int runCount, int maxRunCount) {
-        return null;
+        if (shouldRetry(throwable)) {
+            return RetryConstraint.createExponentialBackoff(runCount, 1000);
+        }
+        return RetryConstraint.CANCEL;
+    }
+
+    @Override
+    protected int getRetryLimit() {
+        return 2;
     }
 }

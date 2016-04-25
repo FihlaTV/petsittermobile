@@ -23,6 +23,7 @@ import butterknife.OnTextChanged;
 import io.realm.Realm;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
+import zekisanmobile.petsitter.controller.contact.ContactController;
 import zekisanmobile.petsitter.model.ContactModel;
 import zekisanmobile.petsitter.vo.Contact;
 
@@ -49,6 +50,9 @@ public class RateActivity extends AppCompatActivity implements RateView {
 
     @Inject
     ContactModel contactModel;
+
+    @Inject
+    ContactController controller;
 
     private int rate_status = 0; // 0 - not rated, 1 - positive, 2 - negative
 
@@ -96,7 +100,8 @@ public class RateActivity extends AppCompatActivity implements RateView {
         if (rate_status == 0) {
             showWarningDialog();
         } else {
-
+            controller.rateContact(true, presenter.getLoggedUserId(), contact.getId(),
+                    rate_status == 1, etComment.getText().toString());
         }
     }
 

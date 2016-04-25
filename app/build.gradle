@@ -4,7 +4,7 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "24rc2"
+    buildToolsVersion "24rc3"
 
     defaultConfig {
         applicationId "zekisanmobile.petsitter"
