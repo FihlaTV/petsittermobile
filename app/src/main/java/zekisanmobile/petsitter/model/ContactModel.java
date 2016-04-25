@@ -103,4 +103,8 @@ public class ContactModel {
         contact.removeFromRealm();
         realm.commitTransaction();
     }
+
+    public void rateContact(Realm realm, long contact_id) {
+        Contact contact = realm.where(Contact.class).equalTo("id", contact_id).findFirst();
+    }
 }

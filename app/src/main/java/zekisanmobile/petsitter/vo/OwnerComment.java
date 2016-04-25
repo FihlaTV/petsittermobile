@@ -7,20 +7,20 @@ import io.realm.annotations.PrimaryKey;
 
 public class OwnerComment extends RealmObject {
 
-    @JsonProperty("id")
+    /*@JsonProperty("id")
     @PrimaryKey
-    long id;
+    long id;*/
 
     @JsonProperty("text")
     String text;
 
-    public long getId() {
+    /*public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
+    }*/
 
     public String getText() {
         return text;

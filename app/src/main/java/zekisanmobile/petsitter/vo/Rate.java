@@ -8,9 +8,9 @@ import io.realm.annotations.PrimaryKey;
 
 public class Rate extends RealmObject{
 
-    @JsonProperty("id")
+    /*@JsonProperty("id")
     @PrimaryKey
-    long id;
+    long id;*/
 
     @JsonProperty("positive")
     boolean positive;
@@ -23,13 +23,13 @@ public class Rate extends RealmObject{
     @JsonInclude(JsonInclude.Include.NON_NULL)
     SitterComment sitterComment;
 
-    public long getId() {
+    /*public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
+    }*/
 
     public OwnerComment getOwnerComment() {
         return ownerComment;
