@@ -27,6 +27,7 @@ import zekisanmobile.petsitter.view.owner.NewContactActivity;
 import zekisanmobile.petsitter.view.owner.OwnerHomeActivity;
 import zekisanmobile.petsitter.view.owner.OwnerHomePresenterImpl;
 import zekisanmobile.petsitter.view.owner.RateActivity;
+import zekisanmobile.petsitter.view.owner.RatePresenterImpl;
 import zekisanmobile.petsitter.view.owner.SitterProfileActivity;
 import zekisanmobile.petsitter.view.sitter.OtherContactsPresenterImpl;
 import zekisanmobile.petsitter.view.sitter.SitterHomeActivity;
@@ -81,6 +82,8 @@ public interface AppComponent {
     void inject(OtherContactsPresenterImpl otherContactsPresenter);
 
     void inject(SitterHomePresenterImpl sitterHomePresenter);
+
+    void inject(RatePresenterImpl ratePresenter);
 
     void inject(AnimalModel animalModel);
 
