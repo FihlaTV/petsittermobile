@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,6 +33,7 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import zekisanmobile.petsitter.PetSitterApp;
 import zekisanmobile.petsitter.R;
 import zekisanmobile.petsitter.api.body.SendContactStatusBody;
@@ -65,6 +68,20 @@ public class ContactDetailsActivity extends AppCompatActivity
     TextView tvTotalValue;
     @Bind(R.id.bt_accept)
     Button btAccept;
+    @Bind(R.id.ll_rate)
+    LinearLayout linearLayoutRate;
+    @Bind(R.id.iv_owner)
+    ImageView ivOwner;
+    @Bind(R.id.iv_contact_rate)
+    ImageView ivContactRate;
+    @Bind(R.id.iv_sitter)
+    ImageView ivSitter;
+    @Bind(R.id.tv_owner_comment)
+    TextView tvOwnerComment;
+    @Bind(R.id.iv_send_comment)
+    ImageView ivSendComment;
+    @Bind(R.id.et_comment)
+    EditText etComment;
     @Bind(R.id.bt_reject)
     Button btReject;
 
@@ -83,6 +100,7 @@ public class ContactDetailsActivity extends AppCompatActivity
 
         configureToolbar();
         configureViews();
+        configureRateViewsVisibility();
         configureButtonsVisibility();
         configureMap();
     }
@@ -117,6 +135,38 @@ public class ContactDetailsActivity extends AppCompatActivity
         ViewGroup.LayoutParams listViewParams = lvContactPets.getLayoutParams();
         listViewParams.height = totalHeight + (lvContactPets.getDividerHeight() * (lvContactPets.getChildCount() - 1));
         lvContactPets.requestLayout();
+    }
+
+    private void configureRateViewsVisibility() {
+        if (!presenter.isFinishedAndRated()){
+            ((ViewGroup) linearLayoutRate.getParent()).removeView(linearLayoutRate);
+        } else {
+            int rateImageId = getApplicationContext().getResources().getIdentifier(
+                    presenter.isContactRatePositive() ? "like_" : "dislike_", "drawable",
+                    getApplicationContext().getPackageName());
+            ivContactRate.setImageResource(rateImageId);
+
+            int ownerPhotoId = getApplicationContext().getResources().getIdentifier(
+                    "me", "drawable",
+                    getApplicationContext().getPackageName());
+            ivOwner.setImageResource(ownerPhotoId);
+
+            int sitterPhotoId = getApplicationContext().getResources().getIdentifier(
+                    "sitter2", "drawable",
+                    getApplicationContext().getPackageName());
+            ivSitter.setImageResource(sitterPhotoId);
+
+            tvOwnerComment.setText(presenter.getContactOwnerComment());
+        }
+    }
+
+    @OnTextChanged(R.id.et_comment)
+    public void onTextChanged(){
+        if (etComment.getText().toString().trim().length() == 0) {
+            ivSendComment.setVisibility(View.INVISIBLE);
+        } else {
+            ivSendComment.setVisibility(View.VISIBLE);
+        }
     }
 
     private void configureButtonsVisibility(){

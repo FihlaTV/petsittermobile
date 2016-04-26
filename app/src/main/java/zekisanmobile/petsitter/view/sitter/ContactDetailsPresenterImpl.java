@@ -77,6 +77,11 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     }
 
     @Override
+    public String getContactOwnerComment() {
+        return contact.getRate().getOwnerComment().getText();
+    }
+
+    @Override
     public String[] getContactAnimals() {
         List<Animal> animals = this.contact.getAnimals();
         String[] animalsNames = new String[animals.size()];
@@ -112,8 +117,23 @@ public class ContactDetailsPresenterImpl implements ContactDetailsPresenter {
     }
 
     @Override
+    public boolean isFinishedAndNotRated() {
+        return this.contact.getStatus() == 40 && this.contact.getRate() == null;
+    }
+
+    @Override
+    public boolean isFinishedAndRated() {
+        return this.contact.getStatus() == 40 && this.contact.getRate() != null;
+    }
+
+    @Override
     public boolean isAcceptedOrRejectedOrFinished() {
         return isAccepted() || isRejected() || isFinished();
+    }
+
+    @Override
+    public boolean isContactRatePositive() {
+        return contact.getRate().isPositive();
     }
 
     @Override

@@ -14,6 +14,7 @@ public interface ContactDetailsPresenter {
     String getContactDatePeriod();
     String getContactTimePeriod();
     String getContactTotalValue();
+    String getContactOwnerComment();
 
     String[] getContactAnimals();
 
@@ -23,7 +24,10 @@ public interface ContactDetailsPresenter {
     boolean isAccepted();
     boolean isRejected();
     boolean isFinished();
+    boolean isFinishedAndNotRated();
+    boolean isFinishedAndRated();
     boolean isAcceptedOrRejectedOrFinished();
+    boolean isContactRatePositive();
 
     void acceptContact();
     void deleteContact();
