@@ -1,8 +1,10 @@
 package zekisanmobile.petsitter.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class OwnerComment extends RealmObject {
@@ -13,6 +15,10 @@ public class OwnerComment extends RealmObject {
 
     @JsonProperty("text")
     String text;
+
+    @JsonIgnore
+    @Ignore
+    public long rate_id;
 
     public long getId() {
         return id;

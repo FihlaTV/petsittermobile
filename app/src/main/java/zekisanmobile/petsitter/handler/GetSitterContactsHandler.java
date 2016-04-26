@@ -44,7 +44,7 @@ public class GetSitterContactsHandler extends AsyncTask<String, Void, Void> {
                         contact.getDateStart(), contact.getDateFinal(), contact.getTimeStart(),
                         contact.getTimeFinal(), contact.getCreatedAt(), contact.getSitter(),
                         contact.getOwner(), contact.getTotalValue(), contact.getStatus(),
-                        contact.getAnimals(), true);
+                        contact.getAnimals(), contact.getRate(), true);
             }
         } catch (IOException e) {
             e.printStackTrace();

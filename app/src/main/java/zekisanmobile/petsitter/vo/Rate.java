@@ -1,13 +1,16 @@
 package zekisanmobile.petsitter.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class Rate extends RealmObject{
 
+    //region Members
     @JsonProperty("id")
     @PrimaryKey
     long id;
@@ -23,6 +26,12 @@ public class Rate extends RealmObject{
     @JsonInclude(JsonInclude.Include.NON_NULL)
     SitterComment sitterComment;
 
+    @JsonIgnore
+    @Ignore
+    public long contact_id;
+    //endregion
+
+    //region Accessors
     public long getId() {
         return id;
     }
@@ -54,4 +63,5 @@ public class Rate extends RealmObject{
     public void setPositive(boolean positive) {
         this.positive = positive;
     }
+    //endregion
 }

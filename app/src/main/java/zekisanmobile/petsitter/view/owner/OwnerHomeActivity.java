@@ -192,7 +192,7 @@ public class OwnerHomeActivity extends AppCompatActivity
                         contact.getDateStart(), contact.getDateFinal(), contact.getTimeStart(),
                         contact.getTimeFinal(), contact.getCreatedAt(), contact.getSitter(),
                         contact.getOwner(), contact.getTotalValue(), contact.getStatus(),
-                        contact.getAnimals(), true);
+                        contact.getAnimals(), contact.getRate(), true);
             }
         }
     }

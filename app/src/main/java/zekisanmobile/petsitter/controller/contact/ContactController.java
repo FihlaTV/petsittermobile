@@ -54,9 +54,10 @@ public class ContactController {
         fetchOwnerContactsAsync(false, ownerId);
     }
 
-    public void replyRate(boolean fromUI, long rateId, String text) {
+    public void replyRate(boolean fromUI, long rateId, String text, long sitterId) {
         jobManager.addJobInBackground(new ReplyRateJob(
                 fromUI ? BaseJob.UI_HIGH : BaseJob.BACKGROUND, rateId, text));
+        fetchSitterContactsAsync(false, sitterId);
     }
     //endregion
 }

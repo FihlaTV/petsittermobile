@@ -158,7 +158,7 @@ public class NewContactActivity extends AppCompatActivity implements DatePickerD
                 Formatter.formattedDateForDB(tv_date_final.getText().toString()),
                 tv_time_start.getText().toString(),
                 tv_time_final.getText().toString(),"",
-                sitter, owner, calculateTotalValue(), 10, animals, false);
+                sitter, owner, calculateTotalValue(), 10, animals, null, false);
 
         ContactRequestBody body = new ContactRequestBody();
         body.setSitter_id(sitter.getId());

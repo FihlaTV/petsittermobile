@@ -102,6 +102,8 @@ public class RateActivity extends AppCompatActivity implements RateView {
         } else {
             controller.rateContact(true, presenter.getLoggedUserId(), contact.getId(),
                     rate_status == 1, etComment.getText().toString());
+            Intent intent = new Intent(RateActivity.this, OwnerHomeActivity.class);
+            startActivity(intent);
         }
     }
 
